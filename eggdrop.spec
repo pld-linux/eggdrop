@@ -3,59 +3,77 @@ Summary(pl):	Eggdrop jest botem IRC napisanym w C
 Summary(pt_BR):	Bot de IRC escrito em C
 Summary(ru_RU):	Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
-Version:	1.6.15
-Release:	4
+Version:	1.6.17
+Release:	0.1
 License:	GPL
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
-# Source0-md5:	b5016e34942ff4113e97a8449b15dfce
+# Source0-md5:	68e181201483dee398f9904e8652e6ca
+# Source0-size:	805376
 # In order to unify filenames, following language packs and third-party modules were
 # repackaged. Some files were renamed, but none modified. Original archives can be
 # found by looking at http://www.egghelp.org/
 Source10:	http://pld.mysza.eu.org/sources/%{name}-language-danish.tar.gz
 # Source10-md5:	86b9bbab196f64b09e4daf2dec93fd50
+# Source10-size:	9064
 Source11:	http://pld.mysza.eu.org/sources/%{name}-language-finnish.tar.gz
 # Source11-md5:	d720c6ad3f19deb8d51eeb753d0da390
+# Source11-size:	16399
 Source12:	http://pld.mysza.eu.org/sources/%{name}-language-italian.tar.gz
 # Source12-md5:	9c568bc516ecb202ed9e76c1523e4d6a
+# Source12-size:	10446
 Source13:	http://pld.mysza.eu.org/sources/%{name}-language-norwegian.tar.gz
 # Source13-md5:	118e14c8dfe0a6917e8e7b191a733e3f
+# Source13-size:	9203
 Source14:	http://pld.mysza.eu.org/sources/%{name}-language-portuguese.tar.gz
 # Source14-md5:	1b96f1ba51a0162665be892327c405cf
+# Source14-size:	10912
 Source15:	http://pld.mysza.eu.org/sources/%{name}-language-portuguese_br.tar.gz
 # Source15-md5:	93d4afae51dfa4cd7512fa6236868960
+# Source15-size:	3128
 Source16:	http://pld.mysza.eu.org/sources/%{name}-language-romanian.tar.gz
 # Source16-md5:	3664b4f4870eb099d3a291284a076561
+# Source16-size:	9713
 # Additional modules taken from various places
 Source20:	http://pld.mysza.eu.org/sources/%{name}-module-away-1.0.tar.gz
 # Source20-md5:	89b0529d024d8c29a855fb26e9e24a58
+# Source20-size:	1954
 Source21:	http://pld.mysza.eu.org/sources/%{name}-module-botnetop-1.0.1.tar.gz
 # Source21-md5:	1815a88748529d2ce6a221d560678285
+# Source21-size:	12285
 Source22:	http://pld.mysza.eu.org/sources/%{name}-module-fakebotnet-1.3.tar.gz
 # Source22-md5:	bf6e0ecc97bbe154137dba5f47c6e518
+# Source22-size:	2455
 Source23:	http://pld.mysza.eu.org/sources/%{name}-module-gseen-1.1.0.tar.gz
 # Source23-md5:	d1b5ff929c360581647a2baf7281a7a6
+# Source23-size:	30493
 Source24:	http://pld.mysza.eu.org/sources/%{name}-module-irctree-1.1.tar.gz
 # Source24-md5:	8bf884c57adbb131228fe47bffc69836
+# Source24-size:	4566
 Source25:	http://pld.mysza.eu.org/sources/%{name}-module-megahal-2.6b.tar.gz
 # Source25-md5:	1c8762d63d16c95bee3a2399614b8ac5
+# Source25-size:	51317
 Source26:	http://pld.mysza.eu.org/sources/%{name}-module-stats-1.3.3dev1.tar.gz
 # Source26-md5:	f50299b06dc9c8d29f7abb19defaa917
+# Source26-size:	65000
 Source27:	http://pld.mysza.eu.org/sources/%{name}-module-idea-1.0.2.tar.gz
 # Source27-md5:	dce4a43dfcfb72e143c71e8f6c6fc8c8
+# Source27-size:	9053
 Source28:	http://pld.mysza.eu.org/sources/%{name}-module-twofish-1.0.tar.gz
 # Source28-md5:	861957c170b4af105199202e724be2a3
+# Source28-size:	23158
 Source29:	http://pld.mysza.eu.org/sources/%{name}-module-rijndael-1.0.tar.gz
 # Source29-md5:	0210476c24ed6f24e1fdc1cbab41a863
+# Source29-size:	20861
 Patch0:		%{name}-FHS.patch
 Patch1:		%{name}-doc_makefile.patch
 # Multilevel sharing patch - now it is possible to create *secure* multilevel
 # botnets, each bot will only accept changes to userlist from bot that acts as
 # hub to him, and rejects changes from leaves
-Patch2:		ftp://ftp.eggheads.org/pub/%{name}/patches/1.6/multilevel_sharing%{version}.patch
+Patch2:		ftp://ftp.eggheads.org/pub/%{name}/patches/1.6/multilevel_sharing1.6.15.patch
 # Topicprot - protects channel topic from being changed
 # This patch was a bit modified to apply to eggdrop1.6.13
-Patch3:		ftp://ftp.eggheads.org/pub/%{name}/patches/1.6/topicprot%{version}.patch
+Patch3:		ftp://ftp.eggheads.org/pub/%{name}/patches/1.6/topicprot1.6.15.patch
 # Adds information about additional encryption modules to config file
 Patch4:		%{name}-config_encryption.patch
 # This one fixes eggdrop botchk/autobotchk scripts
@@ -153,12 +171,12 @@ Eggdrop находится на канале в целях оказания защитных мер:
 %setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a29
 %patch0 -p1
 %patch1 -p0
-%patch2 -p1
-%patch3 -p1
+#%patch2 -p1
+#%patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p0
-%patch7 -p1
+#%patch6 -p0
+#%patch7 -p1
 %patch8 -p1
 %patch9 -p1
 
