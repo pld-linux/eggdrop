@@ -66,16 +66,16 @@ gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/*
 rm -rf $RPM_BUILD_ROOT
 
 %files 
-%defattr(644, root, root, 755)
+%defattr(644,root,root,755)
 %doc CONTENTS COPYING FEATURES INSTALL README doc/*
-%attr(755, root, root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/*
 %{_libdir}/eggdrop/filesys
 %{_libdir}/eggdrop/help
 %{_libdir}/eggdrop/language
 %ghost %{_libdir}/eggdrop/modules
 %{_libdir}/eggdrop/modules-%{versionmajor}
 %{_libdir}/eggdrop/scripts
-%attr(755, root, root) %{_libdir}/eggdrop/eggdrop2-%{versionmajor}
+%attr(755,root,root) %{_libdir}/eggdrop/eggdrop2-%{versionmajor}
 %ghost %{_libdir}/eggdrop/eggdrop2
 %{_libdir}/eggdrop/eggdrop2.conf.*
 %{_libdir}/eggdrop/motd
