@@ -62,6 +62,8 @@ Patch4:		%{name}-config_encryption.patch
 Patch5:		%{name}-autobotchk.patch
 Patch6:		%{name}-ac_fix.patch
 URL:		http://www.eggheads.org/
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	tcl-devel
 Requires:	tcl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -189,7 +191,7 @@ rm -r $RPM_BUILD_ROOT/doc/man1
 
 cp -a $RPM_BUILD_ROOT/*.gz \
 	$RPM_BUILD_ROOT/doc/* \
-	$RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/
+	$RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 
 cp -a $RPM_BUILD_ROOT/doc/modules $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 
@@ -213,7 +215,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc %{_datadir}/doc/%{name}-%{version}
+%doc %{_docdir}/%{name}-%{version}
 %attr(755,root,root) %{_bindir}/%{name}
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
