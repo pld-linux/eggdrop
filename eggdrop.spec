@@ -6,8 +6,9 @@ Release:	4
 License:	GPL
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.gz
-# In order to unify filenames, following language packs were repackaged. Some files were
-# renamed, but none modified. Original archives are available at http://www.egghelp.org/
+# In order to unify filenames, following language packs and third-party modules were 
+# repackaged. Some files were renamed, but none modified. Original archives can be 
+# found by looking at http://www.egghelp.org/
 Source10:	%{name}-language-danish.tar.gz
 Source11:	%{name}-language-finnish.tar.gz
 Source12:	%{name}-language-italian.tar.gz
@@ -15,6 +16,14 @@ Source13:	%{name}-language-norwegian.tar.gz
 Source14:	%{name}-language-portuguese.tar.gz
 Source15:	%{name}-language-portuguese_br.tar.gz
 Source16:	%{name}-language-romanian.tar.gz
+# Additional modules
+Source20:	%{name}-module-away-1.0.tar.gz
+Source21:	%{name}-module-botnetop-1.0.1.tar.gz
+Source22:	%{name}-module-fakebotnet-1.3.tar.gz
+Source23:	%{name}-module-gseen-1.1.0.tar.gz
+Source24:	%{name}-module-irctree-1.1.tar.gz
+Source25:	%{name}-module-megahal-2.5.tar.gz
+Source26:	%{name}-module-stats-1.3.3dev1.tar.gz
 Patch0:		%{name}-FHS.patch
 # Unofficial IPv6 patch
 Patch1:		http://www.egghelp.org/files/patches/%{name}%{version}+ipv6.patch.gz
@@ -41,7 +50,7 @@ pilnowanie tzw. banów itp. Eggdrop poza tymi funkcjami posiada tak¿e
 wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 
 %prep
-%setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16
+%setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
