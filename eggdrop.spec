@@ -51,16 +51,12 @@ Patch0:		%{name}-FHS.patch
 Patch1:		%{name}-doc_makefile.patch
 Patch2:		%{name}-multilevel_sharing.patch
 Patch3:		%{name}-topicprot.patch
-# Adds information about additional encryption modules to config file
 Patch4:		%{name}-config_encryption.patch
-# This one fixes eggdrop botchk/autobotchk scripts
 Patch5:		%{name}-autobotchk.patch
-Patch6:		%{name}-ac_fix.patch
-# Taken from www.egghelp.org
-Patch7:		%{name}-ssl.patch
-Patch8:		%{name}-amd64.patch
-Patch9:		%{name}-nolibs.patch
-Patch10:	%{name}-nohostwhowhom.patch
+Patch6:		%{name}-ssl.patch
+Patch7:		%{name}-amd64.patch
+Patch8:		%{name}-nolibs.patch
+Patch9:	%{name}-nohostwhowhom.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -153,16 +149,12 @@ Eggdrop находится на канале в целях оказания защитных мер:
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-#%patch6 -p0
+%patch6 -p1
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
-%patch10 -p1
 
 %build
-# Author of eggdrop should go read some docs... a lot of docs
-# It's either ipv6 support or async dns module... I don't know which is more
-# important so I disabled ipv6... anybody cares to correct me? -- mmazur
 mv aclocal.m4 acinclude.m4
 cp -f /usr/share/automake/config.sub misc/
 %{__aclocal}
@@ -181,46 +173,23 @@ cd ../../..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_datadir}/%{name},%{_mandir}/man1,%{_datadir}/%{name}/{help,scripts,language},%{_datadir}/doc/%{name}-%{version}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_mandir}/man1,%{_datadir}/%{name}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 mv $RPM_BUILD_ROOT/%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
-
-find $RPM_BUILD_ROOT/doc -type f | egrep -v "(\.html$|\.htm$)" | xargs gzip -9nf
-gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT/%{name}.conf
-
-cp $RPM_BUILD_ROOT/doc/man1/%{name}.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/%{name}.1.gz
-rm -r $RPM_BUILD_ROOT/doc/man1
-
-cp -a $RPM_BUILD_ROOT/*.gz \
-	$RPM_BUILD_ROOT/doc/* \
-	$RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
-
-cp -a $RPM_BUILD_ROOT/doc/modules $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
-
-cp -a $RPM_BUILD_ROOT/text/* \
-	$RPM_BUILD_ROOT/help/ \
-	$RPM_BUILD_ROOT/scripts/ \
-	$RPM_BUILD_ROOT/language/ \
-	$RPM_BUILD_ROOT%{_datadir}/%{name}/
-
-cp -a $RPM_BUILD_ROOT/modules/* \
-	$RPM_BUILD_ROOT%{_libdir}/%{name}/modules/
-
-# These are only to make /usr/lib/rpm/check-files happy(ier)
-# Is this somehow ugly?
-for i in modules modules-%{version} text help scripts language doc logs eggdrop.conf.gz README.gz; do
-	rm -rf $RPM_BUILD_ROOT/$i
-done
+mv -f $RPM_BUILD_ROOT{/{text/*,help,scripts,language},%{_datadir}/%{name}/}
+mv -f $RPM_BUILD_ROOT/modules/* $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/
+mv -f $RPM_BUILD_ROOT{/doc,%{_mandir}}/man1/%{name}.1 
+rm -rf $RPM_BUILD_ROOT/{doc,README,logs,eggdrop.conf}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc %{_docdir}/%{name}-%{version}
+%doc doc/ 
 %attr(755,root,root) %{_bindir}/%{name}
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
