@@ -8,9 +8,12 @@ Release:	0.3
 License:	GPL
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
+# Source0-md5:	b5016e34942ff4113e97a8449b15dfce
 # PLD docs - information about changes.
 Source1:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.en
+# Source1-md5:	273f001b6294fc78eaafe0517a1d2771
 Source2:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.pl
+# Source2-md5:	a1ead6e4cc3c5268e0daffa013d023f8
 # In order to unify filenames, following language packs and third-party modules were
 # repackaged. Some files were renamed, but none modified. Original archives can be
 # found by looking at http://www.egghelp.org/
