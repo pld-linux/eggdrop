@@ -28,6 +28,7 @@ Patch0:		%{name}-FHS.patch
 # Unofficial IPv6 patch
 Patch1:		http://www.egghelp.org/files/patches/%{name}%{version}+ipv6.patch.gz
 Patch2:		%{name}%{version}+ipv6_config.patch
+Patch3:		%{name}-doc_makefile.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	tcl-devel
 Requires:	tcl
@@ -54,6 +55,7 @@ wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
+%patch3 -p0
 
 %build
 CFLAGS="%{rpmcflags}"; export CFLAGS
@@ -70,15 +72,16 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_datadir}/%{n
 cp $RPM_BUILD_ROOT/%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
 
 find $RPM_BUILD_ROOT/doc -type f | egrep -v "(\.html$|\.htm$)" | xargs gzip -9nf
-gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT/%{name}.conf
+gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT/%{name}.conf 
 
 cp $RPM_BUILD_ROOT/doc/man1/%{name}.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/%{name}.1.gz
 rm -r $RPM_BUILD_ROOT/doc/man1
 
-cp -a $RPM_BUILD_ROOT/README.gz \
-	$RPM_BUILD_ROOT/%{name}.conf.gz \
+cp -a $RPM_BUILD_ROOT/*.gz \
 	$RPM_BUILD_ROOT/doc/* \
 	$RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}/
+
+cp -a $RPM_BUILD_ROOT/doc/modules $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
 
 cp -a $RPM_BUILD_ROOT/text/* \
 	$RPM_BUILD_ROOT/help/ \
