@@ -40,7 +40,7 @@ przesy³anie plików czy inne skrypty dla rozrywki.
 %build
 CFLAGS="$RPM_OPT_FLAGS" \
 ./configure %{_target} \
-	--prefix=/usr/bin
+	--prefix=%{_bindir}
 # Dziwny problem z -ldir w module filesys
 cd src/mod/filesys.mod
 rm -f config.cache config.log
@@ -58,7 +58,7 @@ rm -rf `find $RPM_BUILD_ROOT%{_libdir}/eggdrop -name CVS`
 rm -rf $RPM_SOURCE_DIR/doc/CVS
 mv $RPM_BUILD_ROOT%{_libdir}/eggdrop/doc/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
 rm -rf $RPM_BUILD_ROOT%{_libdir}/eggdrop/doc/*
-install $RPM_SOURCE_DIR/eggdrop.sh $RPM_BUILD_ROOT/usr/bin/eggdrop
+install $RPM_SOURCE_DIR/eggdrop.sh $RPM_BUILD_ROOT%{_bindir}/eggdrop
 
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/*
 
@@ -68,7 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %files 
 %defattr(644, root, root, 755)
 %doc CONTENTS COPYING FEATURES INSTALL README doc/*
-%attr(755, root, root) /usr/bin/*
+%attr(755, root, root) %{_bindir}/*
 %{_libdir}/eggdrop/filesys
 %{_libdir}/eggdrop/help
 %{_libdir}/eggdrop/language
