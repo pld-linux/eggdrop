@@ -4,7 +4,7 @@ Summary(pt_BR):	Bot de IRC escrito em C
 Summary(ru_RU):	Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
 Version:	1.6.15
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
@@ -64,6 +64,7 @@ Patch6:		%{name}-ac_fix.patch
 # Taken from www.egghelp.org
 Patch7:		%{name}-ssl.patch
 Patch8:		%{name}-amd64.patch
+Patch9:		%{name}-nolibs.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -159,6 +160,7 @@ Eggdrop находится на канале в целях оказания защитных мер:
 %patch6 -p0
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 # Author of eggdrop should go read some docs... a lot of docs
