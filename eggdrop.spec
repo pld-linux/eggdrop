@@ -60,6 +60,7 @@ Patch6:		%{name}-ac_fix.patch
 Patch7:		%{name}-ssl.patch
 Patch8:		%{name}-amd64.patch
 Patch9:		%{name}-nolibs.patch
+Patch10:	%{name}-nohostwhowhom.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -156,6 +157,7 @@ Eggdrop находится на канале в целях оказания защитных мер:
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %build
 # Author of eggdrop should go read some docs... a lot of docs
