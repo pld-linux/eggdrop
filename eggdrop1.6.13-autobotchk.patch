@@ -26,32 +26,3 @@
  
  # change this to the nickname of your bot (capitalization COUNTS)
  botname=\"${botnet-nick}\"
---- eggdrop-1.6.10.orig/scripts/botchk
-+++ eggdrop-1.6.10/scripts/botchk
-@@ -72,7 +72,7 @@
-   if test -r $userfile
-   then
-     # It's there, load the bot
--    ./$botscript
-+    $botscript
-     exit 0
-   else
-     if test -r $userfile~new
-@@ -80,7 +80,7 @@
-       # Bot f*@!ed up while saving the userfile last time.  Move it over.
-       echo "Userfile missing.  Using last saved userfile..."
-       mv -f $userfile~new $userfile
--      ./$botscript
-+      $botscript
-       exit 0
-     else
-       if test -r $userfile~bak
-@@ -88,7 +88,7 @@
-         # Userfile is missing, use backup userfile.
-         echo "Userfile missing.  Using backup userfile..."
-         cp -f $userfile~bak $userfile
--        ./$botscript
-+        $botscript
-         exit 0
-       else
-         # Well, nothing to work with...
