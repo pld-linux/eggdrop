@@ -153,7 +153,7 @@ Eggdrop находится на канале в целях оказания защитных мер:
 %patch4 -p1
 %patch5 -p1
 #%patch6 -p0
-#%patch7 -p1
+%patch7 -p1
 %patch8 -p1
 %patch9 -p1
 
@@ -171,9 +171,9 @@ cd src/mod/compress.mod
 %configure
 cd ../dns.mod
 %{__autoconf}
-%configure #--enable-ipv6
+%configure
 cd ../../..
-%configure #--enable-ipv6
+%configure
 %{__make} config
 %{__make}
 
