@@ -8,13 +8,13 @@ Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.gz
 # In order to unify filenames, following language packs were repackaged. Some files were
 # renamed, but none modified. Original archives are available at http://www.egghelp.org/
-Source10:	%{name}%{version}-language-danish.tar.gz
-Source11:	%{name}%{version}-language-finnish.tar.gz
-Source12:	%{name}%{version}-language-italian.tar.gz
-Source13:	%{name}%{version}-language-norwegian.tar.gz
-Source14:	%{name}%{version}-language-portuguese.tar.gz
-Source15:	%{name}%{version}-language-portuguese_br.tar.gz
-Source16:	%{name}%{version}-language-romanian.tar.gz
+Source10:	%{name}-language-danish.tar.gz
+Source11:	%{name}-language-finnish.tar.gz
+Source12:	%{name}-language-italian.tar.gz
+Source13:	%{name}-language-norwegian.tar.gz
+Source14:	%{name}-language-portuguese.tar.gz
+Source15:	%{name}-language-portuguese_br.tar.gz
+Source16:	%{name}-language-romanian.tar.gz
 Patch0:		%{name}-FHS.patch
 # Unofficial IPv6 patch
 Patch1:		http://www.egghelp.org/files/patches/%{name}%{version}+ipv6.patch.gz
