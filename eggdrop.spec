@@ -1,13 +1,12 @@
 Summary:	Eggdrop is an IRC bot, written in C
 Summary(pl):	Eggdrop jest botem IRC napisanym w C
 Name:		eggdrop
-Version:	2.0.0
-Release:	1.ALPHA
+Version:	1.6.9
+Release:	1
 License:	GPL
 Group:		Applications/Communications
-Source0:	http://www.eggdropsrus.co.uk/downloads/%{name}%{version}-ALPHA.tar.gz
-Source1:	%{name}.sh
-Patch0:		%{name}-pld.patch
+Source0:	http://www.eggdropsrus.co.uk/downloads/eggdrop/%{name}%{version}.tar.gz
+Patch0:		%{name}-FHS.patch
 URL:		http://www.eggdrop.net/
 Requires:	tcl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -29,54 +28,52 @@ pilnowanie tzw. banów itp. Eggdrop poza tymi funkcjami posiada tak¿e
 wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 
 %prep
-%setup -q -n %{name}%{version}-ALPHA
-%patch -p1
+%setup -q -n %{name}%{version}
+%patch0 -p1
 
 %build
-CFLAGS="%{rpmcflags}" \
-./configure %{_target_platform} \
-	--prefix=%{_bindir}
-
-# Dziwny problem z -ldir w module filesys
-cd src/mod/filesys.mod
-rm -f config.cache config.log
-
-CFLAGS="%{rpmcflags}" \
-./configure %{_target_platform}
-
-cd ../../..
-CFLAGS="%{rpmcflags}" %{__make}
+./configure
+%{__make} config
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/eggdrop,%{_mandir}/man1}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_datadir}/%{name},%{_mandir}/man1,%{_datadir}/%{name}/{help,scripts,language},%{_datadir}/doc/%{name}}
 
-%{__make} install DEST=$RPM_BUILD_ROOT%{_libdir}/eggdrop
+%{__make} DESTDIR="$RPM_BUILD_ROOT" install
 
-rm -rf `find $RPM_BUILD_ROOT%{_libdir}/eggdrop -name CVS`
-rm -rf `find $RPM_BUILD_DIR/%{name}%{version}-ALPHA/doc -name CVS`
-mv -f $RPM_BUILD_ROOT%{_libdir}/eggdrop/doc/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
-rm -rf $RPM_BUILD_ROOT%{_libdir}/eggdrop/doc/*
-install $RPM_SOURCE_DIR/eggdrop.sh $RPM_BUILD_ROOT%{_bindir}/eggdrop
+cp $RPM_BUILD_ROOT/%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
 
-gzip -9nf FEATURES README doc/{patch.howto,tricks,[A-Z]*,*.doc}
+find $RPM_BUILD_ROOT/doc -type f | egrep -v "(\.html$|\.htm$)" | xargs gzip -9nf
+gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT/%{name}.{simple,complete,advanced}.conf
+
+cp $RPM_BUILD_ROOT/doc/man1/%{name}.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/%{name}.1.gz
+rm -r $RPM_BUILD_ROOT/doc/man1
+
+cp -a $RPM_BUILD_ROOT/README.gz \
+	$RPM_BUILD_ROOT/%{name}.{simple,complete,advanced}.conf.gz \
+	$RPM_BUILD_ROOT/doc/* \
+	$RPM_BUILD_ROOT%{_datadir}/doc/%{name}/
+
+cp -a $RPM_BUILD_ROOT/text/* \
+	$RPM_BUILD_ROOT/help/ \
+	$RPM_BUILD_ROOT/scripts/ \
+	$RPM_BUILD_ROOT/language/ \
+	$RPM_BUILD_ROOT%{_datadir}/%{name}/
+
+cp -a $RPM_BUILD_ROOT/modules/* \
+	$RPM_BUILD_ROOT%{_libdir}/%{name}/modules/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc FEATURES.gz README.gz doc/*.gz doc/html
-%attr(755,root,root) %{_bindir}/*
-%{_libdir}/eggdrop/filesys
-%{_libdir}/eggdrop/help
-%{_libdir}/eggdrop/language
-%ghost %{_libdir}/eggdrop/modules
-%{_libdir}/eggdrop/modules-%{version}
-%{_libdir}/eggdrop/scripts
-%attr(755,root,root) %{_libdir}/eggdrop/eggdrop2-%{version}
-%ghost %{_libdir}/eggdrop/eggdrop2
-%{_libdir}/eggdrop/eggdrop2.conf.*
-%{_libdir}/eggdrop/motd
-%{_mandir}/man*/*
+%doc %{_datadir}/doc/%{name}
+%{_mandir}/man1/%{name}.1*
+%dir %{_libdir}/%{name}
+%dir %{_libdir}/%{name}/modules
+%attr(755,root,root) %{_bindir}/%{name}
+%attr(755,root,root) %{_libdir}/%{name}/modules/*.so
+%{_datadir}/%{name}
