@@ -18,6 +18,11 @@ Following patches were applied:
   http://pld.mysza.eu.org/sources/eggdrop1.6.13+ipv6_config.patch
   This patch adds new variables(my-hostname6 and my-ip6) to config file.
   
+* eggdrop1.6.13-config_encryption.patch available at
+  http://pld.mysza.eu.org/sources/eggdrop-config_encryption.patch
+  This simple patch adds information about three new encryption modules
+  to eggdrop.conf.
+  
 * eggdrop-doc_makefile.patch available at
   http://pld.mysza.eu.org/sources/eggdrop-doc_makefile.patch
   This patch modifies doc/Makefile.in to install additional docs.
@@ -34,7 +39,11 @@ Following patches were applied:
   (file was only renamed, not modified in any way)
   This patch extends message broadcasted to botnet when unlinking bot with
   nickname of a person who performs .unlink 
-
+  
+* eggdrop1.6.13-topicprot.patch available at
+  ftp://pld.mysza.eu.org/sources/eggdrop1.6.13-topicprot.patch
+  This patch, based on topicprot.patch for eggdrop1.6.13 allows to set up 
+  protected topic for a channel.
   
 Following language packs were added:
 * danish 

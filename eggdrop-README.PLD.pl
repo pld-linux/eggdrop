@@ -21,6 +21,11 @@ Nastêpuj±ce ³atki zosta³y na³o¿one:
   Ta ³ata dodaje nowe zmienne (my-hostname6 i my-ip6) do pliku
   konfiguracyjnego.
   
+* eggdrop-config_encryption.patch dostpne pod adresem
+  http://pld.mysza.eu.org/sources/eggdrop-config_encryption.patch
+  Ta prosta ³ata dodaje informacje o trzech nowych modu³ach szyfruj±cych
+  do pliku eggdrop.conf
+  
 * eggdrop-doc_makefile.patch dostêpne pod adresem
   http://pld.mysza.eu.org/sources/eggdrop-doc_makefile.patch
   Ta ³ata modyfikuje plik doc/Makefile.in tak, aby dodatkowa dokumentacja
@@ -39,6 +44,11 @@ Nastêpuj±ce ³atki zosta³y na³o¿one:
   (zmieniono nazwê pliku, ale nie zmodyfikowano go w ¿aden sposób)
   Ta ³ata rozszerza wiadomo¶æ rozsy³an± do botnetu podczas od³±czania bota
   o pseudonim osoby, która u¿y³a komendy .unlink.
+
+* eggdrop1.6.13-topicprot.patch dostêpne pod adresem
+  http://pld.mysza.eu.org/sources/eggdrop1.6.13-topicprot.patch
+  Ta ³ata, bazowana na ³atce topicprot.patch dla eggdrop1.6.12 dodaje mo¿liwo¶æ
+  zablokowania topicu na danym kanale.
 
   
 Dodano t³umaczenia plików pomocy na nastêpuj±ce jêzyki.
