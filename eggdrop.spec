@@ -6,6 +6,9 @@ Release:	4
 License:	GPL
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.gz
+# PLD docs - information about changes.
+Source1:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.en
+Source2:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.pl
 # In order to unify filenames, following language packs and third-party modules were 
 # repackaged. Some files were renamed, but none modified. Original archives can be 
 # found by looking at http://www.egghelp.org/
@@ -81,6 +84,9 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_datadir}/%{n
 %{__make} DESTDIR="$RPM_BUILD_ROOT" install
 
 cp $RPM_BUILD_ROOT/%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
+
+cp %{SOURCE1} $RPM_BUILD_ROOT/%{_datadir}/doc/%{name}-%{version}/README.PLD.en
+cp %{SOURCE2} $RPM_BUILD_ROOT/%{_datadir}/doc/%{name}-%{version}/README.PLD.pl
 
 find $RPM_BUILD_ROOT/doc -type f | egrep -v "(\.html$|\.htm$)" | xargs gzip -9nf
 gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT/%{name}.conf 
