@@ -4,7 +4,7 @@ Summary(pt_BR):	Bot de IRC escrito em C
 Summary(ru_RU.KOI8-R): Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
 Version:	1.6.15
-Release:	0.4
+Release:	0.5
 License:	GPL
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
@@ -41,8 +41,8 @@ Source25:	http://pld.mysza.eu.org/sources/%{name}-module-megahal-2.5b.tar.gz
 # Source25-md5:	77a4c3e8a2324d5f8b90284490529edd
 Source26:	http://pld.mysza.eu.org/sources/%{name}-module-stats-1.3.3dev1.tar.gz
 # Source26-md5:	f50299b06dc9c8d29f7abb19defaa917
-Source27:	http://pld.mysza.eu.org/sources/%{name}-module-idea-1.0.0.tar.gz
-# Source27-md5:	b1aa55ba5abebfcf0cf346b5bbba3bae
+Source27:	http://pld.mysza.eu.org/sources/%{name}-module-idea-1.0.2.tar.gz
+# Source27-md5:	dce4a43dfcfb72e143c71e8f6c6fc8c8
 Source28:	http://pld.mysza.eu.org/sources/%{name}-module-twofish-1.0.tar.gz
 # Source28-md5:	861957c170b4af105199202e724be2a3
 Source29:	http://pld.mysza.eu.org/sources/%{name}-module-rijndael-1.0.tar.gz
@@ -83,7 +83,7 @@ list of new features as opposed to vanilla eggdrop:
   - irctree
   - megahal
   - stats
-  - two new encryption modules: twofish, rijndael
+  - three new encryption modules: idea, twofish, rijndael
 - Additional language packs:
   - dannish
   - finnish
@@ -111,7 +111,7 @@ Oto lista nowych mo©liwo╤ci w odrС©nieniu od 'czystego' eggdropa:
   - irctree
   - megahal
   - stats
-  - dwa nowe moduЁy szyfruj╠ce: twofish, rijndael
+  - trzy nowe moduЁy szyfruj╠ce: idea, twofish, rijndael
 - Dodatkowe
   - duЯski
   - fiЯski
@@ -144,7 +144,7 @@ Eggdrop находится на канале в целях оказания защитных мер:
 соответствующих прав и привилегий.
 
 %prep
-%setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a28 -a29
+%setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a29
 %patch0 -p1
 %patch1 -p0
 %patch2 -p1
