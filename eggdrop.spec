@@ -9,11 +9,6 @@ License:	GPL
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
 # Source0-md5:	b5016e34942ff4113e97a8449b15dfce
-# PLD docs - information about changes.
-Source1:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.en
-# Source1-md5:	273f001b6294fc78eaafe0517a1d2771
-Source2:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.pl
-# Source2-md5:	a1ead6e4cc3c5268e0daffa013d023f8
 # In order to unify filenames, following language packs and third-party modules were
 # repackaged. Some files were renamed, but none modified. Original archives can be
 # found by looking at http://www.egghelp.org/
@@ -40,10 +35,10 @@ Patch1:		%{name}-doc_makefile.patch
 # Multilevel sharing patch - now it is possible to create *secure* multilevel
 # botnets, each bot will only accept changes to userlist from bot that acts as
 # hub to him, and rejects changes from leaves
-Patch2:		%{name}-multilevel_sharing.patch
+Patch2:		ftp://ftp.eggheads.org/pub/%{name}/patches/1.6/multilevel_sharing%{version}.patch.gz
 # Topicprot - protects channel topic from being changed
 # This patch was a bit modified to apply to eggdrop1.6.13
-Patch3:		%{name}-topicprot.patch
+Patch3:		ftp://ftp.eggheads.org/pub/%{name}/patches/1.6/topicprot%{version}.patch
 # Adds information about additional encryption modules to config file
 Patch4:		%{name}-config_encryption.patch
 # This one fixes eggdrop botchk/autobotchk scripts
@@ -156,9 +151,6 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_datadir}/%{n
 %{__make} DESTDIR="$RPM_BUILD_ROOT" install
 
 mv $RPM_BUILD_ROOT/%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
-
-cp %{SOURCE1} $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/README.PLD.en
-cp %{SOURCE2} $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/README.PLD.pl
 
 find $RPM_BUILD_ROOT/doc -type f | egrep -v "(\.html$|\.htm$)" | xargs gzip -9nf
 gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT/%{name}.conf
