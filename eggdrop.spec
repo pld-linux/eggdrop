@@ -39,13 +39,13 @@ przesy³anie plików czy inne skrypty dla rozrywki.
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" \
-./configure %{_target} \
+./configure %{_target_platform} \
 	--prefix=%{_bindir}
 # Dziwny problem z -ldir w module filesys
 cd src/mod/filesys.mod
 rm -f config.cache config.log
 CFLAGS="$RPM_OPT_FLAGS" \
-./configure %{_target}
+./configure %{_target_platform}
 cd ../../..
 CFLAGS="$RPM_OPT_FLAGS" make
 
