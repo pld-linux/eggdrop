@@ -1,5 +1,6 @@
 Summary:	Eggdrop is an IRC bot, written in C
 Summary(pl):	Eggdrop jest botem IRC napisanym w C
+Summary(pt_BR): Bot de IRC escrito em C
 Name:		eggdrop
 Version:	1.6.13
 Release:	4
@@ -44,6 +45,11 @@ Patch4:		%{name}%{version}-multilevel_sharing.patch.gz
 # Unlinkedby patch - when unlinking bot from botnet, adds nickname of a person
 # that issues .unlink command to a broadcasted message
 Patch5:		%{name}%{version}-unlinkedby.patch
+# Topicprot - protects channel topic from being changed
+# This pathc was a bit modified to apply to eggdrop1.6.13
+Patch6:		%{name}%{version}-topicprot.patch
+# Adds information about additional encryption modules to config file
+Patch7:		%{name}-config_encryption.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	tcl-devel
 Requires:	tcl
@@ -76,9 +82,9 @@ Here is the list of new features as opposed to vanilla eggdrop:
   - portuguese
   - brazillian portuguese
   - romanian
-* Multilevel sharing and unlinkedby patches were applied
+* Various small patches were applied
 For more information, see README.PLD.en file located under
-%{_datadir}/doc/%{name}-%{version}
+%{_docdir}/%{name}-%{version}
 
 %description -l pl
 Eggdrop jest IRCowym botem napisanym w C. Eggdrop, bêd±c botem jest na
@@ -105,9 +111,17 @@ Oto lista nowych mo¿liwo¶ci w odró¿nieniu od 'czystego' eggdropa:
   - portugalski
   - brazylijska odmiana portugalskiego
   - rumuñski
-* Zaaplikowano ³aty multilevel sharing oraz unlinkedby
+* Zaaplikowano rózne mniejsze lub wiêksze ³aty 
 Wiêcej informacji znajdziesz w pliku README.PLD.pl znajduj±cym siê w 
-katalogu %{_datadir}/doc/%{name}-%{version}
+katalogu %{_docdir}/%{name}-%{version}
+
+%description -l pt_BR
+Eggdrop é um bot de IRC, escrito em linguagem C.
+
+Eggdrop, sendo um bot, permanece em um canal e toma medidas de proteç?o:
+evitando que o canal seja tomado (usando as poucas maneiras possíveis),
+reconhecendo usuários ou sites expulsos e os rejeitando, reconhecendo usuários
+privilegiados e permitindo que estes recebam OPS etc.
 
 %prep
 %setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a29
@@ -117,6 +131,8 @@ katalogu %{_datadir}/doc/%{name}-%{version}
 %patch3 -p0
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
+%patch7 -p0
 
 %build
 CFLAGS="%{rpmcflags}"; export CFLAGS
