@@ -26,8 +26,8 @@ sending files.
 %description -l pl
 Eggdrop jest IRCowym botem napisanym w C. Eggdrop, bêd±c botem
 jest na kanale i zajmuje siê jego ochron±: zabezpieczeniem przed
-takeover-em, nadawaniem odpowiednich przywilejów zarejestrowanym
-u¿ytkownikom, pilnowanie tzw. banów. itp.
+przejêciem, nadawaniem odpowiednich przywilejów zarejestrowanym
+u¿ytkownikom, pilnowanie tzw. banów itp.
 Eggdrop poza tymi funkcjami posiada tak¿e wiele dodatków, jak
 przesy³anie plików czy inne skrypty dla rozrywki.
 
