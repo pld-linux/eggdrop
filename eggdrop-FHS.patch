@@ -1,0 +1,664 @@
+diff -Nur eggdrop1.6.9/FEATURES eggdrop1.6.9-FHS/FEATURES
+--- eggdrop1.6.9/FEATURES	Thu Feb 28 06:13:54 2002
++++ eggdrop1.6.9-FHS/FEATURES	Thu Jun  6 23:42:33 2002
+@@ -180,7 +180,7 @@
+ 
+ **** Installation
+ 
+-make install DEST=<directory>
++make install DESTDIR=<directory>
+ 
+   ________________________________________________________________________
+ 
+diff -Nur eggdrop1.6.9/INSTALL eggdrop1.6.9-FHS/INSTALL
+--- eggdrop1.6.9/INSTALL	Sat Mar  9 22:14:14 2002
++++ eggdrop1.6.9-FHS/INSTALL	Thu Jun  6 23:42:33 2002
+@@ -51,11 +51,11 @@
+ 
+         If you want to install to a different directory, use:
+ 
+-          make install DEST=<directory>
++          make install DESTDIR=<directory>
+ 
+         For example:
+ 
+-          make install DEST=/home/user/otherdir
++          make install DESTDIR=/home/user/otherdir
+ 
+         Note that you must use full path for every file to be correctly
+         installed.
+diff -Nur eggdrop1.6.9/Makefile.in eggdrop1.6.9-FHS/Makefile.in
+--- eggdrop1.6.9/Makefile.in	Thu Feb 28 06:13:54 2002
++++ eggdrop1.6.9-FHS/Makefile.in	Thu Jun  6 23:42:33 2002
+@@ -11,7 +11,7 @@
+ 
+ @SET_MAKE@
+ prefix = @prefix@
+-DEST = @DEST@
++DESTDIR = @DESTDIR@
+ EGGEXEC = @EGGEXEC@
+ EGGVERSION = @EGGVERSION@
+ 
+@@ -116,7 +116,7 @@
+ 
+ MAKE_CONFIG = $(MAKE) 'MAKE=$(MAKE)'
+ 
+-MAKE_INSTALL = $(MAKE) 'MAKE=$(MAKE)' 'DEST=$(DEST)'
++MAKE_INSTALL = $(MAKE) 'MAKE=$(MAKE)' 'DESTDIR=$(DESTDIR)'
+ 
+ all: @DEFAULT_MAKE@
+ 
+@@ -301,105 +301,105 @@
+ 		echo ""; \
+ 		exit 1; \
+ 	fi
+-	@if test "x$(DEST)" = "x"; then \
+-		echo "You must specify a destination directory with DEST="; \
++	@if test "x$(DESTDIR)" = "x"; then \
++		echo "You must specify a destination directory with DESTDIR="; \
+ 		exit 1; \
+ 	fi
+ 	@echo ""
+ 	@$(egg_test_run)
+ 	@echo
+-	@echo "Installing in directory: '$(DEST)'."
++	@echo "Installing in directory: '$(DESTDIR)'."
+ 	@echo
+-	@if test ! -d $(DEST); then \
+-		echo "Creating directory: $(DEST)."; \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST); \
++	@if test ! -d $(DESTDIR); then \
++		echo "Creating directory: $(DESTDIR)."; \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR); \
+ 	fi
+ 
+ install-bin:
+-	@if test -f $(DEST)/o$(EGGEXEC); then \
+-		rm -f $(DEST)/o$(EGGEXEC); \
++	@if test -f $(DESTDIR)/o$(EGGEXEC); then \
++		rm -f $(DESTDIR)/o$(EGGEXEC); \
+ 	fi
+-	@if test -h $(DEST)/$(EGGEXEC); then \
++	@if test -h $(DESTDIR)/$(EGGEXEC); then \
+ 		echo "Removing symlink to archival eggdrop binary."; \
+-		rm -f $(DEST)/$(EGGEXEC); \
++		rm -f $(DESTDIR)/$(EGGEXEC); \
+ 	fi
+-	@if test -f $(DEST)/$(EGGEXEC); then \
++	@if test -f $(DESTDIR)/$(EGGEXEC); then \
+ 		echo "Renamed the old '$(EGGEXEC)' executable to 'o$(EGGEXEC)'."; \
+-		mv -f $(DEST)/$(EGGEXEC) $(DEST)/o$(EGGEXEC); \
++		mv -f $(DESTDIR)/$(EGGEXEC) $(DESTDIR)/o$(EGGEXEC); \
+ 	fi
+ 	@echo "Copying new '$(EGGEXEC)' executable and creating symlink."
+-	@$(INSTALL_PROGRAM) $(EGGEXEC) $(DEST)/$(EGGEXEC)-$(EGGVERSION)
+-	@(cd $(DEST) && $(LN_S) $(EGGEXEC)-$(EGGVERSION) $(EGGEXEC))
++	@$(INSTALL_PROGRAM) $(EGGEXEC) $(DESTDIR)/$(EGGEXEC)-$(EGGVERSION)
++	@(cd $(DESTDIR) && $(LN_S) $(EGGEXEC)-$(EGGVERSION) $(EGGEXEC))
+ 
+ install-modules:
+-	@if test -h $(DEST)/modules; then \
++	@if test -h $(DESTDIR)/modules; then \
+ 		echo "Removing symlink to archival modules directory."; \
+-		rm -f $(DEST)/modules; \
++		rm -f $(DESTDIR)/modules; \
+ 	fi
+-	@if test -d $(DEST)/modules; then \
++	@if test -d $(DESTDIR)/modules; then \
+ 		echo "Moving old modules into 'modules.old' directory."; \
+-		rm -rf $(DEST)/modules.old; \
+-		mv -f $(DEST)/modules $(DEST)/modules.old; \
++		rm -rf $(DESTDIR)/modules.old; \
++		mv -f $(DESTDIR)/modules $(DESTDIR)/modules.old; \
+ 	fi
+ 	@if test ! "x`echo *.$(MOD_EXT)`" = "x*.$(MOD_EXT)"; then \
+-		if test ! -d $(DEST)/modules-$(EGGVERSION); then \
++		if test ! -d $(DESTDIR)/modules-$(EGGVERSION); then \
+ 			echo "Creating modules-$(EGGVERSION) directory and symlink."; \
+-			$(top_srcdir)/misc/mkinstalldirs $(DEST)/modules-$(EGGVERSION); \
++			$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/modules-$(EGGVERSION); \
+ 		fi; \
+-		(cd $(DEST) && $(LN_S) modules-$(EGGVERSION) modules); \
++		(cd $(DESTDIR) && $(LN_S) modules-$(EGGVERSION) modules); \
+ 		echo "Copying new modules."; \
+ 		for i in *.$(MOD_EXT); do \
+-			$(INSTALL_PROGRAM) $$i $(DEST)/modules-$(EGGVERSION)/; \
++			$(INSTALL_PROGRAM) $$i $(DESTDIR)/modules-$(EGGVERSION)/; \
+ 		done; \
+ 	fi
+ 
+ install-data:
+-	@$(INSTALL_DATA) $(srcdir)/eggdrop.advanced.conf $(DEST)
+-	@$(INSTALL_DATA) $(srcdir)/eggdrop.complete.conf $(DEST)
+-	@$(INSTALL_DATA) $(srcdir)/eggdrop.simple.conf $(DEST)
+-	@if test ! -d $(DEST)/logs; then \
++	@$(INSTALL_DATA) $(srcdir)/eggdrop.advanced.conf $(DESTDIR)
++	@$(INSTALL_DATA) $(srcdir)/eggdrop.complete.conf $(DESTDIR)
++	@$(INSTALL_DATA) $(srcdir)/eggdrop.simple.conf $(DESTDIR)
++	@if test ! -d $(DESTDIR)/logs; then \
+ 		echo "Creating 'logs' subdirectory."; \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/logs; \
+-		$(INSTALL_DATA) $(srcdir)/logs/CONTENTS $(DEST)/logs/; \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/logs; \
++		$(INSTALL_DATA) $(srcdir)/logs/CONTENTS $(DESTDIR)/logs/; \
+ 	fi;
+-	@if test ! -d $(DEST)/text; then \
++	@if test ! -d $(DESTDIR)/text; then \
+ 		echo "Creating 'text' subdirectory."; \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/text; \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/text; \
+ 	fi;
+-	@if test ! -f $(DEST)/text/motd; then \
+-		$(INSTALL_DATA) $(srcdir)/text/motd $(DEST)/text/; \
++	@if test ! -f $(DESTDIR)/text/motd; then \
++		$(INSTALL_DATA) $(srcdir)/text/motd $(DESTDIR)/text/; \
+ 	fi
+-	@if test ! -f $(DEST)/text/banner; then \
+-		$(INSTALL_DATA) $(srcdir)/text/banner $(DEST)/text/; \
++	@if test ! -f $(DESTDIR)/text/banner; then \
++		$(INSTALL_DATA) $(srcdir)/text/banner $(DESTDIR)/text/; \
+ 	fi
+ 
+ install-help:
+ 	@echo "Copying help files."
+ 	@if test ! "x`echo $(srcdir)/help/*.help`" = "x$(srcdir)/help/*.help"; then \
+-		if test ! -d $(DEST)/help; then \
++		if test ! -d $(DESTDIR)/help; then \
+ 			echo "Creating 'help' subdirectory."; \
+-			$(top_srcdir)/misc/mkinstalldirs $(DEST)/help; \
++			$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/help; \
+ 		fi; \
+ 		for i in $(srcdir)/help/*.help; do \
+-			$(INSTALL_DATA) $$i $(DEST)/help/; \
++			$(INSTALL_DATA) $$i $(DESTDIR)/help/; \
+ 		done; \
+ 	fi
+ 	@if test ! "x`echo $(srcdir)/help/msg/*.help`" = "x$(srcdir)/help/msg/*.help"; then \
+-		if test ! -d $(DEST)/help/msg; then \
++		if test ! -d $(DESTDIR)/help/msg; then \
+ 			echo "Creating 'help/msg' subdirectory."; \
+-			$(top_srcdir)/misc/mkinstalldirs $(DEST)/help/msg; \
++			$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/help/msg; \
+ 		fi; \
+ 		for i in $(srcdir)/help/msg/*.help; do \
+-			$(INSTALL_DATA) $$i $(DEST)/help/msg/; \
++			$(INSTALL_DATA) $$i $(DESTDIR)/help/msg/; \
+ 		done; \
+ 	fi
+ 	@if test ! "x`echo $(srcdir)/help/set/*.help`" = "x$(srcdir)/help/set/*.help"; then \
+-		if test ! -d $(DEST)/help/set; then \
++		if test ! -d $(DESTDIR)/help/set; then \
+ 			echo "Creating 'help/set' subdirectory."; \
+-			$(top_srcdir)/misc/mkinstalldirs $(DEST)/help/set; \
++			$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/help/set; \
+ 		fi; \
+ 		for i in $(srcdir)/help/set/*.help; do \
+-			$(INSTALL_DATA) $$i $(DEST)/help/set/; \
++			$(INSTALL_DATA) $$i $(DESTDIR)/help/set/; \
+ 		done; \
+ 	fi
+ 	@cd src/mod/ && $(MAKE_INSTALL) install-help
+@@ -407,25 +407,25 @@
+ install-language:
+ 	@echo "Copying language files."
+ 	@if test ! "x`echo $(srcdir)/language/*.lang`" = "x$(srcdir)/language/*.lang"; then \
+-		if test ! -d $(DEST)/language; then \
++		if test ! -d $(DESTDIR)/language; then \
+ 			echo "Creating 'language' subdirectory."; \
+-			$(top_srcdir)/misc/mkinstalldirs $(DEST)/language; \
++			$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/language; \
+ 		fi; \
+ 		for i in $(srcdir)/language/*.lang; do \
+-			$(INSTALL_DATA) $$i $(DEST)/language/; \
++			$(INSTALL_DATA) $$i $(DESTDIR)/language/; \
+ 		done; \
+ 	fi
+ 	@cd src/mod && $(MAKE_INSTALL) install-language
+ 
+ install-filesys:
+-	@if test ! -d $(DEST)/filesys; then \
++	@if test ! -d $(DESTDIR)/filesys; then \
+ 		echo "Creating a skeletal filesys subdirectory."; \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/filesys; \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/filesys/incoming; \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/filesys; \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/filesys/incoming; \
+ 	fi
+ 
+ install-doc:
+-	@$(INSTALL_DATA) $(srcdir)/README $(DEST)
++	@$(INSTALL_DATA) $(srcdir)/README $(DESTDIR)
+ 	@cd doc/ && $(MAKE_INSTALL) install
+ 
+ install-scripts:
+@@ -438,7 +438,7 @@
+ 	@echo "You MUST ensure that you edit/verify your configuration file."
+ 	@echo "Use one of the three configuration files (eggdrop.simple.conf, eggdrop.advanced.conf and eggdrop.complete.conf) distributed with your bot."
+ 	@echo ""
+-	@echo "Remember to change directory to $(DEST) before you proceed."
++	@echo "Remember to change directory to $(DESTDIR) before you proceed."
+ 	@echo ""
+ 
+ #safety hash
+diff -Nur eggdrop1.6.9/README eggdrop1.6.9-FHS/README
+--- eggdrop1.6.9/README	Sun Mar 10 19:12:34 2002
++++ eggdrop1.6.9-FHS/README	Thu Jun  6 23:42:33 2002
+@@ -210,7 +210,7 @@
+                VERSION
+ 
+                If you followed the 'INSTALL' file and did a 'make install'
+-               (or 'make install DEST="path"') after 'make', this will be
++               (or 'make install DESTDIR="path"') after 'make', this will be
+                pretty easy. Just upload the new eggdrop1.6.x.tar.gz file to
+                your home dir on your shell, gunzip and untar it, and type
+                'cd ~/eggdrop1.6.x'. Next, type './configure', 'make config'
+@@ -423,8 +423,8 @@
+                     configure Tcl (not the bot) and then remake, and reinstall.
+ 
+                 (2) If it's not your machine, you make have to resort to 'make
+-                    static' and 'make install DEST="path"' to make and install
+-                    your bot.
++                    static' and 'make install DESTDIR="path"' to make and
++                    install your bot.
+ 
+                 (3) If you are of a more aggressive sense of mind, go beat
+                     the stuffing out of your admin for having lame static
+diff -Nur eggdrop1.6.9/aclocal.m4 eggdrop1.6.9-FHS/aclocal.m4
+--- eggdrop1.6.9/aclocal.m4	Mon Mar 11 06:05:24 2002
++++ eggdrop1.6.9-FHS/aclocal.m4	Thu Jun  6 23:42:33 2002
+@@ -1162,11 +1162,11 @@
+ dnl  EGG_SUBST_DEST()
+ dnl
+ AC_DEFUN(EGG_SUBST_DEST, [dnl
+-if test "${DEST-x}" = "x"
++if test "${DESTDIR-x}" = "x"
+ then
+-  DEST=\${prefix}
++  DESTDIR=\${prefix}
+ fi
+-AC_SUBST(DEST)dnl
++AC_SUBST(DESTDIR)dnl
+ ])dnl
+ 
+ 
+diff -Nur eggdrop1.6.9/configure eggdrop1.6.9-FHS/configure
+--- eggdrop1.6.9/configure	Mon Mar 11 06:05:32 2002
++++ eggdrop1.6.9-FHS/configure	Thu Jun  6 23:42:33 2002
+@@ -6532,9 +6532,9 @@
+ #define EGG_VERSION $egg_version_num
+ _ACEOF
+ 
+-if test "${DEST-x}" = "x"
++if test "${DESTDIR-x}" = "x"
+ then
+-  DEST=\${prefix}
++  DESTDIR=\${prefix}
+ fi
+ 
+ case "$srcdir" in
+@@ -7007,7 +7007,7 @@
+ s,@TCL_REQS@,$TCL_REQS,;t t
+ s,@TCL_LIBS@,$TCL_LIBS,;t t
+ s,@EGGVERSION@,$EGGVERSION,;t t
+-s,@DEST@,$DEST,;t t
++s,@DESTDIR@,$DESTDIR,;t t
+ s,@MOD_UPDIR@,$MOD_UPDIR,;t t
+ CEOF
+ 
+diff -Nur eggdrop1.6.9/doc/Makefile.in eggdrop1.6.9-FHS/doc/Makefile.in
+--- eggdrop1.6.9/doc/Makefile.in	Sat Mar  9 22:14:14 2002
++++ eggdrop1.6.9-FHS/doc/Makefile.in	Thu Jun  6 23:42:48 2002
+@@ -35,37 +35,37 @@
+ 	@rm -f *~
+ 
+ install:
+-	@if test ! -d $(DEST)/doc; then \
++	@if test ! -d $(DESTDIR)/doc; then \
+ 		echo "Creating a doc subdirectory."; \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/doc; \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/doc; \
+ 	fi
+-	@if test ! -d $(DEST)/doc/man1; then \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/doc/man1; \
++	@if test ! -d $(DESTDIR)/doc/man1; then \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/doc/man1; \
+ 	fi
+-	@if test ! -d $(DEST)/doc/html; then \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/doc/html; \
++	@if test ! -d $(DESTDIR)/doc/html; then \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/doc/html; \
+ 	fi
+-	@if test ! -d $(DEST)/doc/settings; then \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/doc/settings; \
++	@if test ! -d $(DESTDIR)/doc/settings; then \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/doc/settings; \
+ 	fi
+ 	@echo "Copying docs."
+ 	@for i in $(DOCS); do \
+-		$(INSTALL_DATA) $(srcdir)/$$i $(DEST)/doc/; \
++		$(INSTALL_DATA) $(srcdir)/$$i $(DESTDIR)/doc/; \
+ 	done
+ 	@for i in $(MAN1); do \
+-		$(INSTALL_DATA) $(srcdir)/$$i $(DEST)/doc/man1/; \
++		$(INSTALL_DATA) $(srcdir)/$$i $(DESTDIR)/doc/man1/; \
+ 	done
+ 	@for i in $(SETTING_DOCS); do \
+-		$(INSTALL_DATA) $(srcdir)/settings/$$i $(DEST)/doc/settings/; \
++		$(INSTALL_DATA) $(srcdir)/settings/$$i $(DESTDIR)/doc/settings/; \
+ 	done
+ 	@if test "x`echo $(SETTING_MOD_DOCS)`" != "x$(SETTING_MOD_DOCS)"; then \
+ 		for i in `echo $(SETTING_MOD_DOCS)`; do \
+-			$(INSTALL_DATA) $$i $(DEST)/doc/settings/; \
++			$(INSTALL_DATA) $$i $(DESTDIR)/doc/settings/; \
+ 		done; \
+ 	fi
+ 	@if test "x`echo $(WEB_DOCS)`" != "x$(WEB_DOCS)"; then \
+ 		for i in `echo $(WEB_DOCS)`; do \
+-			$(INSTALL_DATA) $$i $(DEST)/doc/html/; \
++			$(INSTALL_DATA) $$i $(DESTDIR)/doc/html/; \
+ 		done; \
+ 	fi
+ 
+diff -Nur eggdrop1.6.9/eggdrop.advanced.conf eggdrop1.6.9-FHS/eggdrop.advanced.conf
+--- eggdrop1.6.9/eggdrop.advanced.conf	Sun Mar 10 19:10:27 2002
++++ eggdrop1.6.9-FHS/eggdrop.advanced.conf	Thu Jun  6 23:42:33 2002
+@@ -1,5 +1,4 @@
+-#! /path/to/executable/eggdrop
+-# ^- This should contain a fully qualified path to your eggdrop executable.
++#!/usr/bin/eggdrop
+ #
+ # $Id$
+ #
+@@ -161,21 +160,21 @@
+ 
+ # Specify here where eggdrop should look for help files.
+ # Don't modify this setting unless you know what you're doing!
+-set help-path "help/"
++set help-path "/usr/share/eggdrop/help/"
+ 
+ # Specify here where eggdrop should look for text files. This is
+ # used for certain Tcl and DCC commands.
+-set text-path "text/"
++set text-path "/usr/share/eggdrop/"
+ 
+ # Set here a place to store temporary files.
+ set temp-path "/tmp"
+ 
+ # The MOTD (Message Of The day) is displayed when people dcc chat or telnet
+ # to the bot. Look at doc/text-substitutions.doc for options.
+-set motd "text/motd"
++set motd "/usr/share/eggdrop/motd"
+ 
+ # This banner will be displayed on telnet connections.
+-set telnet-banner "text/banner"
++set telnet-banner "/usr/share/eggdrop/banner"
+ 
+ 
+ ##### BOTNET/DCC/TELNET #####
+@@ -323,7 +322,7 @@
+ # If you run the bot from the compilation directory, you will want to set
+ # this to "". If you use 'make install' (like all good kiddies do ;), this
+ # is a fine default. Otherwise, use your head :)
+-set mod-path "modules/"
++set mod-path "/usr/lib/eggdrop/modules/"
+ 
+ 
+ #### DNS MODULE ####
+@@ -1206,17 +1205,17 @@
+ # directory. All scripts should be put there, although you can place them where
+ # you like as long as you can supply a fully qualified path to them.
+ #
+-# source scripts/script.tcl
++# source /usr/share/eggdrop/scripts/script.tcl
+ 
+-source scripts/alltools.tcl
+-source scripts/action.fix.tcl
++source /usr/share/eggdrop/scripts/alltools.tcl
++source /usr/share/eggdrop/scripts/action.fix.tcl
+ 
+ # Use this script for Tcl and eggdrop downwards compatibility.
+ # NOTE: This can also cause problems with some newer scripts.
+-source scripts/compat.tcl
++source /usr/share/eggdrop/scripts/compat.tcl
+ 
+ # This script provides many useful informational functions, like setting
+ # users' URLs, e-mail address, ICQ numbers, etc. You can modify it to add
+ # extra entries
+-source scripts/userinfo.tcl
++source /usr/share/eggdrop/scripts/userinfo.tcl
+ loadhelp userinfo.help
+diff -Nur eggdrop1.6.9/eggdrop.complete.conf eggdrop1.6.9-FHS/eggdrop.complete.conf
+--- eggdrop1.6.9/eggdrop.complete.conf	Sun Mar 10 19:10:27 2002
++++ eggdrop1.6.9-FHS/eggdrop.complete.conf	Thu Jun  6 23:42:33 2002
+@@ -1,5 +1,4 @@
+-#! /path/to/executable/eggdrop
+-# ^- This should contain a fully qualified path to your eggdrop executable.
++#!/usr/bin/eggdrop
+ #
+ # $Id$
+ #
+@@ -165,21 +164,21 @@
+ 
+ # Specify here where eggdrop should look for help files.
+ # Don't modify this setting unless you know what you're doing!
+-set help-path "help/"
++set help-path "/usr/share/eggdrop/help/"
+ 
+ # Specify here where eggdrop should look for text files. This is
+ # used for certain Tcl and DCC commands.
+-set text-path "text/"
++set text-path "/usr/share/eggdrop/"
+ 
+ # Set here a place to store temporary files.
+ set temp-path "/tmp"
+ 
+ # The MOTD (Message Of The day) is displayed when people dcc chat or telnet
+ # to the bot. Look at doc/text-substitutions.doc for options.
+-set motd "text/motd"
++set motd "/usr/share/eggdrop/motd"
+ 
+ # This banner will be displayed on telnet connections.
+-set telnet-banner "text/banner"
++set telnet-banner "/usr/share/eggdrop/banner"
+ 
+ # This specifies what permissions the user, channel, and notes files should be set to.
+ # The octal values are the same as for the chmod system command.
+@@ -400,7 +399,7 @@
+ # If you run the bot from the compilation directory, you will want to set
+ # this to "". If you use 'make install' (like all good kiddies do ;), this
+ # is a fine default. Otherwise, use your head :)
+-set mod-path "modules/"
++set mod-path "/usr/lib/eggdrop/modules/"
+ 
+ 
+ #### DNS MODULE ####
+@@ -1309,17 +1308,17 @@
+ # directory. All scripts should be put there, although you can place them where
+ # you like as long as you can supply a fully qualified path to them.
+ #
+-# source scripts/script.tcl
++# source /usr/share/eggdrop/scripts/script.tcl
+ 
+-source scripts/alltools.tcl
+-source scripts/action.fix.tcl
++source /usr/share/eggdrop/scripts/alltools.tcl
++source /usr/share/eggdrop/scripts/action.fix.tcl
+ 
+ # Use this script for Tcl and eggdrop downwards compatibility.
+ # NOTE: This can also cause problems with some newer scripts.
+-source scripts/compat.tcl
++source /usr/share/eggdrop/scripts/compat.tcl
+ 
+ # This script provides many useful informational functions, like setting
+ # users' URLs, e-mail address, ICQ numbers, etc. You can modify it to add
+ # extra entries
+-source scripts/userinfo.tcl
++source /usr/share/eggdrop/scripts/userinfo.tcl
+ loadhelp userinfo.help
+diff -Nur eggdrop1.6.9/eggdrop.simple.conf eggdrop1.6.9-FHS/eggdrop.simple.conf
+--- eggdrop1.6.9/eggdrop.simple.conf	Sat Mar  9 22:14:14 2002
++++ eggdrop1.6.9-FHS/eggdrop.simple.conf	Thu Jun  6 23:42:33 2002
+@@ -1,5 +1,4 @@
+-#! /path/to/executable/eggdrop
+-# ^- Set that to the directory eggdrop is in, i.e. "#! /home/lamest/egg/eggdrop"
++#!/usr/bin/eggdrop
+ #
+ # $Id$
+ #
+@@ -19,9 +18,9 @@
+ # More options can be found in the files in doc/settings/.
+ 
+ # Don't edit the following 12 lines.
+-set mod-path "modules/"
+-set help-path "help/"
+-set text-path "text/"
++set mod-path "/usr/lib/eggdrop/modules/"
++set help-path "/usr/share/eggdrop/help/"
++set text-path "/usr/share/eggdrop/"
+ loadmodule dns
+ loadmodule channels
+ loadmodule server
+@@ -137,10 +136,10 @@
+ # directory. All scripts should be put there, although you can place them where
+ # you like as long as you can supply a fully qualified path to them.
+ #
+-# source scripts/script.tcl
++# source /usr/share/eggdrop/scripts/script.tcl
+ 
+-source scripts/alltools.tcl
+-source scripts/action.fix.tcl
+-source scripts/compat.tcl
+-source scripts/userinfo.tcl
++source /usr/share/eggdrop/scripts/alltools.tcl
++source /usr/share/eggdrop/scripts/action.fix.tcl
++source /usr/share/eggdrop/scripts/compat.tcl
++source /usr/share/eggdrop/scripts/userinfo.tcl
+ loadhelp userinfo.help
+diff -Nur eggdrop1.6.9/scripts/Makefile.in eggdrop1.6.9-FHS/scripts/Makefile.in
+--- eggdrop1.6.9/scripts/Makefile.in	Wed Nov  8 20:52:38 2000
++++ eggdrop1.6.9-FHS/scripts/Makefile.in	Thu Jun  6 23:43:44 2002
+@@ -31,44 +31,44 @@
+ 	@rm -f *~
+ 
+ install:
+-	@if test ! -d $(DEST)/scripts; then \
++	@if test ! -d $(DESTDIR)/scripts; then \
+ 		echo "Creating a scripts subdirectory."; \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/scripts; \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/scripts; \
+ 		echo "Copying scripts."; \
+ 		for i in $(DOCS); do \
+-			$(INSTALL_DATA) $(srcdir)/$$i $(DEST)/scripts/; \
++			$(INSTALL_DATA) $(srcdir)/$$i $(DESTDIR)/scripts/; \
+ 		done; \
+ 		for i in $(SCRIPTS); do \
+-			$(INSTALL_DATA) $(srcdir)/$$i $(DEST)/scripts/; \
++			$(INSTALL_DATA) $(srcdir)/$$i $(DESTDIR)/scripts/; \
+ 		done; \
+ 		for i in $(EXESCRIPTS); do \
+-			$(INSTALL_SCRIPT) $(srcdir)/$$i $(DEST)/scripts/; \
++			$(INSTALL_SCRIPT) $(srcdir)/$$i $(DESTDIR)/scripts/; \
+ 		done; \
+ 		if test ! "x`echo $(srcdir)/help/*.help`" = "x$(srcdir)/help/*.help"; then \
+-			if test ! -d $(DEST)/help; then \
++			if test ! -d $(DESTDIR)/help; then \
+ 				echo "Creating 'help' subdirectory."; \
+-				$(top_srcdir)/misc/mkinstalldirs $(DEST)/help; \
++				$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/help; \
+ 			fi; \
+ 			for i in $(srcdir)/help/*.help; do \
+-				$(INSTALL_DATA) $$i $(DEST)/help/; \
++				$(INSTALL_DATA) $$i $(DESTDIR)/help/; \
+ 			done; \
+ 		fi; \
+ 		if test ! "x`echo $(srcdir)/help/msg/*.help`" = "x$(srcdir)/help/msg/*.help"; then \
+-			if test ! -d $(DEST)/help/msg; then \
++			if test ! -d $(DESTDIR)/help/msg; then \
+ 				echo "Creating 'help/msg' subdirectory."; \
+-				$(top_srcdir)/misc/mkinstalldirs $(DEST)/help/msg; \
++				$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/help/msg; \
+ 			fi; \
+ 			for i in $(srcdir)/help/msg/*.help; do \
+-				$(INSTALL_DATA) $$i $(DEST)/help/msg/; \
++				$(INSTALL_DATA) $$i $(DESTDIR)/help/msg/; \
+ 			done; \
+ 		fi; \
+ 		if test ! "x`echo $(srcdir)/help/set/*.help`" = "x$(srcdir)/help/set/*.help"; then \
+-			if test ! -d $(DEST)/help/set; then \
++			if test ! -d $(DESTDIR)/help/set; then \
+ 				echo "Creating 'help/set' subdirectory."; \
+-				$(top_srcdir)/misc/mkinstalldirs $(DEST)/help/set; \
++				$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/help/set; \
+ 			fi; \
+ 			for i in $(srcdir)/help/set/*.help; do \
+-				$(INSTALL_DATA) $$i $(DEST)/help/set/; \
++				$(INSTALL_DATA) $$i $(DESTDIR)/help/set/; \
+ 			done; \
+ 		fi; \
+ 	fi
+diff -Nur eggdrop1.6.9/src/mod/Makefile.in eggdrop1.6.9-FHS/src/mod/Makefile.in
+--- eggdrop1.6.9/src/mod/Makefile.in	Thu Dec 21 21:20:03 2000
++++ eggdrop1.6.9-FHS/src/mod/Makefile.in	Thu Jun  6 23:44:08 2002
+@@ -121,50 +121,50 @@
+ 
+ install-help:
+ 	@echo "Copying module help files."
+-	@if test ! -d $(DEST)/help; then \
++	@if test ! -d $(DESTDIR)/help; then \
+ 		echo "Creating 'help' subdirectory."; \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/help; \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/help; \
+ 	fi; \
+ 	for i in $(mods); do \
+ 		if test ! "x`echo $(srcdir)/$$i/help/*.help`" = "x$(srcdir)/$$i/help/*.help"; then \
+ 			for h in $(srcdir)/$$i/help/*.help; do \
+-				$(INSTALL_DATA) $$h $(DEST)/help/; \
++				$(INSTALL_DATA) $$h $(DESTDIR)/help/; \
+ 			done; \
+ 		fi; \
+ 	done;
+-	@if test ! -d $(DEST)/help/msg; then \
++	@if test ! -d $(DESTDIR)/help/msg; then \
+ 		echo "Creating 'help/msg' subdirectory."; \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/help/msg; \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/help/msg; \
+ 	fi; \
+ 	for i in $(mods); do \
+ 		if test ! "x`echo $(srcdir)/$$i/help/msg/*.help`" = "x$(srcdir)/$$i/help/msg/*.help"; then \
+ 			for h in $(srcdir)/$$i/help/msg/*.help; do \
+-				$(INSTALL_DATA) $$h $(DEST)/help/msg/; \
++				$(INSTALL_DATA) $$h $(DESTDIR)/help/msg/; \
+ 			done; \
+ 		fi; \
+ 	done;
+-	@if test ! -d $(DEST)/help/set; then \
++	@if test ! -d $(DESTDIR)/help/set; then \
+ 		echo "Creating 'help/set' subdirectory."; \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/help/set; \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/help/set; \
+ 	fi; \
+ 	for i in $(mods); do \
+ 		if test ! "x`echo $(srcdir)/$$i/help/set/*.help`" = "x$(srcdir)/$$i/help/set/*.help"; then \
+ 			for h in $(srcdir)/$$i/help/set/*.help; do \
+-				$(INSTALL_DATA) $$h $(DEST)/help/set/; \
++				$(INSTALL_DATA) $$h $(DESTDIR)/help/set/; \
+ 			done; \
+ 		fi; \
+ 	done;
+ 
+ install-language:
+ 	@echo "Copying module language files."
+-	@if test ! -d $(DEST)/language; then \
++	@if test ! -d $(DESTDIR)/language; then \
+ 		echo "Creating 'language' subdirectory."; \
+-		$(top_srcdir)/misc/mkinstalldirs $(DEST)/language; \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/language; \
+ 	fi; \
+ 	for i in $(mods); do \
+ 		if test ! "x`echo $(srcdir)/$$i/language/*.lang`" = "x$(srcdir)/$$i/language/*.lang"; then \
+ 			for h in $(srcdir)/$$i/language/*.lang; do \
+-				$(INSTALL_DATA) $$h $(DEST)/language/; \
++				$(INSTALL_DATA) $$h $(DESTDIR)/language/; \
+ 			done; \
+ 		fi; \
+ 	done;
