@@ -5,8 +5,6 @@ Version:	2.0.0
 Release:	1.ALPHA
 License:	GPL
 Group:		Applications/Communications
-Group(de):	Applikationen/Kommunikation
-Group(pl):	Aplikacje/Komunikacja
 Source0:	http://www.eggdropsrus.co.uk/downloads/%{name}%{version}-ALPHA.tar.gz
 Source1:	%{name}.sh
 Patch0:		%{name}-pld.patch
