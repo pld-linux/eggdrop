@@ -80,15 +80,3 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/eggdrop/eggdrop2.conf.*
 %{_libdir}/eggdrop/motd
 %{_mandir}/man*/*
-
-%changelog
-* Sat Feb 20 1999 Marek Obuchowicz <elephant@shadow.eu.org>
-[2.0.0-ALPHA-1]
- - minor spec modifications
- - added polish translations
- - compressed man files
- - added RPM_OPT_FLAGS support 
-
-* Mon Sep 7 1998  Ian Macdonald <ianmacd@xs4all.nl>
- - Upgraded to 1.3.19
- 
