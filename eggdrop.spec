@@ -120,6 +120,8 @@ katalogu %{_datadir}/doc/%{name}-%{version}
 
 %build
 CFLAGS="%{rpmcflags}"; export CFLAGS
+# There is no sense in using configure macro, as the eggdrop makes no use
+# of provided settings, or at least of those given with --*dir options
 ./configure
 %{__make} config
 %{__make}
@@ -130,10 +132,10 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_datadir}/%{n
 
 %{__make} DESTDIR="$RPM_BUILD_ROOT" install
 
-cp $RPM_BUILD_ROOT/%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
+mv $RPM_BUILD_ROOT/%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
 
-cp %{SOURCE1} $RPM_BUILD_ROOT/%{_datadir}/doc/%{name}-%{version}/README.PLD.en
-cp %{SOURCE2} $RPM_BUILD_ROOT/%{_datadir}/doc/%{name}-%{version}/README.PLD.pl
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/README.PLD.en
+cp %{SOURCE2} $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/README.PLD.pl
 
 find $RPM_BUILD_ROOT/doc -type f | egrep -v "(\.html$|\.htm$)" | xargs gzip -9nf
 gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT/%{name}.conf 
@@ -143,9 +145,9 @@ rm -r $RPM_BUILD_ROOT/doc/man1
 
 cp -a $RPM_BUILD_ROOT/*.gz \
 	$RPM_BUILD_ROOT/doc/* \
-	$RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}/
+	$RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/
 
-cp -a $RPM_BUILD_ROOT/doc/modules $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
+cp -a $RPM_BUILD_ROOT/doc/modules $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 
 cp -a $RPM_BUILD_ROOT/text/* \
 	$RPM_BUILD_ROOT/help/ \
@@ -155,6 +157,12 @@ cp -a $RPM_BUILD_ROOT/text/* \
 
 cp -a $RPM_BUILD_ROOT/modules/* \
 	$RPM_BUILD_ROOT%{_libdir}/%{name}/modules/
+
+# These are only to make /usr/lib/rpm/check-files happy(ier)
+# Is this somehow ugly?
+for i in modules modules-%{version} text help scripts language doc logs eggdrop.conf.gz README.gz; do
+	rm -rf $RPM_BUILD_ROOT/$i
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
