@@ -20,8 +20,8 @@ Patch0:		%{name}-FHS.patch
 Patch1:		http://www.egghelp.org/files/patches/%{name}%{version}+ipv6.patch.gz
 Patch2:		%{name}%{version}+ipv6_config.patch
 URL:		http://www.eggheads.org/
-Requires:	tcl
 BuildRequires:	tcl-devel
+Requires:	tcl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -41,21 +41,13 @@ pilnowanie tzw. banów itp. Eggdrop poza tymi funkcjami posiada tak¿e
 wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 
 %prep
-%setup -q          -n %{name}%{version}
-# Language packs
-%setup -q -D -a 10 -n %{name}%{version}
-%setup -q -D -a 11 -n %{name}%{version}
-%setup -q -D -a 12 -n %{name}%{version}
-%setup -q -D -a 13 -n %{name}%{version}
-%setup -q -D -a 14 -n %{name}%{version}
-%setup -q -D -a 15 -n %{name}%{version}
-%setup -q -D -a 16 -n %{name}%{version}
+%setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
 
 %build
-export CFLAGS="%{rpmcflags}"
+CFLAGS="%{rpmcflags}"; export CFLAGS
 ./configure
 %{__make} config
 %{__make}
