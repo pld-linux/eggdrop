@@ -1,29 +1,28 @@
---- doc/Makefile.in	Tue Mar 11 22:25:14 2003
-+++ doc/Makefile.d	Tue Mar 11 22:37:35 2003
-@@ -15,7 +15,8 @@
- DOCS = ABOUT AUTHORS BANS BOTNET BUG-REPORT compiling.FAQ CONTENTS \
- first_script.txt KNOWN-PROBLEMS MODULES PARTYLINE patch.howto \
- tcl-commands.doc text-substitutions.doc tricks UPDATES.pre1.5 UPDATES1.5 \
--UPDATES1.6 USERS
-+UPDATES1.6 USERS \
+--- doc/Makefile.in	2004-10-18 00:23:49.173141992 +0200
++++ doc/Makefile.in	2004-10-18 00:30:44.751964408 +0200
+@@ -14,7 +14,8 @@
+ 
+ DOCS = ABOUT AUTHORS BANS BOTNET BUG-REPORT COMPILE-GUIDE CONTENTS \
+ FIRST-SCRIPT KNOWN-PROBLEMS MODULES PARTYLINE PATCH-HOWTO tcl-commands.doc \
+-TEXT-SUBSTITUTIONS TRICKS UPDATES1.6 USERS
++TEXT-SUBSTITUTIONS TRICKS UPDATES1.6 USERS \
 +LANGUAGE.finnish LANGUAGE.portuguese LANGUAGE.portuguese.br
  
  MAN1 = man1/eggdrop.1
  
-@@ -48,6 +49,9 @@
- 	@if test ! -d $(DESTDIR)/doc/settings; then \
- 		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/doc/settings; \
+@@ -50,6 +51,10 @@
+ 		echo "Creating 'doc/settings' subdirectory."; \
+ 		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/doc/settings >/dev/null; \
  	fi
-+	@if test ! -d $(DESTDIR)/doc/modules; then \
-+		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/doc/modules; \
++	@if test ! -d $(DESTDIR)/doc/modules; then
++		echo "Creating 'doc/modules' subdirectory."; \
++		$(top_srcdir)/misc/mkinstalldirs $(DESTDIR)/doc/modules >/dev/null; \
 +	fi
  	@echo "Copying docs."
  	@for i in $(DOCS); do \
  		$(INSTALL_DATA) $(srcdir)/$$i $(DESTDIR)/doc/; \
-@@ -68,5 +72,6 @@
+@@ -70,3 +75,4 @@
  			$(INSTALL_DATA) $$i $(DESTDIR)/doc/html/; \
  		done; \
  	fi
-+	@cp -r $(srcdir)/modules/* $(DESTDIR)/doc/modules/;
- 
- #safety hash
++	@cp -r $(srcdir)/modules/* $(DESTDIR)/doc/modules

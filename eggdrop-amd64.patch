@@ -1,12 +1,12 @@
-diff -ur eggdrop1.6.15.orig/configure.in eggdrop1.6.15/configure.in
---- eggdrop1.6.15.orig/configure.in	2003-05-05 00:05:32.000000000 +0200
-+++ eggdrop1.6.15/configure.in	2004-08-19 23:30:54.588631128 +0200
-@@ -92,7 +92,7 @@
- 
- # Tcl library search paths
- tcllibpaths="/usr/local/lib /usr/local/pkgs/tcl/lib \
--	/usr/lib /lib /usr/i486-linuxaout/lib \
-+	/usr/lib /lib /usr/lib64 /usr/i486-linuxaout/lib \
- 	/beos/system/lib /sys/lib \
- 	$HOME/lib $HOME/tcl/lib $HOME"
- 
+diff -burN eggdrop1.6.17.orig/configure.ac eggdrop1.6.17/configure.ac
+--- eggdrop1.6.17.orig/configure.ac	2004-10-18 00:15:56.809952112 +0200
++++ eggdrop1.6.17/configure.ac	2004-10-18 00:37:03.587372672 +0200
+@@ -108,7 +108,7 @@
+              tcl8.0 tcl80 tcl tcl7.6 tcl76 tcl7.5 tcl75 tcl7.4 tcl74 tcl7.3 \
+              tcl73 tcl7.2 tcl72 tcl7.1 tcl71 tcl7.0 tcl70 tcl8.5 tcl85"
+ tcllibextensions=".so .so.1 .so.1.0 .so.1.2 .dll .dylib .a .sl"
+-tcllibpaths="$HOME/lib $HOME/tcl/lib /usr/local/lib /usr/lib /lib \
++tcllibpaths="$HOME/lib $HOME/tcl/lib /usr/local/lib /usr/lib /lib /usr/lib64 \
+              /usr/local/lib/tcl8.4 /usr/local/lib/tcl8.3 \
+              /usr/lib/tcl8.4 /usr/lib/tcl8.3 \
+              /usr/local/lib/tcl8.5 /usr/lib/tcl8.5 \
