@@ -51,7 +51,7 @@ Patch6:		%{name}%{version}-topicprot.patch
 # Adds information about additional encryption modules to config file
 Patch7:		%{name}-config_encryption.patch
 # This one fixes eggdrop botchk/autobotchk scripts
-Patch8:		%{name}%{version}-1.6.13.patch
+Patch8:		%{name}%{version}-autobotchk.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	tcl-devel
 Requires:	tcl
