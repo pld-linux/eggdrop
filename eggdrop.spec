@@ -79,7 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost /usr/lib/eggdrop/eggdrop2
 /usr/lib/eggdrop/eggdrop2.conf.*
 /usr/lib/eggdrop/motd
-%attr(644, root, man) %{_mandir}/man*/*
+%{_mandir}/man*/*
 
 %changelog
 * Sat Feb 20 1999 Marek Obuchowicz <elephant@shadow.eu.org>
