@@ -7,8 +7,8 @@ Version:	1.6.15
 Release:	0.3
 License:	GPL
 Group:		Applications/Communications
-# Source0-md5:	b5016e34942ff4113e97a8449b15dfce
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
+# Source0-md5:	b5016e34942ff4113e97a8449b15dfce
 # In order to unify filenames, following language packs and third-party modules were
 # repackaged. Some files were renamed, but none modified. Original archives can be
 # found by looking at http://www.egghelp.org/
@@ -157,7 +157,18 @@ Eggdrop находится на канале в целях оказания защитных мер:
 CFLAGS="%{rpmcflags}"; export CFLAGS
 # There is no sense in using configure macro, as the eggdrop makes no use
 # of provided settings, or at least of those given with --*dir options
-./configure --enable-ipv6
+# HUMPF! At least one thing sucks: 
+# eggdrop's configure thingie, or my linux knowledge.
+#./configure --enable-ipv6
+#%{__aclocal}
+#%{__autoconf}
+#%{__autoheader}
+#cd src/mod/compress.mod
+#%{__autoconf}
+#cd ../dns.mod
+#%{__autoconf}
+#cd ../../..
+%configure2_13 --enable-ipv6
 %{__make} config
 %{__make}
 
