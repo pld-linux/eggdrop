@@ -185,7 +185,7 @@ Eggdrop находится на канале в целях оказания защитных мер:
 # It's either ipv6 support or async dns module... I don't know which is more
 # important so I disabled ipv6... anybody cares to correct me? -- mmazur
 mv aclocal.m4 acinclude.m4
-cp -f /usr/share/automake/config.sub .
+cp -f /usr/share/automake/config.sub misc/
 %{__aclocal}
 %{__autoheader}
 %{__autoconf}
