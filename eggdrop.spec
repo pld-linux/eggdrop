@@ -42,7 +42,7 @@ CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=/usr/bin
 # Dziwny problem z -ldir w module filesys
 cd src/mod/filesys.mod
 rm -f config.cache config.log
-CFLAGS="$RPM_OPT_FLAGS" ./configure
+CFLAGS="$RPM_OPT_FLAGS" ./configure %{_target}
 cd ../../..
 CFLAGS="$RPM_OPT_FLAGS" make
 
