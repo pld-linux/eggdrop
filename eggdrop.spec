@@ -65,7 +65,7 @@ gzip -9nf FEATURES README doc/{patch.howto,tricks,[A-Z]*,*.doc}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files 
+%files
 %defattr(644,root,root,755)
 %doc FEATURES.gz README.gz doc/*.gz doc/html
 %attr(755,root,root) %{_bindir}/*
