@@ -7,6 +7,7 @@ Release:	4
 License:	GPL
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.gz
+# Source0-md5:	7889fffec7d9105ad5ce875dd7e58ca8
 # PLD docs - information about changes.
 Source1:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.en
 Source2:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.pl
@@ -14,23 +15,40 @@ Source2:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.pl
 # repackaged. Some files were renamed, but none modified. Original archives can be
 # found by looking at http://www.egghelp.org/
 Source10:	%{name}-language-danish.tar.gz
+# Source10-md5:	86b9bbab196f64b09e4daf2dec93fd50
 Source11:	%{name}-language-finnish.tar.gz
+# Source11-md5:	d720c6ad3f19deb8d51eeb753d0da390
 Source12:	%{name}-language-italian.tar.gz
+# Source12-md5:	9c568bc516ecb202ed9e76c1523e4d6a
 Source13:	%{name}-language-norwegian.tar.gz
+# Source13-md5:	118e14c8dfe0a6917e8e7b191a733e3f
 Source14:	%{name}-language-portuguese.tar.gz
+# Source14-md5:	1b96f1ba51a0162665be892327c405cf
 Source15:	%{name}-language-portuguese_br.tar.gz
+# Source15-md5:	93d4afae51dfa4cd7512fa6236868960
 Source16:	%{name}-language-romanian.tar.gz
+# Source16-md5:	3664b4f4870eb099d3a291284a076561
 # Additional modules taken from various places
 Source20:	%{name}-module-away-1.0.tar.gz
+# Source20-md5:	89b0529d024d8c29a855fb26e9e24a58
 Source21:	%{name}-module-botnetop-1.0.1.tar.gz
+# Source21-md5:	1815a88748529d2ce6a221d560678285
 Source22:	%{name}-module-fakebotnet-1.3.tar.gz
+# Source22-md5:	bf6e0ecc97bbe154137dba5f47c6e518
 Source23:	%{name}-module-gseen-1.1.0.tar.gz
+# Source23-md5:	d1b5ff929c360581647a2baf7281a7a6
 Source24:	%{name}-module-irctree-1.1.tar.gz
+# Source24-md5:	8bf884c57adbb131228fe47bffc69836
 Source25:	%{name}-module-megahal-2.5.tar.gz
+# Source25-md5:	ee00bf26ef44ea587200c7e9a73dc767
 Source26:	%{name}-module-stats-1.3.3dev1.tar.gz
+# Source26-md5:	f50299b06dc9c8d29f7abb19defaa917
 Source27:	%{name}-module-idea-1.0.0.tar.gz
+# Source27-md5:	b1aa55ba5abebfcf0cf346b5bbba3bae
 Source28:	%{name}-module-twofish-1.0.tar.gz
+# Source28-md5:	861957c170b4af105199202e724be2a3
 Source29:	%{name}-module-rijndael-1.0.tar.gz
+# Source29-md5:	0210476c24ed6f24e1fdc1cbab41a863
 Patch0:		%{name}-FHS.patch
 # Unofficial IPv6 patch
 Patch1:		http://www.egghelp.org/files/patches/%{name}%{version}+ipv6.patch.gz
