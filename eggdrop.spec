@@ -4,7 +4,7 @@ Summary(pt_BR):	Bot de IRC escrito em C
 Summary(ru_RU.KOI8-R): Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
 Version:	1.6.15
-Release:	0.2
+Release:	0.3
 License:	GPL
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
@@ -37,7 +37,7 @@ Patch1:		%{name}-doc_makefile.patch
 # Multilevel sharing patch - now it is possible to create *secure* multilevel
 # botnets, each bot will only accept changes to userlist from bot that acts as
 # hub to him, and rejects changes from leaves
-Patch2:		%{name}-multilevel_sharing.patch.gz
+Patch2:		%{name}-multilevel_sharing.patch
 # Topicprot - protects channel topic from being changed
 # This patch was a bit modified to apply to eggdrop1.6.13
 Patch3:		%{name}-topicprot.patch
@@ -133,7 +133,7 @@ Eggdrop находится на канале в целях оказания защитных мер:
 %setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a28 -a29
 %patch0 -p1
 %patch1 -p0
-#%patch2 -p1
+%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
@@ -142,7 +142,7 @@ Eggdrop находится на канале в целях оказания защитных мер:
 CFLAGS="%{rpmcflags}"; export CFLAGS
 # There is no sense in using configure macro, as the eggdrop makes no use
 # of provided settings, or at least of those given with --*dir options
-./configure
+./configure --enable-ipv6
 %{__make} config
 %{__make}
 
