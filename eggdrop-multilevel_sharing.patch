@@ -1,22 +1,7 @@
-diff -burN eggdrop1.6.15/doc/USERS eggdrop1.6.15-multilevel_sharing/doc/USERS
---- eggdrop1.6.15/doc/USERS	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-multilevel_sharing/doc/USERS	Fri May  9 18:44:33 2003
-@@ -75,6 +75,11 @@
- 
-     u  (unshared)       user record is not sent to other bots.
- 
-+    s  (protected)      is working similar like u flag, but changes can be made
-+                        only from bot that is aggressively sharing with us (Hub).
-+                        User cannot be changed by bot that is connected below
-+                        this bot. (This flag can be useful in multilevel sharing)
-+
-     h  (highlight)      use bold text in help/text files.
- 
-     All global flags other then u, h, b, c, x, j, and p are also
-diff -burN eggdrop1.6.15/doc/tcl-commands.doc eggdrop1.6.15-multilevel_sharing/doc/tcl-commands.doc
---- eggdrop1.6.15/doc/tcl-commands.doc	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-multilevel_sharing/doc/tcl-commands.doc	Fri May  9 18:44:33 2003
-@@ -1245,6 +1245,17 @@
+diff -burN eggdrop1.6.17.orig/doc/tcl-commands.doc eggdrop1.6.17/doc/tcl-commands.doc
+--- eggdrop1.6.17.orig/doc/tcl-commands.doc	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/doc/tcl-commands.doc	2004-11-01 14:21:10.565861080 +0100
+@@ -1258,6 +1258,17 @@
      Module: filesys
  
  
@@ -34,10 +19,25 @@ diff -burN eggdrop1.6.15/doc/tcl-commands.doc eggdrop1.6.15-multilevel_sharing/d
  *** MISCELLANEOUS COMMANDS ***
  
    bind <type> <flags> <keyword/mask> [proc-name]
-diff -burN eggdrop1.6.15/eggdrop.conf eggdrop1.6.15-multilevel_sharing/eggdrop.conf
---- eggdrop1.6.15/eggdrop.conf	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-multilevel_sharing/eggdrop.conf	Fri May  9 18:44:33 2003
-@@ -1139,11 +1139,21 @@
+diff -burN eggdrop1.6.17.orig/doc/USERS eggdrop1.6.17/doc/USERS
+--- eggdrop1.6.17.orig/doc/USERS	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/doc/USERS	2004-11-01 14:21:10.567860776 +0100
+@@ -77,6 +77,11 @@
+ 
+     u  (unshared)       user record is not sent to other bots.
+ 
++    s  (protected)      is working similar like u flag, but changes can be made
++                        only from bot that is aggressively sharing with us (Hub).
++                        User cannot be changed by bot that is connected below
++                        this bot. (This flag can be useful in multilevel sharing)
++
+     h  (highlight)      use bold text in help/text files.
+ 
+     All global flags other then u, h, b, c, x, j, and p are also
+diff -burN eggdrop1.6.17.orig/eggdrop.conf eggdrop1.6.17/eggdrop.conf
+--- eggdrop1.6.17.orig/eggdrop.conf	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/eggdrop.conf	2004-11-01 14:21:10.570860320 +0100
+@@ -1145,11 +1145,21 @@
  # changes from other bots should be ignored?
  #set private-globals "mnot"
  
@@ -59,21 +59,21 @@ diff -burN eggdrop1.6.15/eggdrop.conf eggdrop1.6.15-multilevel_sharing/eggdrop.c
  # This setting makes the bot discard its own bot records in favor of
  # the ones sent by the hub.
  # NOTE: No passwords or botflags are shared, only ports and
-diff -burN eggdrop1.6.15/help/cmds2.help eggdrop1.6.15-multilevel_sharing/help/cmds2.help
---- eggdrop1.6.15/help/cmds2.help	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-multilevel_sharing/help/cmds2.help	Fri May  9 18:44:33 2003
-@@ -336,6 +336,7 @@
-       p   party-line (user has access to the partyline)
-       q   global quiet (user does not get voice on +autovoice channels.)
-       r   global dehalfop (user cannot gain halfops on any of the bot's channels)
-+      s   protected (when sharing changes can be made only by hub)
-       t   botnet master (user has access to all features dealing with the botnet.)
-       u   unshared (user record is not sent to other bots.)
-       v   global voice (user get +v automatically on +autovoice channels)
-diff -burN eggdrop1.6.15/src/cmds.c eggdrop1.6.15-multilevel_sharing/src/cmds.c
---- eggdrop1.6.15/src/cmds.c	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-multilevel_sharing/src/cmds.c	Fri May  9 18:46:00 2003
-@@ -1556,8 +1556,8 @@
+diff -burN eggdrop1.6.17.orig/help/cmds2.help eggdrop1.6.17/help/cmds2.help
+--- eggdrop1.6.17.orig/help/cmds2.help	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/help/cmds2.help	2004-11-01 14:21:10.572860016 +0100
+@@ -372,6 +372,7 @@
+       %bp%b - party-line (user has access to the partyline)
+       %bq%b - quiet (user cannot gain voice on any channel)
+       %br%b - dehalfop (user cannot gain halfops on any channel)
++      %bs%b - protected (when sharing changes can be made only by hub)
+       %bt%b - botnet master (user has access to features related to the botnet)
+       %bu%b - unshared (user's user record is not sent to other bots)
+       %bv%b - voice (user gets +v automatically on +autovoice channels)
+diff -burN eggdrop1.6.17.orig/src/cmds.c eggdrop1.6.17/src/cmds.c
+--- eggdrop1.6.17.orig/src/cmds.c	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/src/cmds.c	2004-11-01 14:21:10.576859408 +0100
+@@ -1551,8 +1551,8 @@
        mns.chan &= ~(BOT_SHARE);
      }
      if (!glob_owner(user)) {
@@ -84,9 +84,9 @@ diff -burN eggdrop1.6.15/src/cmds.c eggdrop1.6.15-multilevel_sharing/src/cmds.c
  
        if (chan) {
          pls.chan &= ~USER_OWNER;
-diff -burN eggdrop1.6.15/src/flags.h eggdrop1.6.15-multilevel_sharing/src/flags.h
---- eggdrop1.6.15/src/flags.h	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-multilevel_sharing/src/flags.h	Fri May  9 18:48:57 2003
+diff -burN eggdrop1.6.17.orig/src/flags.h eggdrop1.6.17/src/flags.h
+--- eggdrop1.6.17.orig/src/flags.h	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/src/flags.h	2004-11-01 14:21:10.577859256 +0100
 @@ -44,8 +44,8 @@
  
  /*
@@ -124,21 +124,9 @@ diff -burN eggdrop1.6.15/src/flags.h eggdrop1.6.15-multilevel_sharing/src/flags.
  
  #define bot_global(x)           ((x).bot & BOT_GLOBAL)
  #define bot_chan(x)             ((x).chan & BOT_AGGRESSIVE)
-diff -burN eggdrop1.6.15/src/mod/share.mod/Makefile eggdrop1.6.15-multilevel_sharing/src/mod/share.mod/Makefile
---- eggdrop1.6.15/src/mod/share.mod/Makefile	Mon May  5 00:05:33 2003
-+++ eggdrop1.6.15-multilevel_sharing/src/mod/share.mod/Makefile	Fri May  9 18:49:41 2003
-@@ -20,7 +20,7 @@
- 	mv share.o ../
- 
- ../../../share.$(MOD_EXT): ../share.o
--	$(LD) -o ../../../share.$(MOD_EXT) ../share.o
-+	$(LD) -o ../../../share.$(MOD_EXT) ../share.o ${XLIBS}
- 	$(STRIP) ../../../share.$(MOD_EXT)
- 
- depend:
-diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_sharing/src/mod/share.mod/share.c
---- eggdrop1.6.15/src/mod/share.mod/share.c	Mon May  5 00:05:33 2003
-+++ eggdrop1.6.15-multilevel_sharing/src/mod/share.mod/share.c	Fri May  9 19:10:34 2003
+diff -burN eggdrop1.6.17.orig/src/mod/share.mod/share.c eggdrop1.6.17/src/mod/share.mod/share.c
+--- eggdrop1.6.17.orig/src/mod/share.mod/share.c	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/src/mod/share.mod/share.c	2004-11-01 14:27:44.822924896 +0100
 @@ -50,11 +50,14 @@
  static int private_global = 0;
  static int private_user = 0;
@@ -152,9 +140,9 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
 +static int permit_hub = 0; /* Permit hub to do changes even, when we use private_*, */
 +                           /* but not private_globals (this have a reason) */
  
- struct delay_mode {
-   struct delay_mode *next;
-@@ -93,6 +96,7 @@
+ /* Store info for sharebots */
+ struct share_msgq {
+@@ -81,6 +84,7 @@
  static void q_resync(char *, struct chanset_t *);
  static void cancel_user_xfer(int, void *);
  static int private_globals_bitmask();
@@ -162,7 +150,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
  
  #include "share.h"
  
-@@ -307,7 +311,7 @@
+@@ -314,7 +318,7 @@
    char *hand;
    struct userrec *u;
  
@@ -171,7 +159,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
      hand = newsplit(&par);
      u = get_user_by_handle(userlist, hand);
      if (u && !(u->flags & USER_UNSHARED)) {
-@@ -329,26 +333,33 @@
+@@ -336,26 +340,33 @@
    int bfl, ofl;
    module_entry *me;
  
@@ -190,7 +178,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
          if (par[0] && cst) {
 +	  int pchbm = 0;
 +	  if (!PERMIT_HUB(idx))
-+		pchbm = private_chanflags_bitmask();
++	  	pchbm = private_chanflags_bitmask();
            fr.match = (FR_CHAN | FR_BOT);
 +	  /* bot's sharing flags */
            get_user_flagrec(dcc[idx].user, &fr, par);
@@ -211,26 +199,26 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
              set_user_flagrec(u, &fr, par);
              check_dcc_chanattrs(u, par, fr.chan, fr2.chan);
              noshare = 0;
-@@ -365,7 +376,7 @@
+@@ -372,7 +383,7 @@
              putlog(LOG_CMDS, "*",
                     "Rejected flags for unshared channel %s from %s",
                     par, dcc[idx].nick);
 -        } else if (!private_global) {
-+	} else if (!private_global || PERMIT_HUB(idx)) {
++        } else if (!private_global || PERMIT_HUB(idx)) {
            int pgbm = private_globals_bitmask();
  
            /* Don't let bot flags be altered */
-@@ -384,15 +395,17 @@
+@@ -391,15 +402,18 @@
            if (!(dcc[idx].status & STAT_GETTING))
              putlog(LOG_CMDS, "*", "%s: chattr %s %s", dcc[idx].nick, hand, s);
            if ((me = module_find("irc", 0, 0))) {
 +	    struct chanset_t *tmpcst;
              Function *func = me->funcs;
--
+ 
 -            for (cst = chanset; cst; cst = cst->next)
 -              (func[IRC_RECHECK_CHANNEL]) (cst, 0);
 +            for (tmpcst = chanset; tmpcst; tmpcst = tmpcst->next)
-+		(func[IRC_RECHECK_CHANNEL]) (tmpcst, 0);
++              (func[IRC_RECHECK_CHANNEL]) (tmpcst, 0);
            }
          } else
            putlog(LOG_CMDS, "*", "Rejected global flags for %s from %s",
@@ -241,7 +229,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
        }
      }
    }
-@@ -404,7 +417,7 @@
+@@ -411,7 +425,7 @@
    struct chanset_t *chan;
    struct userrec *u;
  
@@ -250,7 +238,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
      user = newsplit(&par);
      if ((u = get_user_by_handle(userlist, user))) {
        chan = findchan_by_dname(par);
-@@ -433,7 +446,7 @@
+@@ -440,7 +454,7 @@
    struct chanset_t *chan;
    struct userrec *u;
  
@@ -259,7 +247,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
      user = newsplit(&par);
      if ((u = get_user_by_handle(userlist, user))) {
        chan = findchan_by_dname(par);
-@@ -459,13 +472,13 @@
+@@ -466,13 +480,13 @@
    char *nick, *host, *pass, s[100];
    struct userrec *u;
  
@@ -275,7 +263,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
        fr.global = 0;
  
        fr.match = FR_GLOBAL;
-@@ -510,9 +523,9 @@
+@@ -517,9 +531,9 @@
    struct userrec *u;
  
    /* If user is a share bot, ignore command */
@@ -287,7 +275,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
        !((u->flags & USER_BOT) && (bot_flags(u) & BOT_SHARE))) {
      noshare = 1;
      if (deluser(par)) {
-@@ -528,10 +541,10 @@
+@@ -535,10 +549,10 @@
    char *hand;
    struct userrec *u;
  
@@ -300,7 +288,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
        shareout_but(NULL, idx, "+h %s %s\n", hand, par);
        set_user(&USERENTRY_HOSTS, u, par);
        putlog(LOG_CMDS, "*", "%s: +host %s %s", dcc[idx].nick, hand, par);
-@@ -544,10 +557,10 @@
+@@ -551,10 +565,10 @@
    char *hand, p[32];
    struct userrec *u;
  
@@ -313,7 +301,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
        if (!(dcc[idx].status & STAT_GETTING))
          shareout_but(NULL, idx, "+bh %s %s\n", hand, par);
        /* Add bot to userlist if not there */
-@@ -570,10 +583,10 @@
+@@ -577,10 +591,10 @@
    char *hand;
    struct userrec *u;
  
@@ -326,7 +314,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
        shareout_but(NULL, idx, "-h %s %s\n", hand, par);
        noshare = 1;
        delhost_by_handle(hand, par);
-@@ -590,11 +603,11 @@
+@@ -597,11 +611,11 @@
    struct user_entry_type *uet;
    struct user_entry *e;
  
@@ -340,7 +328,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
        if (!(uet = find_entry_type(key)))
          /* If it's not a supported type, forget it */
          debug2("Ignore ch %s from %s (unknown type)", key, dcc[idx].nick);
-@@ -638,10 +651,10 @@
+@@ -645,10 +659,10 @@
    struct chanset_t *cst;
    struct userrec *u;
  
@@ -353,7 +341,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
        chan = newsplit(&par);
        cst = findchan_by_dname(chan);
        fr.match = (FR_CHAN | FR_BOT);
-@@ -2033,11 +2046,13 @@
+@@ -2039,11 +2053,13 @@
    {"private-global",  &private_global},
    {"private-user",      &private_user},
    {"override-bots", &overr_local_bots},
@@ -367,7 +355,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
    {NULL,              NULL,            0,  0}
  };
  
-@@ -2056,6 +2071,39 @@
+@@ -2062,6 +2078,38 @@
    {NULL,    NULL, NULL,                 NULL}
  };
  
@@ -403,11 +391,10 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
 +  {NULL,      NULL}
 +};
 +
-+
  static char *share_close()
  {
    int i;
-@@ -2088,6 +2136,7 @@
+@@ -2094,6 +2142,7 @@
    delay_free_mem();
    rem_tcl_ints(my_ints);
    rem_tcl_strings(my_strings);
@@ -415,7 +402,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
    rem_builtins(H_dcc, my_cmds);
    rem_help_reference("share.help");
    return NULL;
-@@ -2207,6 +2256,7 @@
+@@ -2213,6 +2262,7 @@
    DCC_BOT.kill = cancel_user_xfer;
    add_tcl_ints(my_ints);
    add_tcl_strings(my_strings);
@@ -423,7 +410,7 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
    add_builtins(H_dcc, my_cmds);
    uff_init();
    uff_addtable(internal_uff_table);
-@@ -2220,3 +2270,11 @@
+@@ -2226,3 +2276,11 @@
    break_down_flags(private_globals, &fr, 0);
    return fr.global;
  }
@@ -435,9 +422,9 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.c eggdrop1.6.15-multilevel_shar
 +	break_down_flags(private_chanflags, &fr, 0);
 +	return fr.chan;
 +}
-diff -burN eggdrop1.6.15/src/mod/share.mod/share.h eggdrop1.6.15-multilevel_sharing/src/mod/share.mod/share.h
---- eggdrop1.6.15/src/mod/share.mod/share.h	Mon May  5 00:05:33 2003
-+++ eggdrop1.6.15-multilevel_sharing/src/mod/share.mod/share.h	Fri May  9 19:11:25 2003
+diff -burN eggdrop1.6.17.orig/src/mod/share.mod/share.h eggdrop1.6.17/src/mod/share.mod/share.h
+--- eggdrop1.6.17.orig/src/mod/share.mod/share.h	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/src/mod/share.mod/share.h	2004-11-01 14:21:10.583858344 +0100
 @@ -52,6 +52,11 @@
                               * `priority'.                                   */
  } uff_table_t;
@@ -450,9 +437,9 @@ diff -burN eggdrop1.6.15/src/mod/share.mod/share.h eggdrop1.6.15-multilevel_shar
  #ifndef MAKING_SHARE
  /* 4 - 7 */
  #define finish_share ((void (*) (int))share_funcs[4])
-diff -burN eggdrop1.6.15/src/patch.h eggdrop1.6.15-multilevel_sharing/src/patch.h
---- eggdrop1.6.15/src/patch.h	Mon May  5 00:08:01 2003
-+++ eggdrop1.6.15-multilevel_sharing/src/patch.h	Fri May  9 19:11:50 2003
+diff -burN eggdrop1.6.17.orig/src/patch.h eggdrop1.6.17/src/patch.h
+--- eggdrop1.6.17.orig/src/patch.h	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/src/patch.h	2004-11-01 14:21:10.584858192 +0100
 @@ -36,7 +36,7 @@
   *
   *
