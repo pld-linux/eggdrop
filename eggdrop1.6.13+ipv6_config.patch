@@ -1,0 +1,15 @@
+--- eggdrop.conf	Wed Mar  5 13:32:10 2003
++++ eggdrop.conf.ipv6	Wed Mar  5 14:11:01 2003
+@@ -46,8 +46,12 @@
+ # may want to specify the particular IP to bind to. You can specify either
+ # by hostname or by IP. You may also want to set the hostname here if
+ # Eggdrop has trouble detecting it when it starts up.
++# If you're using IPv6, you may also specify it here. Just like with IPv4,
++# you can specify either by hostname or by IPv6 address.
+ #set my-hostname "virtual.host.com"
+ #set my-ip "99.99.0.0"
++#set my-hostname6 "virtual6.host.com"
++#set my-ip6 "::1"
+ 
+ # If you want to have your Eggdrop messages displayed in a language other
+ # than English, change this setting to match your preference. An alternative
