@@ -1,6 +1,6 @@
 diff -burN eggdrop1.6.17.orig/doc/tcl-commands.doc eggdrop1.6.17/doc/tcl-commands.doc
---- eggdrop1.6.17.orig/doc/tcl-commands.doc	2004-11-01 12:48:53.655599384 +0100
-+++ eggdrop1.6.17/doc/tcl-commands.doc	2004-11-01 13:31:31.033818800 +0100
+--- eggdrop1.6.17.orig/doc/tcl-commands.doc	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/doc/tcl-commands.doc	2004-11-01 14:21:10.565861080 +0100
 @@ -1258,6 +1258,17 @@
      Module: filesys
  
@@ -20,8 +20,8 @@ diff -burN eggdrop1.6.17.orig/doc/tcl-commands.doc eggdrop1.6.17/doc/tcl-command
  
    bind <type> <flags> <keyword/mask> [proc-name]
 diff -burN eggdrop1.6.17.orig/doc/USERS eggdrop1.6.17/doc/USERS
---- eggdrop1.6.17.orig/doc/USERS	2004-11-01 12:48:53.653599688 +0100
-+++ eggdrop1.6.17/doc/USERS	2004-11-01 13:31:31.035818496 +0100
+--- eggdrop1.6.17.orig/doc/USERS	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/doc/USERS	2004-11-01 14:21:10.567860776 +0100
 @@ -77,6 +77,11 @@
  
      u  (unshared)       user record is not sent to other bots.
@@ -35,8 +35,8 @@ diff -burN eggdrop1.6.17.orig/doc/USERS eggdrop1.6.17/doc/USERS
  
      All global flags other then u, h, b, c, x, j, and p are also
 diff -burN eggdrop1.6.17.orig/eggdrop.conf eggdrop1.6.17/eggdrop.conf
---- eggdrop1.6.17.orig/eggdrop.conf	2004-11-01 12:48:53.790578864 +0100
-+++ eggdrop1.6.17/eggdrop.conf	2004-11-01 13:31:31.038818040 +0100
+--- eggdrop1.6.17.orig/eggdrop.conf	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/eggdrop.conf	2004-11-01 14:21:10.570860320 +0100
 @@ -1145,11 +1145,21 @@
  # changes from other bots should be ignored?
  #set private-globals "mnot"
@@ -60,8 +60,8 @@ diff -burN eggdrop1.6.17.orig/eggdrop.conf eggdrop1.6.17/eggdrop.conf
  # the ones sent by the hub.
  # NOTE: No passwords or botflags are shared, only ports and
 diff -burN eggdrop1.6.17.orig/help/cmds2.help eggdrop1.6.17/help/cmds2.help
---- eggdrop1.6.17.orig/help/cmds2.help	2004-11-01 12:48:53.771581752 +0100
-+++ eggdrop1.6.17/help/cmds2.help	2004-11-01 13:31:31.040817736 +0100
+--- eggdrop1.6.17.orig/help/cmds2.help	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/help/cmds2.help	2004-11-01 14:21:10.572860016 +0100
 @@ -372,6 +372,7 @@
        %bp%b - party-line (user has access to the partyline)
        %bq%b - quiet (user cannot gain voice on any channel)
@@ -71,8 +71,8 @@ diff -burN eggdrop1.6.17.orig/help/cmds2.help eggdrop1.6.17/help/cmds2.help
        %bu%b - unshared (user's user record is not sent to other bots)
        %bv%b - voice (user gets +v automatically on +autovoice channels)
 diff -burN eggdrop1.6.17.orig/src/cmds.c eggdrop1.6.17/src/cmds.c
---- eggdrop1.6.17.orig/src/cmds.c	2004-11-01 12:48:53.752584640 +0100
-+++ eggdrop1.6.17/src/cmds.c	2004-11-01 13:31:31.044817128 +0100
+--- eggdrop1.6.17.orig/src/cmds.c	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/src/cmds.c	2004-11-01 14:21:10.576859408 +0100
 @@ -1551,8 +1551,8 @@
        mns.chan &= ~(BOT_SHARE);
      }
@@ -85,8 +85,8 @@ diff -burN eggdrop1.6.17.orig/src/cmds.c eggdrop1.6.17/src/cmds.c
        if (chan) {
          pls.chan &= ~USER_OWNER;
 diff -burN eggdrop1.6.17.orig/src/flags.h eggdrop1.6.17/src/flags.h
---- eggdrop1.6.17.orig/src/flags.h	2004-11-01 12:48:53.751584792 +0100
-+++ eggdrop1.6.17/src/flags.h	2004-11-01 13:31:31.047816672 +0100
+--- eggdrop1.6.17.orig/src/flags.h	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/src/flags.h	2004-11-01 14:21:10.577859256 +0100
 @@ -44,8 +44,8 @@
  
  /*
@@ -125,8 +125,8 @@ diff -burN eggdrop1.6.17.orig/src/flags.h eggdrop1.6.17/src/flags.h
  #define bot_global(x)           ((x).bot & BOT_GLOBAL)
  #define bot_chan(x)             ((x).chan & BOT_AGGRESSIVE)
 diff -burN eggdrop1.6.17.orig/src/mod/share.mod/share.c eggdrop1.6.17/src/mod/share.mod/share.c
---- eggdrop1.6.17.orig/src/mod/share.mod/share.c	2004-11-01 12:48:53.712590720 +0100
-+++ eggdrop1.6.17/src/mod/share.mod/share.c	2004-11-01 13:32:23.849789552 +0100
+--- eggdrop1.6.17.orig/src/mod/share.mod/share.c	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/src/mod/share.mod/share.c	2004-11-01 14:27:44.822924896 +0100
 @@ -50,11 +50,14 @@
  static int private_global = 0;
  static int private_user = 0;
@@ -355,11 +355,10 @@ diff -burN eggdrop1.6.17.orig/src/mod/share.mod/share.c eggdrop1.6.17/src/mod/sh
    {NULL,              NULL,            0,  0}
  };
  
-@@ -2062,7 +2078,38 @@
+@@ -2062,6 +2078,38 @@
    {NULL,    NULL, NULL,                 NULL}
  };
  
--static char *share_close()
 +static int tcl_noshare STDVAR
 +{
 +  int res;
@@ -390,12 +389,12 @@ diff -burN eggdrop1.6.17.orig/src/mod/share.mod/share.c eggdrop1.6.17/src/mod/sh
 +{
 +  {"noshare", tcl_noshare},
 +  {NULL,      NULL}
++};
 +
-+  static char *share_close()
+ static char *share_close()
  {
    int i;
-   tandbuf *t, *tnext = NULL;
-@@ -2094,6 +2141,7 @@
+@@ -2094,6 +2142,7 @@
    delay_free_mem();
    rem_tcl_ints(my_ints);
    rem_tcl_strings(my_strings);
@@ -403,7 +402,7 @@ diff -burN eggdrop1.6.17.orig/src/mod/share.mod/share.c eggdrop1.6.17/src/mod/sh
    rem_builtins(H_dcc, my_cmds);
    rem_help_reference("share.help");
    return NULL;
-@@ -2213,6 +2261,7 @@
+@@ -2213,6 +2262,7 @@
    DCC_BOT.kill = cancel_user_xfer;
    add_tcl_ints(my_ints);
    add_tcl_strings(my_strings);
@@ -411,7 +410,7 @@ diff -burN eggdrop1.6.17.orig/src/mod/share.mod/share.c eggdrop1.6.17/src/mod/sh
    add_builtins(H_dcc, my_cmds);
    uff_init();
    uff_addtable(internal_uff_table);
-@@ -2226,3 +2275,11 @@
+@@ -2226,3 +2276,11 @@
    break_down_flags(private_globals, &fr, 0);
    return fr.global;
  }
@@ -424,8 +423,8 @@ diff -burN eggdrop1.6.17.orig/src/mod/share.mod/share.c eggdrop1.6.17/src/mod/sh
 +	return fr.chan;
 +}
 diff -burN eggdrop1.6.17.orig/src/mod/share.mod/share.h eggdrop1.6.17/src/mod/share.mod/share.h
---- eggdrop1.6.17.orig/src/mod/share.mod/share.h	2004-11-01 12:48:53.713590568 +0100
-+++ eggdrop1.6.17/src/mod/share.mod/share.h	2004-11-01 13:31:31.054815608 +0100
+--- eggdrop1.6.17.orig/src/mod/share.mod/share.h	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/src/mod/share.mod/share.h	2004-11-01 14:21:10.583858344 +0100
 @@ -52,6 +52,11 @@
                               * `priority'.                                   */
  } uff_table_t;
@@ -439,8 +438,8 @@ diff -burN eggdrop1.6.17.orig/src/mod/share.mod/share.h eggdrop1.6.17/src/mod/sh
  /* 4 - 7 */
  #define finish_share ((void (*) (int))share_funcs[4])
 diff -burN eggdrop1.6.17.orig/src/patch.h eggdrop1.6.17/src/patch.h
---- eggdrop1.6.17.orig/src/patch.h	2004-11-01 12:48:53.765582664 +0100
-+++ eggdrop1.6.17/src/patch.h	2004-11-01 13:31:31.056815304 +0100
+--- eggdrop1.6.17.orig/src/patch.h	2004-11-01 12:48:53.000000000 +0100
++++ eggdrop1.6.17/src/patch.h	2004-11-01 14:21:10.584858192 +0100
 @@ -36,7 +36,7 @@
   *
   *
