@@ -11,7 +11,7 @@ Source1:	eggdrop.sh
 Patch:		eggdrop-pld.patch
 URL:		http://www.eggdrop.net/
 Requires:	tcl
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Eggdrop is an IRC bot, written in C.  If you don't know what IRC is,
