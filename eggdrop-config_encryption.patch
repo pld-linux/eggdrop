@@ -1,6 +1,7 @@
---- eggdrop.conf	Mon Nov 18 06:39:34 2002
-+++ eggdrop.conf.encryption	Tue Mar 18 23:52:35 2003
-@@ -1265,14 +1265,18 @@
+diff -urN eggdrop1.6.15/eggdrop.conf eggdrop1.6.15-config_encryption/eggdrop.conf
+--- eggdrop1.6.15/eggdrop.conf	Mon May  5 00:05:32 2003
++++ eggdrop1.6.15-config_encryption/eggdrop.conf	Tue May  6 15:44:42 2003
+@@ -1273,15 +1273,18 @@
  #loadmodule seen
  
  
@@ -14,9 +15,10 @@
  # userfile anymore. Eggdrop will not start without an encryption module.
 +# Choose only one of the following
  #loadmodule blowfish
+-
 +#loadmodule idea
 +#loadmodule twofish
 +#loadmodule rijndael
  
- 
  #### ASSOC MODULE ####
+ 
