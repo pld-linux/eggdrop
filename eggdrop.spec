@@ -60,6 +60,7 @@ Patch3:		ftp://ftp.eggheads.org/pub/%{name}/patches/1.6/topicprot%{version}.patc
 Patch4:		%{name}-config_encryption.patch
 # This one fixes eggdrop botchk/autobotchk scripts
 Patch5:		%{name}-autobotchk.patch
+Patch6:		%{name}-ac_fix.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	tcl-devel
 Requires:	tcl
@@ -150,23 +151,24 @@ Eggdrop находится на канале в целях оказания защитных мер:
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p0
 
 %build
-#CFLAGS="%{rpmcflags}"; export CFLAGS
-# There is no sense in using configure macro, as the eggdrop makes no use
-# of provided settings, or at least of those given with --*dir options
-# HUMPF! At least one thing sucks: 
-# eggdrop's configure thingie, or my linux knowledge.
-#./configure --enable-ipv6
-#%{__aclocal}
-#%{__autoconf}
-#%{__autoheader}
-#cd src/mod/compress.mod
-#%{__autoconf}
-#cd ../dns.mod
-#%{__autoconf}
-#cd ../../..
-%configure2_13 --enable-ipv6
+# Author of eggdrop should go read some docs... a lot of docs
+# It's either ipv6 support or async dns module... I don't know which is more
+# important so I disabled ipv6... anybody cares to correct me? -- mmazur
+mv aclocal.m4 acinclude.m4
+%{__aclocal}
+%{__autoheader}
+%{__autoconf}
+cd src/mod/compress.mod
+%{__autoconf}
+%configure
+cd ../dns.mod
+%{__autoconf}
+%configure #--enable-ipv6
+cd ../../..
+%configure #--enable-ipv6
 %{__make} config
 %{__make}
 
