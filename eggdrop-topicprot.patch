@@ -51,7 +51,7 @@ diff -burN eggdrop1.6.17.orig/src/mod/channels.mod/channels.c eggdrop1.6.17/src/
      convert_element(chan->dname, name);
      get_mode_protect(chan, w);
      convert_element(w, w2);
-+    convert-element(chan->topic_prot, topic);
++    convert_element(chan->topic_prot, topic);
      convert_element(chan->need_op, need1);
      convert_element(chan->need_invite, need2);
      convert_element(chan->need_key, need3);
