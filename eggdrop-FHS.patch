@@ -1,6 +1,6 @@
-diff -Nur eggdrop1.6.13/INSTALL eggdrop1.6.13-FHS/INSTALL
---- eggdrop1.6.13/INSTALL	Sat Sep 28 00:16:24 2002
-+++ eggdrop1.6.13-FHS/INSTALL	Fri Dec 20 21:37:02 2002
+diff -urN eggdrop1.6.15/INSTALL eggdrop1.6.15-FHS/INSTALL
+--- eggdrop1.6.15/INSTALL	Mon May  5 00:05:32 2003
++++ eggdrop1.6.15-FHS/INSTALL	Mon May  5 17:55:48 2003
 @@ -61,11 +61,11 @@
  
           If you want to install to a different directory, use:
@@ -15,9 +15,9 @@ diff -Nur eggdrop1.6.13/INSTALL eggdrop1.6.13-FHS/INSTALL
  
           Note that you must use full path for every file to be correctly
           installed.
-diff -Nur eggdrop1.6.13/Makefile.in eggdrop1.6.13-FHS/Makefile.in
---- eggdrop1.6.13/Makefile.in	Fri Nov 22 22:53:40 2002
-+++ eggdrop1.6.13-FHS/Makefile.in	Fri Dec 20 21:45:37 2002
+diff -urN eggdrop1.6.15/Makefile.in eggdrop1.6.15-FHS/Makefile.in
+--- eggdrop1.6.15/Makefile.in	Mon May  5 00:05:32 2003
++++ eggdrop1.6.15-FHS/Makefile.in	Mon May  5 17:55:48 2003
 @@ -11,7 +11,7 @@
  
  @SET_MAKE@
@@ -227,10 +227,10 @@ diff -Nur eggdrop1.6.13/Makefile.in eggdrop1.6.13-FHS/Makefile.in
  	@echo ""
  
  #safety hash
-diff -Nur eggdrop1.6.13/configure eggdrop1.6.13-FHS/configure
---- eggdrop1.6.13/configure	Fri Nov 22 22:50:58 2002
-+++ eggdrop1.6.13-FHS/configure	Fri Dec 20 21:47:24 2002
-@@ -6956,9 +6956,9 @@
+diff -urN eggdrop1.6.15/configure eggdrop1.6.15-FHS/configure
+--- eggdrop1.6.15/configure	Mon May  5 00:08:25 2003
++++ eggdrop1.6.15-FHS/configure	Mon May  5 17:55:48 2003
+@@ -7256,9 +7256,9 @@
  #define EGG_VERSION $egg_version_num
  _ACEOF
  
@@ -242,7 +242,7 @@ diff -Nur eggdrop1.6.13/configure eggdrop1.6.13-FHS/configure
  fi
  
  case "$srcdir" in
-@@ -7621,7 +7621,7 @@
+@@ -7922,7 +7922,7 @@
  s,@TCL_REQS@,$TCL_REQS,;t t
  s,@TCL_LIBS@,$TCL_LIBS,;t t
  s,@EGGVERSION@,$EGGVERSION,;t t
@@ -251,9 +251,9 @@ diff -Nur eggdrop1.6.13/configure eggdrop1.6.13-FHS/configure
  s,@MOD_UPDIR@,$MOD_UPDIR,;t t
  s,@LIBOBJS@,$LIBOBJS,;t t
  s,@LTLIBOBJS@,$LTLIBOBJS,;t t
-diff -Nur eggdrop1.6.13/doc/Makefile.in eggdrop1.6.13-FHS/doc/Makefile.in
---- eggdrop1.6.13/doc/Makefile.in	Sat Mar  9 22:14:14 2002
-+++ eggdrop1.6.13-FHS/doc/Makefile.in	Fri Dec 20 21:48:00 2002
+diff -urN eggdrop1.6.15/doc/Makefile.in eggdrop1.6.15-FHS/doc/Makefile.in
+--- eggdrop1.6.15/doc/Makefile.in	Mon May  5 00:05:32 2003
++++ eggdrop1.6.15-FHS/doc/Makefile.in	Mon May  5 17:55:48 2003
 @@ -35,37 +35,37 @@
  	@rm -f *~
  
@@ -305,9 +305,9 @@ diff -Nur eggdrop1.6.13/doc/Makefile.in eggdrop1.6.13-FHS/doc/Makefile.in
  		done; \
  	fi
  
-diff -Nur eggdrop1.6.13/doc/html/faqs.html eggdrop1.6.13-FHS/doc/html/faqs.html
---- eggdrop1.6.13/doc/html/faqs.html	Thu Jun  6 20:15:52 2002
-+++ eggdrop1.6.13-FHS/doc/html/faqs.html	Sat Dec 21 08:55:14 2002
+diff -urN eggdrop1.6.15/doc/html/faqs.html eggdrop1.6.15-FHS/doc/html/faqs.html
+--- eggdrop1.6.15/doc/html/faqs.html	Mon May  5 00:05:32 2003
++++ eggdrop1.6.15-FHS/doc/html/faqs.html	Mon May  5 17:55:48 2003
 @@ -264,7 +264,7 @@
  
            <li>
@@ -317,9 +317,9 @@ diff -Nur eggdrop1.6.13/doc/html/faqs.html eggdrop1.6.13-FHS/doc/html/faqs.html
              and install your bot.</p>
            </li>
  
-diff -Nur eggdrop1.6.13/doc/html/install.html eggdrop1.6.13-FHS/doc/html/install.html
---- eggdrop1.6.13/doc/html/install.html	Sat Sep 28 00:16:24 2002
-+++ eggdrop1.6.13-FHS/doc/html/install.html	Sat Dec 21 08:52:07 2002
+diff -urN eggdrop1.6.15/doc/html/install.html eggdrop1.6.15-FHS/doc/html/install.html
+--- eggdrop1.6.15/doc/html/install.html	Mon May  5 00:05:32 2003
++++ eggdrop1.6.15-FHS/doc/html/install.html	Mon May  5 17:55:48 2003
 @@ -96,13 +96,13 @@
         <p>If you want to install to a different directory, use:</p>
  
@@ -336,9 +336,9 @@ diff -Nur eggdrop1.6.13/doc/html/install.html eggdrop1.6.13-FHS/doc/html/install
         </blockquote>
  
         <p>Note that you must use full path for every file to be correctly
-diff -Nur eggdrop1.6.13/doc/html/readme.html eggdrop1.6.13-FHS/doc/html/readme.html
---- eggdrop1.6.13/doc/html/readme.html	Sat Sep 28 00:16:24 2002
-+++ eggdrop1.6.13-FHS/doc/html/readme.html	Sat Dec 21 08:53:33 2002
+diff -urN eggdrop1.6.15/doc/html/readme.html eggdrop1.6.15-FHS/doc/html/readme.html
+--- eggdrop1.6.15/doc/html/readme.html	Mon May  5 00:05:32 2003
++++ eggdrop1.6.15-FHS/doc/html/readme.html	Mon May  5 17:55:48 2003
 @@ -261,7 +261,7 @@
      <blockquote>
        <p>If you followed <a href="install.html">Compilation and
@@ -348,9 +348,9 @@ diff -Nur eggdrop1.6.13/doc/html/readme.html eggdrop1.6.13-FHS/doc/html/readme.h
        this will be pretty easy. Just upload the new eggdrop1.6.x.tar.gz file
        to your home dir on your shell, gunzip and untar it, and type &#39;cd
        ~/eggdrop1.6.x&#39;. Next, type &#39;./configure&#39;, &#39;make
-diff -Nur eggdrop1.6.13/doc/html/starting.html eggdrop1.6.13-FHS/doc/html/starting.html
---- eggdrop1.6.13/doc/html/starting.html	Wed Jan  2 09:06:14 2002
-+++ eggdrop1.6.13-FHS/doc/html/starting.html	Sat Dec 21 08:53:21 2002
+diff -urN eggdrop1.6.15/doc/html/starting.html eggdrop1.6.15-FHS/doc/html/starting.html
+--- eggdrop1.6.15/doc/html/starting.html	Mon May  5 00:05:32 2003
++++ eggdrop1.6.15-FHS/doc/html/starting.html	Mon May  5 17:55:48 2003
 @@ -91,7 +91,7 @@
      Eggdrop, you just have to do:</p>
  
@@ -360,16 +360,16 @@ diff -Nur eggdrop1.6.13/doc/html/starting.html eggdrop1.6.13-FHS/doc/html/starti
      </blockquote>
  
      <p>and it will copy all the necessary files.</p>
-diff -Nur eggdrop1.6.13/eggdrop.conf eggdrop1.6.13-FHS/eggdrop.conf
---- eggdrop1.6.13/eggdrop.conf	Mon Nov 18 06:39:34 2002
-+++ eggdrop1.6.13-FHS/eggdrop.conf	Fri Dec 20 22:02:32 2002
+diff -urN eggdrop1.6.15/eggdrop.conf eggdrop1.6.15-FHS/eggdrop.conf
+--- eggdrop1.6.15/eggdrop.conf	Mon May  5 00:05:32 2003
++++ eggdrop1.6.15-FHS/eggdrop.conf	Mon May  5 17:55:48 2003
 @@ -1,4 +1,4 @@
 -#! /path/to/executable/eggdrop
 +#!/usr/bin/eggdrop
  # ^- This should contain a fully qualified path to your Eggdrop executable.
  #
  # $Id$
-@@ -163,22 +163,22 @@
+@@ -187,22 +187,22 @@
  
  # Specify here where Eggdrop should look for help files. Don't modify this
  # setting unless you know what you're doing!
@@ -396,7 +396,7 @@ diff -Nur eggdrop1.6.13/eggdrop.conf eggdrop1.6.13-FHS/eggdrop.conf
  
  # This specifies what permissions the user, channel, and notes files should
  # be set to. The octal values are the same as for the chmod system command.
-@@ -396,7 +396,7 @@
+@@ -422,7 +422,7 @@
  # If you run the bot from the compilation directory, you will want to set
  # this to "". If you use 'make install' (like all good kiddies do ;), this
  # is a fine default. Otherwise, use your head :)
@@ -405,7 +405,7 @@ diff -Nur eggdrop1.6.13/eggdrop.conf eggdrop1.6.13-FHS/eggdrop.conf
  
  
  #### DNS MODULE ####
-@@ -1312,17 +1312,17 @@
+@@ -1320,17 +1320,17 @@
  # directory. All scripts should be put there, although you can place them where
  # you like as long as you can supply a fully qualified path to them.
  #
@@ -428,9 +428,9 @@ diff -Nur eggdrop1.6.13/eggdrop.conf eggdrop1.6.13-FHS/eggdrop.conf
 -source scripts/userinfo.tcl
 +source /usr/share/eggdrop/scripts/userinfo.tcl
  loadhelp userinfo.help
-diff -Nur eggdrop1.6.13/scripts/Makefile.in eggdrop1.6.13-FHS/scripts/Makefile.in
---- eggdrop1.6.13/scripts/Makefile.in	Wed Nov  8 20:52:38 2000
-+++ eggdrop1.6.13-FHS/scripts/Makefile.in	Fri Dec 20 21:48:58 2002
+diff -urN eggdrop1.6.15/scripts/Makefile.in eggdrop1.6.15-FHS/scripts/Makefile.in
+--- eggdrop1.6.15/scripts/Makefile.in	Mon May  5 00:05:32 2003
++++ eggdrop1.6.15-FHS/scripts/Makefile.in	Mon May  5 17:55:48 2003
 @@ -31,44 +31,44 @@
  	@rm -f *~
  
@@ -490,22 +490,22 @@ diff -Nur eggdrop1.6.13/scripts/Makefile.in eggdrop1.6.13-FHS/scripts/Makefile.i
  			done; \
  		fi; \
  	fi
-diff -Nur eggdrop1.6.13/src/eggdrop.h eggdrop1.6.13-FHS/src/eggdrop.h
---- eggdrop1.6.13/src/eggdrop.h	Sat Sep 21 23:32:06 2002
-+++ eggdrop1.6.13-FHS/src/eggdrop.h	Fri Dec 27 11:26:57 2002
-@@ -75,7 +75,7 @@
+diff -urN eggdrop1.6.15/src/eggdrop.h eggdrop1.6.15-FHS/src/eggdrop.h
+--- eggdrop1.6.15/src/eggdrop.h	Mon May  5 00:05:32 2003
++++ eggdrop1.6.15-FHS/src/eggdrop.h	Mon May  5 17:57:01 2003
+@@ -85,7 +85,7 @@
+ 
  
  /* Language stuff */
- 
--#define LANGDIR	"./language"	/* language file directory		*/
-+#define LANGDIR	"/usr/share/eggdrop/language"	/* language file directory		*/
- #define BASELANG "english"	/* language which always gets loaded
- 				   before all other languages. You do
- 				   not want to change this.		*/
-diff -Nur eggdrop1.6.13/src/mod/Makefile.in eggdrop1.6.13-FHS/src/mod/Makefile.in
---- eggdrop1.6.13/src/mod/Makefile.in	Thu Dec 21 21:20:04 2000
-+++ eggdrop1.6.13-FHS/src/mod/Makefile.in	Fri Dec 20 21:49:58 2002
-@@ -121,50 +121,50 @@
+-#define LANGDIR  "./language" /* language file directory                   */
++#define LANGDIR  "/usr/share/eggdrop/language" /* language file directory                   */
+ #define BASELANG "english"    /* language which always gets loaded before 
+                                  all other languages. You do not want to
+                                  change this.                              */
+diff -urN eggdrop1.6.15/src/mod/Makefile.in eggdrop1.6.15-FHS/src/mod/Makefile.in
+--- eggdrop1.6.15/src/mod/Makefile.in	Mon May  5 00:05:32 2003
++++ eggdrop1.6.15-FHS/src/mod/Makefile.in	Mon May  5 17:55:48 2003
+@@ -122,50 +122,50 @@
  
  install-help:
  	@echo "Copying module help files."
