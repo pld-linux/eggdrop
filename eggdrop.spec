@@ -34,9 +34,10 @@ wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 %patch0 -p1
 
 %build
+export CFLAGS="%{rpmcflags}"
 ./configure
 %{__make} config
-%{__make}
+%{__make} 
 
 %install
 rm -rf $RPM_BUILD_ROOT
