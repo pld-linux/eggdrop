@@ -63,6 +63,7 @@ Patch5:		%{name}-autobotchk.patch
 Patch6:		%{name}-ac_fix.patch
 # Taken from www.egghelp.org
 Patch7:		%{name}-ssl.patch
+Patch8:		%{name}-amd64.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -157,6 +158,7 @@ Eggdrop находится на канале в целях оказания защитных мер:
 %patch5 -p1
 %patch6 -p0
 %patch7 -p1
+%patch8 -p1
 
 %build
 # Author of eggdrop should go read some docs... a lot of docs
