@@ -3,11 +3,11 @@ Summary(pl):	Eggdrop jest botem IRC napisanym w C
 Summary(pt_BR):	Bot de IRC escrito em C
 Summary(ru_RU.KOI8-R): Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
-Version:	1.6.13
-Release:	4
+Version:	1.6.15
+Release:	0.1
 License:	GPL
 Group:		Applications/Communications
-Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.gz
+Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
 # PLD docs - information about changes.
 Source1:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.en
 Source2:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.pl
@@ -33,26 +33,18 @@ Source27:	%{name}-module-idea-1.0.0.tar.gz
 Source28:	%{name}-module-twofish-1.0.tar.gz
 Source29:	%{name}-module-rijndael-1.0.tar.gz
 Patch0:		%{name}-FHS.patch
-# Unofficial IPv6 patch
-Patch1:		http://www.egghelp.org/files/patches/%{name}%{version}+ipv6.patch.gz
-# Adds IPv6 variables to config file
-Patch2:		%{name}%{version}+ipv6_config.patch
-# Adds additional docs
-Patch3:		%{name}-doc_makefile.patch
+Patch1:		%{name}-doc_makefile.patch
 # Multilevel sharing patch - now it is possible to create *secure* multilevel
 # botnets, each bot will only accept changes to userlist from bot that acts as
 # hub to him, and rejects changes from leaves
-Patch4:		%{name}%{version}-multilevel_sharing.patch.gz
-# Unlinkedby patch - when unlinking bot from botnet, adds nickname of a person
-# that issues .unlink command to a broadcasted message
-Patch5:		%{name}%{version}-unlinkedby.patch
+Patch2:		%{name}-multilevel_sharing.patch.gz
 # Topicprot - protects channel topic from being changed
 # This patch was a bit modified to apply to eggdrop1.6.13
-Patch6:		%{name}%{version}-topicprot.patch
+Patch3:		%{name}-topicprot.patch
 # Adds information about additional encryption modules to config file
-Patch7:		%{name}-config_encryption.patch
+Patch4:		%{name}-config_encryption.patch
 # This one fixes eggdrop botchk/autobotchk scripts
-Patch8:		%{name}%{version}-autobotchk.patch
+Patch5:		%{name}-autobotchk.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	tcl-devel
 Requires:	tcl
@@ -140,14 +132,12 @@ Eggdrop находится на канале в целях оказания защитных мер:
 %prep
 %setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a29
 %patch0 -p1
-%patch1 -p1
-%patch2 -p0
-%patch3 -p0
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p0
-%patch8 -p1
+%patch1 -p0
+#%patch2 -p1
+#%patch3 -p1
+#%patch4 -p1
+%patch5 -p0
+#%patch6 -p1
 
 %build
 CFLAGS="%{rpmcflags}"; export CFLAGS
