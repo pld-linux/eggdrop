@@ -1,12 +1,13 @@
 Summary:	Eggdrop is an IRC bot, written in C
 Summary(pl):	Eggdrop jest botem IRC napisanym w C
 Name:		eggdrop
-Version:	1.6.10
+Version:	1.6.13
 Release:	1
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://www.eggdropsrus.co.uk/downloads/eggdrop/%{name}%{version}.tar.gz
-Source0:	http://ving.edunet.pl/files/%{name}%{version}.tar.gz
+#Source0:	http://ving.edunet.pl/files/%{name}%{version}.tar.gz
+Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.gz
 Patch0:		%{name}-FHS.patch
 URL:		http://www.eggdrop.net/
 Requires:	tcl
@@ -37,7 +38,7 @@ wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 export CFLAGS="%{rpmcflags}"
 ./configure
 %{__make} config
-%{__make} 
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -49,13 +50,13 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_datadir}/%{n
 cp $RPM_BUILD_ROOT/%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
 
 find $RPM_BUILD_ROOT/doc -type f | egrep -v "(\.html$|\.htm$)" | xargs gzip -9nf
-gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT/%{name}.{simple,complete,advanced}.conf
+gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT/%{name}.conf
 
 cp $RPM_BUILD_ROOT/doc/man1/%{name}.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/%{name}.1.gz
 rm -r $RPM_BUILD_ROOT/doc/man1
 
 cp -a $RPM_BUILD_ROOT/README.gz \
-	$RPM_BUILD_ROOT/%{name}.{simple,complete,advanced}.conf.gz \
+	$RPM_BUILD_ROOT/%{name}.conf.gz \
 	$RPM_BUILD_ROOT/doc/* \
 	$RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}/
 
