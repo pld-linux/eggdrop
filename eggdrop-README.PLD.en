@@ -1,0 +1,66 @@
+$Revision$, $Date$
+
+This file contains information about changes to vanilla eggdrop.
+
+All of mentioned files are available at http://cvs.pld.org.pl/SOURCES/
+
+Following patches were applied:
+* eggdrop-FHS.patch available at 
+  http://pld.mysza.eu.org/sources/eggdrop-FHS.patch
+  This patch modifies various files from eggdrop archive to be more compatible
+  with Filesystem Hierarchy Standard.
+  
+* eggdrop1.6.13+ipv6.patch.gz taken from
+  http://www.egghelp.org/files/patches/eggdrop1.6.3+ipv6.patch.gz
+  This patch adds IPv6 support to Eggdrop.
+
+* eggdrop1.6.13+ipv6_config.patch available at
+  http://pld.mysza.eu.org/sources/eggdrop1.6.13+ipv6_config.patch
+  This patch adds new variables(my-hostname6 and my-ip6) to config file.
+  
+* eggdrop-doc_makefile.patch available at
+  http://pld.mysza.eu.org/sources/eggdrop-doc_makefile.patch
+  This patch modifies doc/Makefile.in to install additional docs.
+  
+* eggdrop1.6.13-multilevel_sharing.patch.gz available at
+  ftp://ftp.eggheads.org/pub/eggdrop/patches/1.6/multilevel_sharing1.6.13.patch.gz
+  (file was renamed, not modified in any way)
+  This patch adds additional settins which makes your botnet more secure - bot 
+  can now accept changes to userlist only from hub, and discart any changes
+  sent by its leaves
+  
+* eggdrop1.6.13-unlinkedby.patch available at
+  ftp://ftp.eggheads.org/pub/eggdrop/patches/1.6/unlinkedby1.6.13.patch
+  (file was only renamed, not modified in any way)
+  This patch extends message broadcasted to botnet when unlinking bot with
+  nickname of a person who performs .unlink 
+
+  
+Following language packs were added:
+* danish 
+* finnish
+* italian
+* norwegian
+* portuguese
+* portuguese_br
+* romanian
+  Each language pack is available at 
+  http://pld.mysza.eu.org/sources/eggdrop-language-{language}.tar.gz
+  They were taken from http://www.egghelp.org/ and repackaged
+  
+Following additional modules were added:
+* away 1.0
+* botnetop 1.0.1
+* fakebotnet 1.3
+* gseen 1.1.0
+* irctree 1.1
+* megahal 2.5
+* stats 1.3.3dev1
+  Each module is avaiable at
+  http://pld.mysza.eu.org/sources/eggdrop-module-{module}-{version}.tar.gz
+  They were taken from various places, including:
+  * http://www.visions-of-fantasy.de/
+  * http://johoho.eggheads.org/
+  * ftp://ftp.eggheads.org/
+  They can be easily found using google.
+
