@@ -1,6 +1,6 @@
 Summary:	Eggdrop is an IRC bot, written in C
 Summary(pl):	Eggdrop jest botem IRC napisanym w C
-Summary(pt_BR): Bot de IRC escrito em C
+Summary(pt_BR):	Bot de IRC escrito em C
 Name:		eggdrop
 Version:	1.6.13
 Release:	4
@@ -10,8 +10,8 @@ Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.gz
 # PLD docs - information about changes.
 Source1:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.en
 Source2:	http://pld.mysza.eu.org/sources/%{name}-README.PLD.pl
-# In order to unify filenames, following language packs and third-party modules were 
-# repackaged. Some files were renamed, but none modified. Original archives can be 
+# In order to unify filenames, following language packs and third-party modules were
+# repackaged. Some files were renamed, but none modified. Original archives can be
 # found by looking at http://www.egghelp.org/
 Source10:	%{name}-language-danish.tar.gz
 Source11:	%{name}-language-finnish.tar.gz
@@ -39,7 +39,7 @@ Patch2:		%{name}%{version}+ipv6_config.patch
 # Adds additional docs
 Patch3:		%{name}-doc_makefile.patch
 # Multilevel sharing patch - now it is possible to create *secure* multilevel
-# botnets, each bot will only accept changes to userlist from bot that acts as 
+# botnets, each bot will only accept changes to userlist from bot that acts as
 # hub to him, and rejects changes from leaves
 Patch4:		%{name}%{version}-multilevel_sharing.patch.gz
 # Unlinkedby patch - when unlinking bot from botnet, adds nickname of a person
@@ -62,10 +62,10 @@ bot, sits on a channel and takes protective measures: to keep the
 channel from being taken over (in the few ways that anything CAN), to
 recognize banished users or sites and reject them, to recognize
 privileged users and let them gain ops, etc. Eggdrop also contains
-many modules and scripts, for example for sending files.
-Here is the list of new features as opposed to vanilla eggdrop:
-* Built-in IPv6 support
-* Additional modules, including:
+many modules and scripts, for example for sending files. Here is the
+list of new features as opposed to vanilla eggdrop:
+- Built-in IPv6 support
+- Additional modules, including:
   - away
   - botnetop
   - fakebotnet
@@ -74,7 +74,7 @@ Here is the list of new features as opposed to vanilla eggdrop:
   - megahal
   - stats
   - three new encryption modules: idea, twofish, rijndael
-* Additional language packs:
+- Additional language packs:
   - dannish
   - finnish
   - italian
@@ -82,9 +82,8 @@ Here is the list of new features as opposed to vanilla eggdrop:
   - portuguese
   - brazillian portuguese
   - romanian
-* Various small patches were applied
-For more information, see README.PLD.en file located under
-%{_docdir}/%{name}-%{version}
+- Various small patches were applied For more information, see
+  README.PLD.en file located under %{_docdir}/%{name}-%{version}
 
 %description -l pl
 Eggdrop jest IRCowym botem napisanym w C. Eggdrop, bêd±c botem jest na
@@ -93,8 +92,8 @@ nadawaniem odpowiednich przywilejów zarejestrowanym u¿ytkownikom,
 pilnowanie tzw. banów itp. Eggdrop poza tymi funkcjami posiada tak¿e
 wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 Oto lista nowych mo¿liwo¶ci w odró¿nieniu od 'czystego' eggdropa:
-* Wbudowane wsparcie dla IPv6
-* Dodatkowe modu³y, takie jak:
+- Wbudowane wsparcie dla IPv6
+- Dodatkowe modu³y, takie jak:
   - away
   - botnetop
   - fakebotnet
@@ -103,7 +102,7 @@ Oto lista nowych mo¿liwo¶ci w odró¿nieniu od 'czystego' eggdropa:
   - megahal
   - stats
   - trzy nowe modu³y szyfruj±ce: idea, twofish, rijndael
-* Dodatkowe 
+- Dodatkowe
   - duñski
   - fiñski
   - w³oski
@@ -111,17 +110,18 @@ Oto lista nowych mo¿liwo¶ci w odró¿nieniu od 'czystego' eggdropa:
   - portugalski
   - brazylijska odmiana portugalskiego
   - rumuñski
-* Zaaplikowano rózne mniejsze lub wiêksze ³aty 
-Wiêcej informacji znajdziesz w pliku README.PLD.pl znajduj±cym siê w 
-katalogu %{_docdir}/%{name}-%{version}
+- Zaaplikowano rózne mniejsze lub wiêksze ³aty Wiêcej informacji
+  znajdziesz w pliku README.PLD.pl znajduj±cym siê w katalogu
+  %{_docdir}/%{name}-%{version}
 
 %description -l pt_BR
 Eggdrop é um bot de IRC, escrito em linguagem C.
 
-Eggdrop, sendo um bot, permanece em um canal e toma medidas de proteç?o:
-evitando que o canal seja tomado (usando as poucas maneiras possíveis),
-reconhecendo usuários ou sites expulsos e os rejeitando, reconhecendo usuários
-privilegiados e permitindo que estes recebam OPS etc.
+Eggdrop, sendo um bot, permanece em um canal e toma medidas de
+proteç?o: evitando que o canal seja tomado (usando as poucas maneiras
+possíveis), reconhecendo usuários ou sites expulsos e os rejeitando,
+reconhecendo usuários privilegiados e permitindo que estes recebam OPS
+etc.
 
 %prep
 %setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a29
@@ -154,7 +154,7 @@ cp %{SOURCE1} $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/README.PLD.en
 cp %{SOURCE2} $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/README.PLD.pl
 
 find $RPM_BUILD_ROOT/doc -type f | egrep -v "(\.html$|\.htm$)" | xargs gzip -9nf
-gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT/%{name}.conf 
+gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT/%{name}.conf
 
 cp $RPM_BUILD_ROOT/doc/man1/%{name}.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/%{name}.1.gz
 rm -r $RPM_BUILD_ROOT/doc/man1
