@@ -3,33 +3,31 @@ Summary(pl):	Eggdrop jest botem IRC napisanym w C
 Name:		eggdrop
 Version:	2.0.0
 Release:	1.ALPHA
-Copyright:	GPL
+License:	GPL
 Group:		Applications/Communications
 Group(pl):	Aplikacje/Komunikacja
 Source0:	%{name}%{version}-ALPHA.tar.gz
 Source1:	eggdrop.sh
-Patch:		eggdrop-pld.patch
+Patch0:		eggdrop-pld.patch
 URL:		http://www.eggdrop.net/
 Requires:	tcl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Eggdrop is an IRC bot, written in C.  If you don't know what IRC is,
-this is probably not whatever you're looking for!  Eggdrop, being a
+Eggdrop is an IRC bot, written in C. If you don't know what IRC is,
+this is probably not whatever you're looking for! Eggdrop, being a
 bot, sits on a channel and takes protective measures: to keep the
-channel from being taken over (in the few ways that anything CAN),
-to recognize banished users or sites and reject them, to recognize
-privileged users and let them gain ops, etc.
-Eggdrop also contains many modules and scripts, for example for
-sending files.
+channel from being taken over (in the few ways that anything CAN), to
+recognize banished users or sites and reject them, to recognize
+privileged users and let them gain ops, etc. Eggdrop also contains
+many modules and scripts, for example for sending files.
 
 %description -l pl
-Eggdrop jest IRCowym botem napisanym w C. Eggdrop, bêd±c botem
-jest na kanale i zajmuje siê jego ochron±: zabezpieczeniem przed
-przejêciem, nadawaniem odpowiednich przywilejów zarejestrowanym
-u¿ytkownikom, pilnowanie tzw. banów itp.
-Eggdrop poza tymi funkcjami posiada tak¿e wiele dodatków, jak
-przesy³anie plików czy inne skrypty dla rozrywki.
+Eggdrop jest IRCowym botem napisanym w C. Eggdrop, bêd±c botem jest na
+kanale i zajmuje siê jego ochron±: zabezpieczeniem przed przejêciem,
+nadawaniem odpowiednich przywilejów zarejestrowanym u¿ytkownikom,
+pilnowanie tzw. banów itp. Eggdrop poza tymi funkcjami posiada tak¿e
+wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 
 %prep
 %setup -q -n %{name}%{version}-ALPHA
