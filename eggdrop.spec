@@ -2,14 +2,14 @@ Summary:	Eggdrop is an IRC bot, written in C
 Summary(pl):	Eggdrop jest botem IRC napisanym w C
 Name:		eggdrop
 Version:	1.6.13
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Communications
-#Source0:	http://www.eggdropsrus.co.uk/downloads/eggdrop/%{name}%{version}.tar.gz
-#Source0:	http://ving.edunet.pl/files/%{name}%{version}.tar.gz
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.gz
 Patch0:		%{name}-FHS.patch
-URL:		http://www.eggdrop.net/
+# Unofficial IPv6 patch
+Patch1:		http://www.egghelp.org/files/patches/%{name}%{version}+ipv6.patch.gz
+URL:		http://www.eggheads.org/
 Requires:	tcl
 BuildRequires:	tcl-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -33,6 +33,7 @@ wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 %prep
 %setup -q -n %{name}%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 export CFLAGS="%{rpmcflags}"
