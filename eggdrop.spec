@@ -12,40 +12,40 @@ Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
 # In order to unify filenames, following language packs and third-party modules were
 # repackaged. Some files were renamed, but none modified. Original archives can be
 # found by looking at http://www.egghelp.org/
-Source10:	%{name}-language-danish.tar.gz
+Source10:	http://pld.mysza.eu.org/sources/%{name}-language-danish.tar.gz
 # Source10-md5:	86b9bbab196f64b09e4daf2dec93fd50
-Source11:	%{name}-language-finnish.tar.gz
+Source11:	http://pld.mysza.eu.org/sources/%{name}-language-finnish.tar.gz
 # Source11-md5:	d720c6ad3f19deb8d51eeb753d0da390
-Source12:	%{name}-language-italian.tar.gz
+Source12:	http://pld.mysza.eu.org/sources/%{name}-language-italian.tar.gz
 # Source12-md5:	9c568bc516ecb202ed9e76c1523e4d6a
-Source13:	%{name}-language-norwegian.tar.gz
+Source13:	http://pld.mysza.eu.org/sources/%{name}-language-norwegian.tar.gz
 # Source13-md5:	118e14c8dfe0a6917e8e7b191a733e3f
-Source14:	%{name}-language-portuguese.tar.gz
+Source14:	http://pld.mysza.eu.org/sources/%{name}-language-portuguese.tar.gz
 # Source14-md5:	1b96f1ba51a0162665be892327c405cf
-Source15:	%{name}-language-portuguese_br.tar.gz
+Source15:	http://pld.mysza.eu.org/sources/%{name}-language-portuguese_br.tar.gz
 # Source15-md5:	93d4afae51dfa4cd7512fa6236868960
-Source16:	%{name}-language-romanian.tar.gz
+Source16:	http://pld.mysza.eu.org/sources/%{name}-language-romanian.tar.gz
 # Source16-md5:	3664b4f4870eb099d3a291284a076561
 # Additional modules taken from various places
-Source20:	%{name}-module-away-1.0.tar.gz
+Source20:	http://pld.mysza.eu.org/sources/%{name}-module-away-1.0.tar.gz
 # Source20-md5:	89b0529d024d8c29a855fb26e9e24a58
-Source21:	%{name}-module-botnetop-1.0.1.tar.gz
+Source21:	http://pld.mysza.eu.org/sources/%{name}-module-botnetop-1.0.1.tar.gz
 # Source21-md5:	1815a88748529d2ce6a221d560678285
-Source22:	%{name}-module-fakebotnet-1.3.tar.gz
+Source22:	http://pld.mysza.eu.org/sources/%{name}-module-fakebotnet-1.3.tar.gz
 # Source22-md5:	bf6e0ecc97bbe154137dba5f47c6e518
-Source23:	%{name}-module-gseen-1.1.0.tar.gz
+Source23:	http://pld.mysza.eu.org/sources/%{name}-module-gseen-1.1.0.tar.gz
 # Source23-md5:	d1b5ff929c360581647a2baf7281a7a6
-Source24:	%{name}-module-irctree-1.1.tar.gz
+Source24:	http://pld.mysza.eu.org/sources/%{name}-module-irctree-1.1.tar.gz
 # Source24-md5:	8bf884c57adbb131228fe47bffc69836
-Source25:	%{name}-module-megahal-2.5.tar.gz
+Source25:	http://pld.mysza.eu.org/sources/%{name}-module-megahal-2.5b.tar.gz
 # Source25-md5:	ee00bf26ef44ea587200c7e9a73dc767
-Source26:	%{name}-module-stats-1.3.3dev1.tar.gz
+Source26:	http://pld.mysza.eu.org/sources/%{name}-module-stats-1.3.3dev1.tar.gz
 # Source26-md5:	f50299b06dc9c8d29f7abb19defaa917
-Source27:	%{name}-module-idea-1.0.0.tar.gz
+Source27:	http://pld.mysza.eu.org/sources/%{name}-module-idea-1.0.0.tar.gz
 # Source27-md5:	b1aa55ba5abebfcf0cf346b5bbba3bae
-Source28:	%{name}-module-twofish-1.0.tar.gz
+Source28:	http://pld.mysza.eu.org/sources/%{name}-module-twofish-1.0.tar.gz
 # Source28-md5:	861957c170b4af105199202e724be2a3
-Source29:	%{name}-module-rijndael-1.0.tar.gz
+Source29:	http://pld.mysza.eu.org/sources/%{name}-module-rijndael-1.0.tar.gz
 # Source29-md5:	0210476c24ed6f24e1fdc1cbab41a863
 Patch0:		%{name}-FHS.patch
 Patch1:		%{name}-doc_makefile.patch
@@ -74,7 +74,6 @@ recognize banished users or sites and reject them, to recognize
 privileged users and let them gain ops, etc. Eggdrop also contains
 many modules and scripts, for example for sending files. Here is the
 list of new features as opposed to vanilla eggdrop:
-- Built-in IPv6 support
 - Additional modules, including:
   - away
   - botnetop
@@ -83,7 +82,7 @@ list of new features as opposed to vanilla eggdrop:
   - irctree
   - megahal
   - stats
-  - three new encryption modules: idea, twofish, rijndael
+  - two new encryption modules: twofish, rijndael
 - Additional language packs:
   - dannish
   - finnish
@@ -103,7 +102,6 @@ nadawaniem odpowiednich przywilejÛw zarejestrowanym uøytkownikom,
 pilnowanie tzw. banÛw itp. Eggdrop poza tymi funkcjami posiada takøe
 wiele dodatkÛw, jak przesy≥anie plikÛw czy inne skrypty dla rozrywki.
 Oto lista nowych moøliwo∂ci w odrÛønieniu od 'czystego' eggdropa:
-- Wbudowane wsparcie dla IPv6
 - Dodatkowe modu≥y, takie jak:
   - away
   - botnetop
@@ -112,7 +110,7 @@ Oto lista nowych moøliwo∂ci w odrÛønieniu od 'czystego' eggdropa:
   - irctree
   - megahal
   - stats
-  - trzy nowe modu≥y szyfruj±ce: idea, twofish, rijndael
+  - dwa nowe modu≥y szyfruj±ce: twofish, rijndael
 - Dodatkowe
   - duÒski
   - fiÒski
@@ -154,7 +152,7 @@ Eggdrop Œ¡»œƒ…‘”— Œ¡ À¡Œ¡Ã≈ ◊ √≈Ã—» œÀ¡⁄¡Œ…— ⁄¡›…‘ŒŸ» Õ≈“:
 %patch5 -p1
 
 %build
-CFLAGS="%{rpmcflags}"; export CFLAGS
+#CFLAGS="%{rpmcflags}"; export CFLAGS
 # There is no sense in using configure macro, as the eggdrop makes no use
 # of provided settings, or at least of those given with --*dir options
 # HUMPF! At least one thing sucks: 
