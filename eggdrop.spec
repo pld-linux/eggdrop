@@ -125,7 +125,7 @@ Oto lista nowych mo¿liwo¶ci w odró¿nieniu od 'czystego' eggdropa:
   - portugalski
   - brazylijska odmiana portugalskiego
   - rumuñski
-- Zaaplikowano rózne mniejsze lub wiêksze ³aty
+- Zaaplikowano ró¿ne mniejsze lub wiêksze ³aty
 Wiêcej informacji znajdziesz w pliku README.PLD.pl znajduj±cym siê
 w katalogu %{_docdir}/%{name}-%{version}
 
