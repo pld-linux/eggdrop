@@ -50,6 +50,7 @@ Patch5:		%{name}%{version}-unlinkedby.patch
 Patch6:		%{name}%{version}-topicprot.patch
 # Adds information about additional encryption modules to config file
 Patch7:		%{name}-config_encryption.patch
+Patch8:		%{name}-FHS2.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	tcl-devel
 Requires:	tcl
@@ -127,13 +128,14 @@ etc.
 %prep
 %setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a29
 %patch0 -p1
-%patch1 -p1
-%patch2 -p0
-%patch3 -p0
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p0
+#%patch1 -p1
+#%patch2 -p0
+#%patch3 -p0
+#%patch4 -p1
+#%patch5 -p1
+#%patch6 -p1
+#%patch7 -p0
+%patch8 -p1
 
 %build
 CFLAGS="%{rpmcflags}"; export CFLAGS
