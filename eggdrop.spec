@@ -5,10 +5,11 @@ Version:	2.0.0
 Release:	1.ALPHA
 License:	GPL
 Group:		Applications/Communications
+Group(de):	Applikationen/Kommunikation
 Group(pl):	Aplikacje/Komunikacja
 Source0:	%{name}%{version}-ALPHA.tar.gz
-Source1:	eggdrop.sh
-Patch0:		eggdrop-pld.patch
+Source1:	%{name}.sh
+Patch0:		%{name}-pld.patch
 URL:		http://www.eggdrop.net/
 Requires:	tcl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -34,7 +35,7 @@ wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 %patch -p1
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" \
+CFLAGS="%{rpmcflags}" \
 ./configure %{_target_platform} \
 	--prefix=%{_bindir}
 
@@ -42,11 +43,11 @@ CFLAGS="$RPM_OPT_FLAGS" \
 cd src/mod/filesys.mod
 rm -f config.cache config.log
 
-CFLAGS="$RPM_OPT_FLAGS" \
+CFLAGS="%{rpmcflags}" \
 ./configure %{_target_platform}
 
 cd ../../..
-CFLAGS="$RPM_OPT_FLAGS" make
+CFLAGS="%{rpmcflags}" %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -61,8 +62,7 @@ mv -f $RPM_BUILD_ROOT%{_libdir}/eggdrop/doc/man1/* $RPM_BUILD_ROOT%{_mandir}/man
 rm -rf $RPM_BUILD_ROOT%{_libdir}/eggdrop/doc/*
 install $RPM_SOURCE_DIR/eggdrop.sh $RPM_BUILD_ROOT%{_bindir}/eggdrop
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* \
-	FEATURES README doc/{patch.howto,tricks,[A-Z]*,*.doc}
+gzip -9nf FEATURES README doc/{patch.howto,tricks,[A-Z]*,*.doc}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
