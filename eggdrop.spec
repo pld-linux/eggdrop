@@ -43,7 +43,6 @@ export CFLAGS="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_datadir}/%{name},%{_mandir}/man1,%{_datadir}/%{name}/{help,scripts,language},%{_datadir}/doc/%{name}-%{version}}
 
 %{__make} DESTDIR="$RPM_BUILD_ROOT" install
@@ -76,9 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc %{_datadir}/doc/%{name}-%{version}
-%{_mandir}/man1/%{name}.1*
+%attr(755,root,root) %{_bindir}/%{name}
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
-%attr(755,root,root) %{_bindir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/modules/*.so
 %{_datadir}/%{name}
+%{_mandir}/man1/%{name}.1*
