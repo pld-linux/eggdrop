@@ -82,8 +82,9 @@ list of new features as opposed to vanilla eggdrop:
   - portuguese
   - brazillian portuguese
   - romanian
-- Various small patches were applied For more information, see
-  README.PLD.en file located under %{_docdir}/%{name}-%{version}
+- Various small patches were applied 
+For more information, see README.PLD.en file located under 
+%{_docdir}/%{name}-%{version}
 
 %description -l pl
 Eggdrop jest IRCowym botem napisanym w C. Eggdrop, bêd±c botem jest na
@@ -110,9 +111,9 @@ Oto lista nowych mo¿liwo¶ci w odró¿nieniu od 'czystego' eggdropa:
   - portugalski
   - brazylijska odmiana portugalskiego
   - rumuñski
-- Zaaplikowano rózne mniejsze lub wiêksze ³aty Wiêcej informacji
-  znajdziesz w pliku README.PLD.pl znajduj±cym siê w katalogu
-  %{_docdir}/%{name}-%{version}
+- Zaaplikowano rózne mniejsze lub wiêksze ³aty 
+Wiêcej informacji znajdziesz w pliku README.PLD.pl znajduj±cym siê 
+w katalogu %{_docdir}/%{name}-%{version}
 
 %description -l pt_BR
 Eggdrop é um bot de IRC, escrito em linguagem C.
