@@ -176,12 +176,13 @@ cd ../../..
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_datadir}/%{name},%{_mandir}/man1,%{_datadir}/%{name}/{help,scripts,language},%{_datadir}/doc/%{name}-%{version}}
 
-%{__make} DESTDIR="$RPM_BUILD_ROOT" install
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
-mv $RPM_BUILD_ROOT/%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
+mv $RPM_BUILD_ROOT%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
 
 find $RPM_BUILD_ROOT/doc -type f | egrep -v "(\.html$|\.htm$)" | xargs gzip -9nf
-gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT/%{name}.conf
+gzip -9nf $RPM_BUILD_ROOT/README $RPM_BUILD_ROOT%{name}.conf
 
 cp $RPM_BUILD_ROOT/doc/man1/%{name}.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/%{name}.1.gz
 rm -r $RPM_BUILD_ROOT/doc/man1
