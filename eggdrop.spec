@@ -39,7 +39,7 @@ wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_datadir}/%{name},%{_mandir}/man1,%{_datadir}/%{name}/{help,scripts,language},%{_datadir}/doc/%{name}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_datadir}/%{name},%{_mandir}/man1,%{_datadir}/%{name}/{help,scripts,language},%{_datadir}/doc/%{name}-%{version}}
 
 %{__make} DESTDIR="$RPM_BUILD_ROOT" install
 
@@ -54,7 +54,7 @@ rm -r $RPM_BUILD_ROOT/doc/man1
 cp -a $RPM_BUILD_ROOT/README.gz \
 	$RPM_BUILD_ROOT/%{name}.{simple,complete,advanced}.conf.gz \
 	$RPM_BUILD_ROOT/doc/* \
-	$RPM_BUILD_ROOT%{_datadir}/doc/%{name}/
+	$RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}/
 
 cp -a $RPM_BUILD_ROOT/text/* \
 	$RPM_BUILD_ROOT/help/ \
@@ -70,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc %{_datadir}/doc/%{name}
+%doc %{_datadir}/doc/%{name}-%{version}
 %{_mandir}/man1/%{name}.1*
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
