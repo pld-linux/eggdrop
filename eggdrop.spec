@@ -7,8 +7,8 @@ Version:	1.6.15
 Release:	0.3
 License:	GPL
 Group:		Applications/Communications
-Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
 # Source0-md5:	b5016e34942ff4113e97a8449b15dfce
+Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
 # In order to unify filenames, following language packs and third-party modules were
 # repackaged. Some files were renamed, but none modified. Original archives can be
 # found by looking at http://www.egghelp.org/
