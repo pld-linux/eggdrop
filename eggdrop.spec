@@ -53,7 +53,7 @@ rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/eggdrop,%{_mandir}/man1}
 
-make install DEST=$RPM_BUILD_ROOT%{_libdir}/eggdrop
+%{__make} install DEST=$RPM_BUILD_ROOT%{_libdir}/eggdrop
 
 rm -rf `find $RPM_BUILD_ROOT%{_libdir}/eggdrop -name CVS`
 rm -rf `find $RPM_BUILD_DIR/%{name}%{version}-ALPHA/doc -name CVS`
