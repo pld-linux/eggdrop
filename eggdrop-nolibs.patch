@@ -1,0 +1,15 @@
+--- eggdrop1.6.15/aclocal.m4.orig	2004-10-17 12:20:49.817945000 +0200
++++ eggdrop1.6.15/aclocal.m4	2004-10-17 12:21:48.224930310 +0200
+@@ -492,9 +492,9 @@
+ then
+   AC_MSG_WARN(Skipping library tests because they CONFUSE Irix.)
+ else
+-  AC_CHECK_LIB(socket, socket)
+-  AC_CHECK_LIB(nsl, connect)
+-  AC_CHECK_LIB(dns, gethostbyname)
++  AC_SEARCH_LIBS(socket, socket)
++  AC_SEARCH_LIBS(connect, nsl)
++  AC_SEARCH_LIBS(gethostbyname, [resolv bind dns])
+   AC_CHECK_LIB(dl, dlopen)
+   AC_CHECK_LIB(m, tan, EGG_MATH_LIB="-lm")
+   # This is needed for Tcl libraries compiled with thread support
