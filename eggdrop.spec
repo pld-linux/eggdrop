@@ -3,12 +3,12 @@ Summary(pl):	Eggdrop jest botem IRC napisanym w C
 Summary(pt_BR):	Bot de IRC escrito em C
 Summary(ru_RU):	Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
-Version:	1.6.16
+Version:	1.6.15
 Release:	1
 License:	GPL
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
-# Source0-md5:	bbbb77f9a1a28398f05ae433b482f4ac
+# Source0-md5:	b5016e34942ff4113e97a8449b15dfce
 # In order to unify filenames, following language packs and third-party modules were
 # repackaged. Some files were renamed, but none modified. Original archives can be
 # found by looking at http://www.egghelp.org/
