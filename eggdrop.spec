@@ -38,7 +38,7 @@ Source23:	http://pld.mysza.eu.org/sources/%{name}-module-gseen-1.1.0.tar.gz
 Source24:	http://pld.mysza.eu.org/sources/%{name}-module-irctree-1.1.tar.gz
 # Source24-md5:	8bf884c57adbb131228fe47bffc69836
 Source25:	http://pld.mysza.eu.org/sources/%{name}-module-megahal-2.5b.tar.gz
-# Source25-md5:	ee00bf26ef44ea587200c7e9a73dc767
+# Source25-md5:	77a4c3e8a2324d5f8b90284490529edd
 Source26:	http://pld.mysza.eu.org/sources/%{name}-module-stats-1.3.3dev1.tar.gz
 # Source26-md5:	f50299b06dc9c8d29f7abb19defaa917
 Source27:	http://pld.mysza.eu.org/sources/%{name}-module-idea-1.0.0.tar.gz
