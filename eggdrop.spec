@@ -27,6 +27,9 @@ Source23:	%{name}-module-gseen-1.1.0.tar.gz
 Source24:	%{name}-module-irctree-1.1.tar.gz
 Source25:	%{name}-module-megahal-2.5.tar.gz
 Source26:	%{name}-module-stats-1.3.3dev1.tar.gz
+Source27:	%{name}-module-idea-1.0.0.tar.gz
+Source28:	%{name}-module-twofish-1.0.tar.gz
+Source29:	%{name}-module-rijndael-1.0.tar.gz
 Patch0:		%{name}-FHS.patch
 # Unofficial IPv6 patch
 Patch1:		http://www.egghelp.org/files/patches/%{name}%{version}+ipv6.patch.gz
@@ -63,7 +66,7 @@ pilnowanie tzw. banów itp. Eggdrop poza tymi funkcjami posiada tak¿e
 wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 
 %prep
-%setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26
+%setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a29
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
