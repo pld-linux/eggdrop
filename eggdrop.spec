@@ -2,10 +2,19 @@ Summary:	Eggdrop is an IRC bot, written in C
 Summary(pl):	Eggdrop jest botem IRC napisanym w C
 Name:		eggdrop
 Version:	1.6.13
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.gz
+# In order to unify filenames, following language packs were repackaged. Some files were
+# renamed, but none modified. Original archives are available at http://www.egghelp.org/
+Source10:	%{name}%{version}-language-danish.tar.gz
+Source11:	%{name}%{version}-language-finnish.tar.gz
+Source12:	%{name}%{version}-language-italian.tar.gz
+Source13:	%{name}%{version}-language-norwegian.tar.gz
+Source14:	%{name}%{version}-language-portuguese.tar.gz
+Source15:	%{name}%{version}-language-portuguese_br.tar.gz
+Source16:	%{name}%{version}-language-romanian.tar.gz
 Patch0:		%{name}-FHS.patch
 # Unofficial IPv6 patch
 Patch1:		http://www.egghelp.org/files/patches/%{name}%{version}+ipv6.patch.gz
@@ -32,7 +41,15 @@ pilnowanie tzw. banów itp. Eggdrop poza tymi funkcjami posiada tak¿e
 wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
 
 %prep
-%setup -q -n %{name}%{version}
+%setup -q          -n %{name}%{version}
+# Language packs
+%setup -q -D -a 10 -n %{name}%{version}
+%setup -q -D -a 11 -n %{name}%{version}
+%setup -q -D -a 12 -n %{name}%{version}
+%setup -q -D -a 13 -n %{name}%{version}
+%setup -q -D -a 14 -n %{name}%{version}
+%setup -q -D -a 15 -n %{name}%{version}
+%setup -q -D -a 16 -n %{name}%{version}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
