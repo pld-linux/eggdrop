@@ -53,11 +53,11 @@ CFLAGS="$RPM_OPT_FLAGS" make
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT/usr/{bin,lib/eggdrop,man/man1}
-make install DEST=$RPM_BUILD_ROOT/usr/lib/eggdrop
-rm -rf `find $RPM_BUILD_ROOT/usr/lib/eggdrop -name CVS`
+make install DEST=$RPM_BUILD_ROOT%{_libdir}/eggdrop
+rm -rf `find $RPM_BUILD_ROOT%{_libdir}/eggdrop -name CVS`
 rm -rf $RPM_SOURCE_DIR/doc/CVS
-mv $RPM_BUILD_ROOT/usr/lib/eggdrop/doc/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
-rm -rf $RPM_BUILD_ROOT/usr/lib/eggdrop/doc/*
+mv $RPM_BUILD_ROOT%{_libdir}/eggdrop/doc/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
+rm -rf $RPM_BUILD_ROOT%{_libdir}/eggdrop/doc/*
 install $RPM_SOURCE_DIR/eggdrop.sh $RPM_BUILD_ROOT/usr/bin/eggdrop
 
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/*
@@ -69,16 +69,16 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644, root, root, 755)
 %doc CONTENTS COPYING FEATURES INSTALL README doc/*
 %attr(755, root, root) /usr/bin/*
-/usr/lib/eggdrop/filesys
-/usr/lib/eggdrop/help
-/usr/lib/eggdrop/language
-%ghost /usr/lib/eggdrop/modules
-/usr/lib/eggdrop/modules-%{versionmajor}
-/usr/lib/eggdrop/scripts
-%attr(755, root, root) /usr/lib/eggdrop/eggdrop2-%{versionmajor}
-%ghost /usr/lib/eggdrop/eggdrop2
-/usr/lib/eggdrop/eggdrop2.conf.*
-/usr/lib/eggdrop/motd
+%{_libdir}/eggdrop/filesys
+%{_libdir}/eggdrop/help
+%{_libdir}/eggdrop/language
+%ghost %{_libdir}/eggdrop/modules
+%{_libdir}/eggdrop/modules-%{versionmajor}
+%{_libdir}/eggdrop/scripts
+%attr(755, root, root) %{_libdir}/eggdrop/eggdrop2-%{versionmajor}
+%ghost %{_libdir}/eggdrop/eggdrop2
+%{_libdir}/eggdrop/eggdrop2.conf.*
+%{_libdir}/eggdrop/motd
 %{_mandir}/man*/*
 
 %changelog
