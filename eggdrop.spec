@@ -56,11 +56,11 @@ install -d $RPM_BUILD_ROOT/usr/{bin,lib/eggdrop,man/man1}
 make install DEST=$RPM_BUILD_ROOT/usr/lib/eggdrop
 rm -rf `find $RPM_BUILD_ROOT/usr/lib/eggdrop -name CVS`
 rm -rf $RPM_SOURCE_DIR/doc/CVS
-mv $RPM_BUILD_ROOT/usr/lib/eggdrop/doc/man1/* $RPM_BUILD_ROOT/usr/man/man1
+mv $RPM_BUILD_ROOT/usr/lib/eggdrop/doc/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
 rm -rf $RPM_BUILD_ROOT/usr/lib/eggdrop/doc/*
 install $RPM_SOURCE_DIR/eggdrop.sh $RPM_BUILD_ROOT/usr/bin/eggdrop
 
-gzip -9nf $RPM_BUILD_ROOT/usr/man/man*/*
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -79,7 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost /usr/lib/eggdrop/eggdrop2
 /usr/lib/eggdrop/eggdrop2.conf.*
 /usr/lib/eggdrop/motd
-%attr(644, root, man) /usr/man/man*/*
+%attr(644, root, man) %{_mandir}/man*/*
 
 %changelog
 * Sat Feb 20 1999 Marek Obuchowicz <elephant@shadow.eu.org>
