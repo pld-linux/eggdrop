@@ -7,7 +7,7 @@ License:	GPL
 Group:		Applications/Communications
 Group(de):	Applikationen/Kommunikation
 Group(pl):	Aplikacje/Komunikacja
-Source0:	%{name}%{version}-ALPHA.tar.gz
+Source0:	http://www.eggdropsrus.co.uk/downloads/%{name}%{version}-ALPHA.tar.gz
 Source1:	%{name}.sh
 Patch0:		%{name}-pld.patch
 URL:		http://www.eggdrop.net/
