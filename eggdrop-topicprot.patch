@@ -1,7 +1,7 @@
-diff -urN eggdrop1.6.15/src/chan.h eggdrop1.6.15-topicprot/src/chan.h
---- eggdrop1.6.15/src/chan.h	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-topicprot/src/chan.h	Wed May  7 10:51:30 2003
-@@ -185,6 +185,7 @@
+diff -burN eggdrop1.6.17.orig/src/chan.h eggdrop1.6.17/src/chan.h
+--- eggdrop1.6.17.orig/src/chan.h	2004-11-01 12:48:53.752584640 +0100
++++ eggdrop1.6.17/src/chan.h	2004-11-01 13:38:31.701867536 +0100
+@@ -190,6 +190,7 @@
    int mode_mns_prot;     /* modes to reject                   */
    int limit_prot;        /* desired limit                     */
    char key_prot[121];    /* desired password                  */
@@ -9,12 +9,12 @@ diff -urN eggdrop1.6.15/src/chan.h eggdrop1.6.15-topicprot/src/chan.h
    char pls[21];          /* positive mode changes             */
    char mns[21];          /* negative mode changes             */
    char *key;             /* new key to set                    */
-diff -urN eggdrop1.6.15/src/chanprog.c eggdrop1.6.15-topicprot/src/chanprog.c
---- eggdrop1.6.15/src/chanprog.c	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-topicprot/src/chanprog.c	Wed May  7 10:53:11 2003
-@@ -680,3 +680,23 @@
-     pa = pb;
-   }
+diff -burN eggdrop1.6.17.orig/src/chanprog.c eggdrop1.6.17/src/chanprog.c
+--- eggdrop1.6.17.orig/src/chanprog.c	2004-11-01 12:48:53.766582512 +0100
++++ eggdrop1.6.17/src/chanprog.c	2004-11-01 13:38:31.704867080 +0100
+@@ -690,3 +690,23 @@
+ 
+   return 0;
  }
 +
 +/* If we have a protected topic and the bot is opped, halfoped,
@@ -36,10 +36,10 @@ diff -urN eggdrop1.6.15/src/chanprog.c eggdrop1.6.15-topicprot/src/chanprog.c
 +      dprintf(DP_SERVER, "TOPIC %s :%s\n", chan->name, chan->topic_prot);
 +  }
 +}
-diff -urN eggdrop1.6.15/src/mod/channels.mod/channels.c eggdrop1.6.15-topicprot/src/mod/channels.mod/channels.c
---- eggdrop1.6.15/src/mod/channels.mod/channels.c	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-topicprot/src/mod/channels.mod/channels.c	Wed May  7 11:07:16 2003
-@@ -364,6 +364,7 @@
+diff -burN eggdrop1.6.17.orig/src/mod/channels.mod/channels.c eggdrop1.6.17/src/mod/channels.mod/channels.c
+--- eggdrop1.6.17.orig/src/mod/channels.mod/channels.c	2004-11-01 12:48:53.673596648 +0100
++++ eggdrop1.6.17/src/mod/channels.mod/channels.c	2004-11-01 13:39:57.089886584 +0100
+@@ -380,6 +380,7 @@
    FILE *f;
    char s[121], w[1024], w2[1024], name[163];
    char need1[242], need2[242], need3[242], need4[242], need5[242];
@@ -47,35 +47,36 @@ diff -urN eggdrop1.6.15/src/mod/channels.mod/channels.c eggdrop1.6.15-topicprot/
    struct chanset_t *chan;
    struct udef_struct *ul;
  
-@@ -384,13 +385,14 @@
+@@ -400,6 +401,7 @@
      convert_element(chan->dname, name);
      get_mode_protect(chan, w);
      convert_element(w, w2);
-+    convert_element(chan->topic_prot, topic);
++    convert-element(chan->topic_prot, topic);
      convert_element(chan->need_op, need1);
      convert_element(chan->need_invite, need2);
      convert_element(chan->need_key, need3);
-     convert_element(chan->need_unban, need4);
+@@ -407,7 +409,7 @@
      convert_element(chan->need_limit, need5);
+     /* Do not indent me (adds extra spaces to chan file). */
      fprintf(f,
--            "channel %s %s%schanmode %s idle-kick %d stopnethack-mode %d \
-+            "channel %s %s%schanmode %s topic %s idle-kick %d stopnethack-mode %d \
-             revenge-mode %d need-op %s need-invite %s need-key %s \
-             need-unban %s need-limit %s flood-chan %d:%d flood-ctcp %d:%d \
-             flood-join %d:%d flood-kick %d:%d flood-deop %d:%d \
-@@ -402,7 +404,7 @@
-             %cdynamicexempts %cuserexempts %cdynamicinvites \
-             %cuserinvites %cnodesynch ",
+-"channel %s %s%schanmode %s idle-kick %d stopnethack-mode %d revenge-mode %d \
++"channel %s %s%schanmode %s topic %s idle-kick %d stopnethack-mode %d revenge-mode %d \
+ need-op %s need-invite %s need-key %s need-unban %s need-limit %s \
+ flood-chan %d:%d flood-ctcp %d:%d flood-join %d:%d flood-kick %d:%d \
+ flood-deop %d:%d flood-nick %d:%d aop-delay %d:%d ban-time %d exempt-time %d \
+@@ -417,7 +419,7 @@
+ %cseen %cinactive %cdynamicexempts %cuserexempts %cdynamicinvites \
+ %cuserinvites %cnodesynch ",
              channel_static(chan) ? "set" : "add", name, channel_static(chan) ?
 -            " " : " { ", w2, chan->idle_kick, chan->stopnethack_mode,
 +            " " : " { ", w2, topic, chan->idle_kick, chan->stopnethack_mode,
              chan->revenge_mode, need1, need2, need3, need4, need5,
              chan->flood_pub_thr, chan->flood_pub_time,
              chan->flood_ctcp_thr, chan->flood_ctcp_time,
-diff -urN eggdrop1.6.15/src/mod/channels.mod/cmdschan.c eggdrop1.6.15-topicprot/src/mod/channels.mod/cmdschan.c
---- eggdrop1.6.15/src/mod/channels.mod/cmdschan.c	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-topicprot/src/mod/channels.mod/cmdschan.c	Wed May  7 11:09:01 2003
-@@ -1241,6 +1241,7 @@
+diff -burN eggdrop1.6.17.orig/src/mod/channels.mod/cmdschan.c eggdrop1.6.17/src/mod/channels.mod/cmdschan.c
+--- eggdrop1.6.17.orig/src/mod/channels.mod/cmdschan.c	2004-11-01 12:48:53.670597104 +0100
++++ eggdrop1.6.17/src/mod/channels.mod/cmdschan.c	2004-11-01 13:38:31.711866016 +0100
+@@ -1269,6 +1269,7 @@
              channel_static(chan) ? "static" : "dynamic", chan->dname);
      get_mode_protect(chan, work);
      dprintf(idx, "Protect modes (chanmode): %s\n", work[0] ? work : "None");
@@ -83,9 +84,9 @@ diff -urN eggdrop1.6.15/src/mod/channels.mod/cmdschan.c eggdrop1.6.15-topicprot/
      if (chan->idle_kick)
        dprintf(idx, "Idle Kick after (idle-kick): %d\n", chan->idle_kick);
      else
-diff -urN eggdrop1.6.15/src/mod/channels.mod/help/chaninfo.help eggdrop1.6.15-topicprot/src/mod/channels.mod/help/chaninfo.help
---- eggdrop1.6.15/src/mod/channels.mod/help/chaninfo.help	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-topicprot/src/mod/channels.mod/help/chaninfo.help	Wed May  7 11:09:44 2003
+diff -burN eggdrop1.6.17.orig/src/mod/channels.mod/help/chaninfo.help eggdrop1.6.17/src/mod/channels.mod/help/chaninfo.help
+--- eggdrop1.6.17.orig/src/mod/channels.mod/help/chaninfo.help	2004-11-01 12:48:53.669597256 +0100
++++ eggdrop1.6.17/src/mod/channels.mod/help/chaninfo.help	2004-11-01 13:38:31.713865712 +0100
 @@ -4,6 +4,7 @@
       It shows any of the following:
          %bchanmode%b   These modes are enforced on the channel. Both + and -
@@ -94,9 +95,9 @@ diff -urN eggdrop1.6.15/src/mod/channels.mod/help/chaninfo.help eggdrop1.6.15-to
          %bidle-kick%b  Kick idle users that are not +f or above on the channel
                     after how many minutes (set this to 0 to disable).
  %{+n}
-diff -urN eggdrop1.6.15/src/mod/channels.mod/tclchan.c eggdrop1.6.15-topicprot/src/mod/channels.mod/tclchan.c
---- eggdrop1.6.15/src/mod/channels.mod/tclchan.c	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-topicprot/src/mod/channels.mod/tclchan.c	Wed May  7 11:10:59 2003
+diff -burN eggdrop1.6.17.orig/src/mod/channels.mod/tclchan.c eggdrop1.6.17/src/mod/channels.mod/tclchan.c
+--- eggdrop1.6.17.orig/src/mod/channels.mod/tclchan.c	2004-11-01 12:48:53.671596952 +0100
++++ eggdrop1.6.17/src/mod/channels.mod/tclchan.c	2004-11-01 13:38:31.716865256 +0100
 @@ -1223,6 +1223,15 @@
          return TCL_ERROR;
        }
@@ -113,10 +114,10 @@ diff -urN eggdrop1.6.15/src/mod/channels.mod/tclchan.c eggdrop1.6.15-topicprot/s
      } else if (!strcmp(item[i], "+enforcebans"))
        chan->status |= CHAN_ENFORCEBANS;
      else if (!strcmp(item[i], "-enforcebans"))
-diff -urN eggdrop1.6.15/src/mod/irc.mod/chan.c eggdrop1.6.15-topicprot/src/mod/irc.mod/chan.c
---- eggdrop1.6.15/src/mod/irc.mod/chan.c	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-topicprot/src/mod/irc.mod/chan.c	Wed May  7 11:13:46 2003
-@@ -1473,12 +1473,14 @@
+diff -burN eggdrop1.6.17.orig/src/mod/irc.mod/chan.c eggdrop1.6.17/src/mod/irc.mod/chan.c
+--- eggdrop1.6.17.orig/src/mod/irc.mod/chan.c	2004-11-01 12:48:53.738586768 +0100
++++ eggdrop1.6.17/src/mod/irc.mod/chan.c	2004-11-01 13:38:31.721864496 +0100
+@@ -1500,12 +1500,14 @@
    memberlist *m;
    struct chanset_t *chan;
    struct userrec *u;
@@ -131,7 +132,7 @@ diff -urN eggdrop1.6.15/src/mod/irc.mod/chan.c eggdrop1.6.15-topicprot/src/mod/i
    if (chan) {
      putlog(LOG_JOIN, chan->dname, "Topic changed on %s by %s!%s: %s",
             chan->dname, nick, from, msg);
-@@ -1487,6 +1489,8 @@
+@@ -1514,6 +1516,8 @@
        m->last = now;
      set_topic(chan, msg);
      check_tcl_topc(nick, from, u, chan->dname, msg);
@@ -140,7 +141,7 @@ diff -urN eggdrop1.6.15/src/mod/irc.mod/chan.c eggdrop1.6.15-topicprot/src/mod/i
    }
    return 0;
  }
-@@ -1505,6 +1509,7 @@
+@@ -1532,6 +1536,7 @@
    if (chan) {
      set_topic(chan, NULL);
      check_tcl_topc("*", "*", NULL, chan->dname, "");
@@ -148,7 +149,7 @@ diff -urN eggdrop1.6.15/src/mod/irc.mod/chan.c eggdrop1.6.15-topicprot/src/mod/i
    }
    return 0;
  }
-@@ -1524,6 +1529,7 @@
+@@ -1551,6 +1556,7 @@
      fixcolon(msg);
      set_topic(chan, msg);
      check_tcl_topc("*", "*", NULL, chan->dname, msg);
@@ -156,10 +157,10 @@ diff -urN eggdrop1.6.15/src/mod/irc.mod/chan.c eggdrop1.6.15-topicprot/src/mod/i
    }
    return 0;
  }
-diff -urN eggdrop1.6.15/src/mod/irc.mod/cmdsirc.c eggdrop1.6.15-topicprot/src/mod/irc.mod/cmdsirc.c
---- eggdrop1.6.15/src/mod/irc.mod/cmdsirc.c	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-topicprot/src/mod/irc.mod/cmdsirc.c	Wed May  7 11:15:35 2003
-@@ -895,6 +895,7 @@
+diff -burN eggdrop1.6.17.orig/src/mod/irc.mod/cmdsirc.c eggdrop1.6.17/src/mod/irc.mod/cmdsirc.c
+--- eggdrop1.6.17.orig/src/mod/irc.mod/cmdsirc.c	2004-11-01 12:48:53.740586464 +0100
++++ eggdrop1.6.17/src/mod/irc.mod/cmdsirc.c	2004-11-01 13:38:31.724864040 +0100
+@@ -900,6 +900,7 @@
  static void cmd_topic(struct userrec *u, int idx, char *par)
  {
    struct chanset_t *chan;
@@ -167,7 +168,7 @@ diff -urN eggdrop1.6.15/src/mod/irc.mod/cmdsirc.c eggdrop1.6.15-topicprot/src/mo
  
    if (par[0] && (strchr(CHANMETA, par[0]) != NULL)) {
      char *chname = newsplit(&par);
-@@ -920,6 +921,13 @@
+@@ -925,6 +926,13 @@
      dprintf(idx, "I'm not a channel op or halfop on %s and the channel is "
              "+t.\n", chan->dname);
    else {
@@ -181,9 +182,9 @@ diff -urN eggdrop1.6.15/src/mod/irc.mod/cmdsirc.c eggdrop1.6.15-topicprot/src/mo
      dprintf(DP_SERVER, "TOPIC %s :%s\n", chan->name, par);
      dprintf(idx, "Changing topic...\n");
      putlog(LOG_CMDS, "*", "#%s# (%s) topic %s", dcc[idx].nick,
-diff -urN eggdrop1.6.15/src/mod/irc.mod/mode.c eggdrop1.6.15-topicprot/src/mod/irc.mod/mode.c
---- eggdrop1.6.15/src/mod/irc.mod/mode.c	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-topicprot/src/mod/irc.mod/mode.c	Wed May  7 11:18:41 2003
+diff -burN eggdrop1.6.17.orig/src/mod/irc.mod/mode.c eggdrop1.6.17/src/mod/irc.mod/mode.c
+--- eggdrop1.6.17.orig/src/mod/irc.mod/mode.c	2004-11-01 12:48:53.739586616 +0100
++++ eggdrop1.6.17/src/mod/irc.mod/mode.c	2004-11-01 13:38:31.727863584 +0100
 @@ -460,8 +460,10 @@
      }
    }
@@ -208,7 +209,7 @@ diff -urN eggdrop1.6.15/src/mod/irc.mod/mode.c eggdrop1.6.15-topicprot/src/mod/i
  }
  
  static void got_deop(struct chanset_t *chan, char *nick, char *from,
-@@ -1223,6 +1227,8 @@
+@@ -1241,6 +1245,8 @@
                       (chan->mode_mns_prot & todo)))
                add_mode(chan, ms2[0] == '+' ? '-' : '+', *chg, "");
            }
@@ -217,10 +218,10 @@ diff -urN eggdrop1.6.15/src/mod/irc.mod/mode.c eggdrop1.6.15-topicprot/src/mod/i
          }
          chg++;
        }
-diff -urN eggdrop1.6.15/src/mod/module.h eggdrop1.6.15-topicprot/src/mod/module.h
---- eggdrop1.6.15/src/mod/module.h	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-topicprot/src/mod/module.h	Wed May  7 11:19:36 2003
-@@ -368,7 +368,7 @@
+diff -burN eggdrop1.6.17.orig/src/mod/module.h eggdrop1.6.17/src/mod/module.h
+--- eggdrop1.6.17.orig/src/mod/module.h	2004-11-01 12:48:53.681595432 +0100
++++ eggdrop1.6.17/src/mod/module.h	2004-11-01 13:38:31.729863280 +0100
+@@ -361,7 +361,7 @@
  #define rem_tcl_coups ((void (*) (tcl_coups *))global[210])
  #define botname ((char *)(global[211]))
  /* 212 - 215 */
@@ -229,9 +230,9 @@ diff -urN eggdrop1.6.15/src/mod/module.h eggdrop1.6.15-topicprot/src/mod/module.
  #define check_tcl_chjn ((void (*) (const char *,const char *,int,char,int,const char *))global[213])
  #define sanitycheck_dcc ((int (*)(char *, char *, char *, char *))global[214])
  #define isowner ((int (*)(char *))global[215])
-diff -urN eggdrop1.6.15/src/modules.c eggdrop1.6.15-topicprot/src/modules.c
---- eggdrop1.6.15/src/modules.c	Mon May  5 00:05:33 2003
-+++ eggdrop1.6.15-topicprot/src/modules.c	Wed May  7 11:20:12 2003
+diff -burN eggdrop1.6.17.orig/src/modules.c eggdrop1.6.17/src/modules.c
+--- eggdrop1.6.17.orig/src/modules.c	2004-11-01 12:48:53.762583120 +0100
++++ eggdrop1.6.17/src/modules.c	2004-11-01 13:38:31.732862824 +0100
 @@ -461,7 +461,7 @@
    (Function) rem_tcl_coups,
    (Function) botname,
@@ -241,9 +242,9 @@ diff -urN eggdrop1.6.15/src/modules.c eggdrop1.6.15-topicprot/src/modules.c
    (Function) check_tcl_chjn,
    (Function) sanitycheck_dcc,
    (Function) isowner,
-diff -urN eggdrop1.6.15/src/patch.h eggdrop1.6.15-topicprot/src/patch.h
---- eggdrop1.6.15/src/patch.h	Mon May  5 00:08:01 2003
-+++ eggdrop1.6.15-topicprot/src/patch.h	Wed May  7 11:21:14 2003
+diff -burN eggdrop1.6.17.orig/src/patch.h eggdrop1.6.17/src/patch.h
+--- eggdrop1.6.17.orig/src/patch.h	2004-11-01 12:48:53.765582664 +0100
++++ eggdrop1.6.17/src/patch.h	2004-11-01 13:38:31.734862520 +0100
 @@ -36,7 +36,7 @@
   *
   *
@@ -253,9 +254,9 @@ diff -urN eggdrop1.6.15/src/patch.h eggdrop1.6.15-topicprot/src/patch.h
  /*
   *
   *
-diff -urN eggdrop1.6.15/src/proto.h eggdrop1.6.15-topicprot/src/proto.h
---- eggdrop1.6.15/src/proto.h	Mon May  5 00:05:33 2003
-+++ eggdrop1.6.15-topicprot/src/proto.h	Wed May  7 11:21:48 2003
+diff -burN eggdrop1.6.17.orig/src/proto.h eggdrop1.6.17/src/proto.h
+--- eggdrop1.6.17.orig/src/proto.h	2004-11-01 12:48:53.769582056 +0100
++++ eggdrop1.6.17/src/proto.h	2004-11-01 13:38:31.735862368 +0100
 @@ -116,6 +116,7 @@
  void set_chanlist(const char *host, struct userrec *rec);
  void clear_chanlist(void);
