@@ -52,7 +52,7 @@ Patch1:		%{name}-doc_makefile.patch
 # Multilevel sharing patch - now it is possible to create *secure* multilevel
 # botnets, each bot will only accept changes to userlist from bot that acts as
 # hub to him, and rejects changes from leaves
-Patch2:		ftp://ftp.eggheads.org/pub/%{name}/patches/1.6/multilevel_sharing%{version}.patch.gz
+Patch2:		ftp://ftp.eggheads.org/pub/%{name}/patches/1.6/multilevel_sharing%{version}.patch
 # Topicprot - protects channel topic from being changed
 # This patch was a bit modified to apply to eggdrop1.6.13
 Patch3:		ftp://ftp.eggheads.org/pub/%{name}/patches/1.6/topicprot%{version}.patch
