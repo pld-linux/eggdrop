@@ -57,6 +57,28 @@ channel from being taken over (in the few ways that anything CAN), to
 recognize banished users or sites and reject them, to recognize
 privileged users and let them gain ops, etc. Eggdrop also contains
 many modules and scripts, for example for sending files.
+Here is the list of new features as opposed to vanilla eggdrop:
+* Built-in IPv6 support
+* Additional modules, including:
+  - away
+  - botnetop
+  - fakebotnet
+  - gseen
+  - irctree
+  - megahal
+  - stats
+  - three new encryption modules: idea, twofish, rijndael
+* Additional language packs:
+  - dannish
+  - finnish
+  - italian
+  - norwegian
+  - portuguese
+  - brazillian portuguese
+  - romanian
+* Multilevel sharing and unlinkedby patches were applied
+For more information, see README.PLD.en file located under
+%{_datadir}/doc/%{name}-%{version}
 
 %description -l pl
 Eggdrop jest IRCowym botem napisanym w C. Eggdrop, bêd±c botem jest na
@@ -64,6 +86,28 @@ kanale i zajmuje siê jego ochron±: zabezpieczeniem przed przejêciem,
 nadawaniem odpowiednich przywilejów zarejestrowanym u¿ytkownikom,
 pilnowanie tzw. banów itp. Eggdrop poza tymi funkcjami posiada tak¿e
 wiele dodatków, jak przesy³anie plików czy inne skrypty dla rozrywki.
+Oto lista nowych mo¿liwo¶ci w odró¿nieniu od 'czystego' eggdropa:
+* Wbudowane wsparcie dla IPv6
+* Dodatkowe modu³y, takie jak:
+  - away
+  - botnetop
+  - fakebotnet
+  - gseen
+  - irctree
+  - megahal
+  - stats
+  - trzy nowe modu³y szyfruj±ce: idea, twofish, rijndael
+* Dodatkowe 
+  - duñski
+  - fiñski
+  - w³oski
+  - norweski
+  - portugalski
+  - brazylijska odmiana portugalskiego
+  - rumuñski
+* Zaaplikowano ³aty multilevel sharing oraz unlinkedby
+Wiêcej informacji znajdziesz w pliku README.PLD.pl znajduj±cym siê w 
+katalogu %{_datadir}/doc/%{name}-%{version}
 
 %prep
 %setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a29
