@@ -1,0 +1,102 @@
+diff -ur eggdrop1.6.13.long/src/botcmd.c eggdrop1.6.13.long.new/src/botcmd.c
+--- eggdrop1.6.13.long/src/botcmd.c	Sat Nov 23 01:45:24 2002
++++ eggdrop1.6.13.long.new/src/botcmd.c	Mon Dec 23 20:52:31 2002
+@@ -581,7 +581,7 @@
+       rfrom = from;
+     putlog(LOG_CMDS, "*", "#%s# unlink %s (%s)", rfrom, undes, par[0] ? par :
+ 	   "No reason");
+-    i = botunlink(-3, undes, par[0] ? par : NULL);
++    i = botunlink(-3, undes, par[0] ? par : NULL, rfrom);
+     if (i == 1) {
+       p = strchr(from, '@');
+       if (p) {
+diff -ur eggdrop1.6.13.long/src/botnet.c eggdrop1.6.13.long.new/src/botnet.c
+--- eggdrop1.6.13.long/src/botnet.c	Thu Aug  8 16:49:32 2002
++++ eggdrop1.6.13.long.new/src/botnet.c	Mon Dec 23 21:01:08 2002
+@@ -864,7 +864,7 @@
+ 
+ /* Break link with a tandembot
+  */
+-int botunlink(int idx, char *nick, char *reason)
++int botunlink(int idx, char *nick, char *reason, char *from)
+ {
+   char s[20];
+   register int i;
+@@ -908,15 +908,16 @@
+ 	bots = bots_in_subtree(bot);
+ 	users = users_in_subtree(bot);
+ 	if (reason && reason[0]) {
+-	  simple_sprintf(s, "%s %s (%s) (lost %d bot%s and %d user%s)",
+-	  		 BOT_UNLINKEDFROM, dcc[i].nick, reason, bots,
++	  simple_sprintf(s, "%s %s (%s (%s)) (lost %d bot%s and %d user%s)",
++	  		 BOT_UNLINKEDFROM, dcc[i].nick, reason, from, bots,
+ 			 (bots != 1) ? "s" : "", users, (users != 1) ?
+ 			 "s" : "");
+ 	  dprintf(i, "bye %s\n", reason);
+ 	} else {
+-	  simple_sprintf(s, "%s %s (lost %d bot%s and %d user%s)",
+-	  		 BOT_UNLINKEDFROM, dcc[i].nick, bots, (bots != 1) ?
+-			 "s" : "", users, (users != 1) ? "s" : "");
++	  simple_sprintf(s, "%s %s (%s) (lost %d bot%s and %d user%s)",
++	  		 BOT_UNLINKEDFROM, dcc[i].nick, from, bots,
++                         (bots != 1) ? "s" : "", users,
++                         (users != 1) ? "s" : ""); 
+ 	  dprintf(i, "bye No reason\n");
+ 	}
+ 	chatout("*** %s\n", s);
+diff -ur eggdrop1.6.13.long/src/cmds.c eggdrop1.6.13.long.new/src/cmds.c
+--- eggdrop1.6.13.long/src/cmds.c	Tue Sep 10 22:14:44 2002
++++ eggdrop1.6.13.long.new/src/cmds.c	Mon Dec 23 20:53:44 2002
+@@ -1163,14 +1163,14 @@
+   bot = newsplit(&par);
+   i = nextbot(bot);
+   if (i < 0) {
+-    botunlink(idx, bot, par);
++    botunlink(idx, bot, par, dcc[idx].nick);
+     return;
+   }
+   /* If we're directly connected to that bot, just do it
+    * (is nike gunna sue?)
+    */
+   if (!egg_strcasecmp(dcc[i].nick, bot))
+-    botunlink(idx, bot, par);
++    botunlink(idx, bot, par, dcc[i].nick);
+   else {
+     char x[40];
+ 
+diff -ur eggdrop1.6.13.long/src/patch.h eggdrop1.6.13.long.new/src/patch.h
+--- eggdrop1.6.13.long/src/patch.h	Sat Nov 23 01:47:08 2002
++++ eggdrop1.6.13.long.new/src/patch.h	Mon Dec 23 21:07:04 2002
+@@ -41,7 +41,7 @@
+  *
+  *
+  */
+-/* PATCH GOES HERE */
++patch("unlinkedby");
+ /*
+  *
+  *
+diff -ur eggdrop1.6.13.long/src/proto.h eggdrop1.6.13.long.new/src/proto.h
+--- eggdrop1.6.13.long/src/proto.h	Tue Jan  1 22:46:36 2002
++++ eggdrop1.6.13.long.new/src/proto.h	Mon Dec 23 20:54:36 2002
+@@ -69,7 +69,7 @@
+ void tell_bots(int);
+ void tell_bottree(int, int);
+ int botlink(char *, int, char *);
+-int botunlink(int, char *, char *);
++int botunlink(int, char *, char *, char *);
+ void dump_links(int);
+ void addbot(char *, char *, char *, char, int);
+ void updatebot(int, char *, char, int);
+diff -ur eggdrop1.6.13.long/src/tcldcc.c eggdrop1.6.13.long.new/src/tcldcc.c
+--- eggdrop1.6.13.long/src/tcldcc.c	Thu Nov 21 18:53:08 2002
++++ eggdrop1.6.13.long.new/src/tcldcc.c	Mon Dec 23 21:02:26 2002
+@@ -808,7 +808,7 @@
+   else {
+     x = 1;
+     if (!egg_strcasecmp(bot, dcc[i].nick))
+-      x = botunlink(-2, bot, argv[2]);
++      x = botunlink(-2, bot, argv[2], botnetnick);
+     else
+       botnet_send_unlink(i, botnetnick, lastbot(bot), bot, argv[2]);
+   }
