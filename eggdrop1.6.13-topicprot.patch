@@ -1,0 +1,264 @@
+diff -ur eggdrop1.6.12.old/src/chan.h eggdrop1.6.12.new/src/chan.h
+--- eggdrop1.6.12.old/src/chan.h	Wed Jun 19 17:13:38 2002
++++ eggdrop1.6.12.new/src/chan.h	Fri Aug 23 19:47:33 2002
+@@ -172,6 +172,7 @@
+   int mode_mns_prot;		/* modes to reject			*/
+   int limit_prot;		/* desired limit			*/
+   char key_prot[121];		/* desired password			*/
++  char topic_prot[501];		/* desired topic			*/
+   /* queued mode changes: */
+   char pls[21];			/* positive mode changes		*/
+   char mns[21];			/* negative mode changes		*/
+diff -ur eggdrop1.6.12.old/src/chanprog.c eggdrop1.6.12.new/src/chanprog.c
+--- eggdrop1.6.12.old/src/chanprog.c	Thu Jul 18 16:28:32 2002
++++ eggdrop1.6.12.new/src/chanprog.c	Fri Aug 23 19:55:06 2002
+@@ -680,3 +680,23 @@
+     pa = pb;
+   }
+ }
++
++/* If we have a protected topic and the bot is opped, halfoped,
++ * or the channel is -t, change the topic. (Sup 11May2001)
++ */
++void check_topic(struct chanset_t *chan)
++{
++  memberlist *m = NULL;  
++
++  if (chan->topic_prot[0]) {
++    m = ismember(chan, botname);
++    if (!m)
++      return;
++    if (chan->channel.topic) {
++      if (!egg_strcasecmp(chan->topic_prot, chan->channel.topic))
++	return;
++    }
++    if (chan_hasop(m) || !channel_optopic(chan) || chan_hashalfop(m))
++      dprintf(DP_SERVER, "TOPIC %s :%s\n", chan->name, chan->topic_prot);
++  }
++}
+diff -ur eggdrop1.6.12.old/src/mod/channels.mod/channels.c eggdrop1.6.12.new/src/mod/channels.mod/channels.c
+--- eggdrop1.6.12.old/src/mod/channels.mod/channels.c	Thu Jul 18 15:01:44 2002
++++ eggdrop1.6.12.new/src/mod/channels.mod/channels.c	Fri Aug 23 20:00:59 2002
+@@ -382,6 +382,7 @@
+   FILE *f;
+   char s[121], w[1024], w2[1024], name[163];
+   char need1[242], need2[242], need3[242], need4[242], need5[242];
++  char topic[1002];
+   struct chanset_t *chan;
+   struct udef_struct *ul;
+ 
+@@ -402,12 +403,13 @@
+     convert_element(chan->dname, name);
+     get_mode_protect(chan, w);
+     convert_element(w, w2);
++    convert_element(chan->topic_prot, topic);
+     convert_element(chan->need_op, need1);
+     convert_element(chan->need_invite, need2);
+     convert_element(chan->need_key, need3);
+     convert_element(chan->need_unban, need4);
+     convert_element(chan->need_limit, need5);
+-    fprintf(f, "channel %s %s%schanmode %s idle-kick %d stopnethack-mode %d \
++    fprintf(f, "channel %s %s%schanmode %s topic %s idle-kick %d stopnethack-mode %d \
+ revenge-mode %d \
+ need-op %s need-invite %s need-key %s need-unban %s need-limit %s \
+ flood-chan %d:%d flood-ctcp %d:%d flood-join %d:%d \
+@@ -421,6 +423,7 @@
+ 	name,
+ 	channel_static(chan) ? " " : " { ",
+ 	w2,
++        topic,
+ 	chan->idle_kick, /* idle-kick 0 is same as dont-idle-kick (less code)*/
+ 	chan->stopnethack_mode,
+         chan->revenge_mode,
+diff -ur eggdrop1.6.12.old/src/mod/channels.mod/cmdschan.c eggdrop1.6.12.new/src/mod/channels.mod/cmdschan.c
+--- eggdrop1.6.12.old/src/mod/channels.mod/cmdschan.c	Mon Jul 22 01:48:53 2002
++++ eggdrop1.6.12.new/src/mod/channels.mod/cmdschan.c	Fri Aug 23 20:02:26 2002
+@@ -1199,6 +1199,7 @@
+ 	    channel_static(chan) ? "static" : "dynamic", chan->dname);
+     get_mode_protect(chan, work);
+     dprintf(idx, "Protect modes (chanmode): %s\n", work[0] ? work : "None");
++    dprintf(idx, "Protect topic: %s\n", chan->topic_prot[0] ? chan->topic_prot : "None");
+     if (chan->idle_kick)
+       dprintf(idx, "Idle Kick after (idle-kick): %d\n", chan->idle_kick);
+     else
+diff -ur eggdrop1.6.12.old/src/mod/channels.mod/help/chaninfo.help eggdrop1.6.12.new/src/mod/channels.mod/help/chaninfo.help
+--- eggdrop1.6.12.old/src/mod/channels.mod/help/chaninfo.help	Thu Jun 13 23:46:48 2002
++++ eggdrop1.6.12.new/src/mod/channels.mod/help/chaninfo.help	Fri Aug 23 20:03:05 2002
+@@ -4,6 +4,7 @@
+      It shows any of the following:
+ 	%bchanmode%b   which modes are enforced on the channel, both + and -
+ 	           modes can be enforced
++        %btopic%b      which topic is enforced on the channel
+ 	%bidle-kick%b  kick idle users (non +f's anyway) on the channel after
+ 	           how many minutes (use 0, or dont-idle-kick to turn this off)
+ %{+n}
+diff -ur eggdrop1.6.12.old/src/mod/channels.mod/tclchan.c eggdrop1.6.12.new/src/mod/channels.mod/tclchan.c
+--- eggdrop1.6.12.old/src/mod/channels.mod/tclchan.c	Thu Jul 18 15:01:44 2002
++++ eggdrop1.6.12.new/src/mod/channels.mod/tclchan.c	Fri Aug 23 20:11:17 2002
+@@ -1093,6 +1093,15 @@
+         return TCL_ERROR;
+       }
+       chan->invite_time = atoi(item[i]);
++    } else if (!strcmp(item[i], "topic")) {
++      i++;
++      if (i >= items) {
++	if (irp)
++	  Tcl_AppendResult(irp, "channel topic needs argument", NULL);
++	return TCL_ERROR;
++      }
++      strncpyz(chan->topic_prot, item[i], sizeof(chan->topic_prot));
++      check_topic(chan);
+     }
+     else if (!strcmp(item[i], "+enforcebans"))
+       chan->status |= CHAN_ENFORCEBANS;
+diff -ur eggdrop1.6.12.old/src/mod/irc.mod/chan.c eggdrop1.6.12.new/src/mod/irc.mod/chan.c
+--- eggdrop1.6.12.old/src/mod/irc.mod/chan.c	Thu Jul 25 13:40:18 2002
++++ eggdrop1.6.12.new/src/mod/irc.mod/chan.c	Fri Aug 23 20:14:54 2002
+@@ -1514,12 +1514,14 @@
+   memberlist *m;
+   struct chanset_t *chan;
+   struct userrec *u;
++  struct flag_record fr = {FR_GLOBAL | FR_CHAN, 0, 0, 0, 0, 0};
+ 
+   chname = newsplit(&msg);
+   fixcolon(msg);
+   u = get_user_by_host(from);
+   nick = splitnick(&from);
+   chan = findchan(chname);
++  get_user_flagrec(u, &fr, chname);
+   if (chan) {
+     putlog(LOG_JOIN, chan->dname, "Topic changed on %s by %s!%s: %s",
+            chan->dname, nick, from, msg);
+@@ -1528,6 +1530,8 @@
+       m->last = now;
+     set_topic(chan, msg);
+     check_tcl_topc(nick, from, u, chan->dname, msg);
++    if (egg_strcasecmp(botname, nick) && !glob_master(fr) && !chan_master(fr))
++      check_topic(chan);
+   }
+   return 0;
+ }
+@@ -1546,6 +1550,7 @@
+   if (chan) {
+     set_topic(chan, NULL);
+     check_tcl_topc("*", "*", NULL, chan->dname, "");
++    check_topic(chan);
+   }
+   return 0;
+ }
+@@ -1565,6 +1570,7 @@
+     fixcolon(msg);
+     set_topic(chan, msg);
+     check_tcl_topc("*", "*", NULL, chan->dname, msg);
++    check_topic(chan);
+   }
+   return 0;
+ }
+diff -ur eggdrop1.6.12.old/src/mod/irc.mod/cmdsirc.c eggdrop1.6.12.new/src/mod/irc.mod/cmdsirc.c
+--- eggdrop1.6.12.old/src/mod/irc.mod/cmdsirc.c	Mon Jul 22 01:43:28 2002
++++ eggdrop1.6.12.new/src/mod/irc.mod/cmdsirc.c	Fri Aug 23 20:16:44 2002
+@@ -824,6 +824,7 @@
+ static void cmd_topic(struct userrec *u, int idx, char *par)
+ {
+   struct chanset_t *chan;
++  struct flag_record fr = {FR_GLOBAL | FR_CHAN, 0, 0, 0, 0, 0};
+ 
+   if (par[0] && (strchr(CHANMETA, par[0]) != NULL)) {
+     char *chname = newsplit(&par);
+@@ -846,6 +847,13 @@
+       dprintf(idx, "I'm not a channel op or halfop on %s and the channel %s",
+ 		  "is +t.\n", chan->dname);
+     } else {
++      if (chan->topic_prot[0]) {
++	get_user_flagrec(u, &fr, chan->dname);
++	if (!glob_master(fr) && !chan_master(fr)) {
++	  dprintf(idx, "The topic of %s is protected.\n", chan->dname);
++	  return;
++	}
++      }
+       dprintf(DP_SERVER, "TOPIC %s :%s\n", chan->name, par);
+       dprintf(idx, "Changing topic...\n");
+       putlog(LOG_CMDS, "*", "#%s# (%s) topic %s", dcc[idx].nick,
+diff -ur eggdrop1.6.12.old/src/mod/irc.mod/mode.c eggdrop1.6.12.new/src/mod/irc.mod/mode.c
+--- eggdrop1.6.12.old/src/mod/irc.mod/mode.c	Thu Jun 13 16:43:08 2002
++++ eggdrop1.6.12.new/src/mod/irc.mod/mode.c	Fri Aug 23 20:31:09 2002
+@@ -471,8 +471,10 @@
+     }
+   }
+   m->flags |= WASOP;
+-  if (check_chan)
++  if (check_chan) {
+     recheck_channel(chan, 1);
++    check_topic(chan);
++  }
+ }
+ 
+ static void got_halfop(struct chanset_t *chan, char *nick, char *from,
+@@ -556,8 +558,10 @@
+     }
+   }
+   m->flags |= WASHALFOP;
+-  if (check_chan)
++  if (check_chan) {
+     recheck_channel(chan, 1);
++    check_topic(chan);
++  }
+ }
+ 
+ static void got_deop(struct chanset_t *chan, char *nick, char *from,
+@@ -1314,6 +1318,8 @@
+ 		     ((ms2[0] == '-') || (chan->mode_mns_prot & todo)))
+ 	      add_mode(chan, ms2[0] == '+' ? '-' : '+', *chg, "");
+ 	  }
++          if ((ms2[0] == '-') && ((*chg == 't') || (*chg == 'h')))
++            check_topic(chan);
+ 	}
+ 	chg++;
+       }
+diff -ur eggdrop1.6.12.old/src/mod/module.h eggdrop1.6.12.new/src/mod/module.h
+--- eggdrop1.6.12.old/src/mod/module.h	Sun Feb 24 02:17:57 2002
++++ eggdrop1.6.12.new/src/mod/module.h	Fri Aug 23 20:33:51 2002
+@@ -358,7 +358,7 @@
+ #define rem_tcl_coups ((void (*) (tcl_coups *))global[210])
+ #define botname ((char *)(global[211]))
+ /* 212 - 215 */
+-/* 212: remove_gunk() -- UNUSED (drummer) */
++#define check_topic ((void (*)(struct chanset_t *))global[212])
+ #define check_tcl_chjn ((void (*) (const char *,const char *,int,char,int,const char *))global[213])
+ #define sanitycheck_dcc ((int (*)(char *, char *, char *, char *))global[214])
+ #define isowner ((int (*)(char *))global[215])
+diff -ur eggdrop1.6.12.old/src/modules.c eggdrop1.6.12.new/src/modules.c
+--- eggdrop1.6.12.old/src/modules.c	Sun Feb 24 02:17:57 2002
++++ eggdrop1.6.12.new/src/modules.c	Fri Aug 23 20:34:33 2002
+@@ -452,7 +452,7 @@
+   (Function) rem_tcl_coups,
+   (Function) botname,
+   /* 212 - 215 */
+-  (Function) 0,			/* remove_gunk() -- UNUSED! (drummer)	*/
++  (Function) check_topic,
+   (Function) check_tcl_chjn,
+   (Function) sanitycheck_dcc,
+   (Function) isowner,
+diff -ur eggdrop1.6.12.old/src/patch.h eggdrop1.6.12.new/src/patch.h
+--- eggdrop1.6.12.old/src/patch.h	Fri Jul 26 13:58:41 2002
++++ eggdrop1.6.12.new/src/patch.h	Fri Aug 23 20:35:27 2002
+@@ -36,7 +36,7 @@
+  *
+  *
+  */
+-/* PATCH GOES HERE */
++patch("topicprot");
+ /*
+  *
+  *
+diff -ur eggdrop1.6.12.old/src/proto.h eggdrop1.6.12.new/src/proto.h
+--- eggdrop1.6.12.old/src/proto.h	Tue Jan  1 22:46:36 2002
++++ eggdrop1.6.12.new/src/proto.h	Fri Aug 23 20:35:00 2002
+@@ -116,6 +116,7 @@
+ void set_chanlist(const char *host, struct userrec *rec);
+ void clear_chanlist(void);
+ void clear_chanlist_member(const char *nick);
++void check_topic(struct chanset_t *);
+ 
+ /* cmds.c */
+ int check_dcc_attrs(struct userrec *, int);

@@ -1,0 +1,22 @@
+--- eggdrop.conf	Mon Nov 18 06:39:34 2002
++++ eggdrop.conf.encryption	Tue Mar 18 23:52:35 2003
+@@ -1265,14 +1265,18 @@
+ #loadmodule seen
+ 
+ 
+-#### BLOWFISH MODULE ####
++#### ENCRYPTION MODULE ####
+ 
+ # IF YOU DON'T READ THIS YOU MAY RENDER YOUR USERFILE USELESS LATER
+ # Eggdrop encrypts its userfile, so users can have secure passwords.
+ # Please note that when you change your encryption method later (i.e.
+ # using other modules like a md5 module), you can't use your current
+ # userfile anymore. Eggdrop will not start without an encryption module.
++# Choose only one of the following
+ #loadmodule blowfish
++#loadmodule idea
++#loadmodule twofish
++#loadmodule rijndael
+ 
+ 
+ #### ASSOC MODULE ####
