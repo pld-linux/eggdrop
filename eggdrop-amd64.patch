@@ -1,0 +1,12 @@
+diff -ur eggdrop1.6.15.orig/configure.in eggdrop1.6.15/configure.in
+--- eggdrop1.6.15.orig/configure.in	2003-05-05 00:05:32.000000000 +0200
++++ eggdrop1.6.15/configure.in	2004-08-19 23:30:54.588631128 +0200
+@@ -92,7 +92,7 @@
+ 
+ # Tcl library search paths
+ tcllibpaths="/usr/local/lib /usr/local/pkgs/tcl/lib \
+-	/usr/lib /lib /usr/i486-linuxaout/lib \
++	/usr/lib /lib /usr/lib64 /usr/i486-linuxaout/lib \
+ 	/beos/system/lib /sys/lib \
+ 	$HOME/lib $HOME/tcl/lib $HOME"
+ 
