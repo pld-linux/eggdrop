@@ -60,6 +60,7 @@ Patch9:		%{name}-nohostwhowhom.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	tcl-devel
 Requires:	tcl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
