@@ -1,0 +1,3 @@
+- dropped ac_fix.patch (no longer needed)
+- renumbered patches
+- simplified %install
