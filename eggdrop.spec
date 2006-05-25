@@ -1,7 +1,7 @@
 Summary:	Eggdrop is an IRC bot, written in C
 Summary(pl):	Eggdrop jest botem IRC napisanym w C
 Summary(pt_BR):	Bot de IRC escrito em C
-Summary(ru_RU):	Eggdrop, это IRC-бот написанный на языке C.
+Summary(ru):	Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
 Version:	1.6.17
 Release:	1
@@ -132,7 +132,7 @@ possМveis), reconhecendo usuАrios ou sites expulsos e os rejeitando,
 reconhecendo usuАrios privilegiados e permitindo que estes recebam OPS
 etc.
 
-%description -l ru_RU.KOI8-R
+%description -l ru.KOI8-R
 Eggdrop, это IRC-бот написанный на языке C. Если вы не знаете,
 что такое IRC, то это вероятно не то, что вы ищете!
 Eggdrop находится на канале в целях оказания защитных мер:
