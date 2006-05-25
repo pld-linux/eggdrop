@@ -132,7 +132,7 @@ possМveis), reconhecendo usuАrios ou sites expulsos e os rejeitando,
 reconhecendo usuАrios privilegiados e permitindo que estes recebam OPS
 etc.
 
-%description -l ru.KOI8-R
+%description -l ru
 Eggdrop, это IRC-бот написанный на языке C. Если вы не знаете,
 что такое IRC, то это вероятно не то, что вы ищете!
 Eggdrop находится на канале в целях оказания защитных мер:
