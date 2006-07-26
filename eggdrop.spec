@@ -179,10 +179,10 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_mandir}/man1
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-mv $RPM_BUILD_ROOT/%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
+mv $RPM_BUILD_ROOT%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
 mv -f $RPM_BUILD_ROOT{/{text/*,help,scripts,language},%{_datadir}/%{name}/}
 mv -f $RPM_BUILD_ROOT/modules/* $RPM_BUILD_ROOT%{_libdir}/%{name}/modules/
-mv -f $RPM_BUILD_ROOT{/doc,%{_mandir}}/man1/%{name}.1 
+mv -f $RPM_BUILD_ROOT{/doc,%{_mandir}}/man1/%{name}.1
 rm -rf $RPM_BUILD_ROOT/{doc,README,logs,eggdrop.conf}
 
 rm -rf docs
