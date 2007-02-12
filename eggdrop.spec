@@ -1,7 +1,7 @@
 Summary:	Eggdrop is an IRC bot, written in C
-Summary(pl):	Eggdrop jest botem IRC napisanym w C
-Summary(pt_BR):	Bot de IRC escrito em C
-Summary(ru):	Eggdrop, это IRC-бот написанный на языке C.
+Summary(pl.UTF-8):   Eggdrop jest botem IRC napisanym w C
+Summary(pt_BR.UTF-8):   Bot de IRC escrito em C
+Summary(ru.UTF-8):   Eggdrop, я█я┌п╬ IRC-п╠п╬я┌ п╫п╟п©п╦я│п╟п╫п╫я▀п╧ п╫п╟ я▐п╥я▀п╨п╣ C.
 Name:		eggdrop
 Version:	1.6.17
 Release:	1
@@ -95,14 +95,14 @@ list of new features as opposed to vanilla eggdrop:
 For more information, see README.PLD.en file located under
 %{_docdir}/%{name}-%{version}
 
-%description -l pl
-Eggdrop jest IRCowym botem napisanym w C. Eggdrop, bЙd╠c botem jest na
-kanale i zajmuje siЙ jego ochron╠: zabezpieczeniem przed przejЙciem,
-nadawaniem odpowiednich przywilejСw zarejestrowanym u©ytkownikom,
-pilnowanie tzw. banСw itp. Eggdrop poza tymi funkcjami posiada tak©e
-wiele dodatkСw, jak przesyЁanie plikСw czy inne skrypty dla rozrywki.
-Oto lista nowych mo©liwo╤ci w odrС©nieniu od 'czystego' eggdropa:
-- Dodatkowe moduЁy, takie jak:
+%description -l pl.UTF-8
+Eggdrop jest IRCowym botem napisanym w C. Eggdrop, bд≥dд┘c botem jest na
+kanale i zajmuje siд≥ jego ochronд┘: zabezpieczeniem przed przejд≥ciem,
+nadawaniem odpowiednich przywilejцЁw zarejestrowanym uе╪ytkownikom,
+pilnowanie tzw. banцЁw itp. Eggdrop poza tymi funkcjami posiada takе╪e
+wiele dodatkцЁw, jak przesyе┌anie plikцЁw czy inne skrypty dla rozrywki.
+Oto lista nowych moе╪liwoе⌡ci w odrцЁе╪nieniu od 'czystego' eggdropa:
+- Dodatkowe moduе┌y, takie jak:
   - away
   - botnetop
   - fakebotnet
@@ -110,37 +110,37 @@ Oto lista nowych mo©liwo╤ci w odrС©nieniu od 'czystego' eggdropa:
   - irctree
   - megahal
   - stats
-  - trzy nowe moduЁy szyfruj╠ce: idea, twofish, rijndael
+  - trzy nowe moduе┌y szyfrujд┘ce: idea, twofish, rijndael
 - Dodatkowe
-  - duЯski
-  - fiЯski
-  - wЁoski
+  - duе└ski
+  - fiе└ski
+  - wе┌oski
   - norweski
   - portugalski
   - brazylijska odmiana portugalskiego
-  - rumuЯski
-- Zaaplikowano rС©ne mniejsze lub wiЙksze Ёaty
-WiЙcej informacji znajdziesz w pliku README.PLD.pl znajduj╠cym siЙ
+  - rumuе└ski
+- Zaaplikowano rцЁе╪ne mniejsze lub wiд≥ksze е┌aty
+Wiд≥cej informacji znajdziesz w pliku README.PLD.pl znajdujд┘cym siд≥
 w katalogu %{_docdir}/%{name}-%{version}
 
-%description -l pt_BR
-Eggdrop И um bot de IRC, escrito em linguagem C.
+%description -l pt_BR.UTF-8
+Eggdrop ц╘ um bot de IRC, escrito em linguagem C.
 
 Eggdrop, sendo um bot, permanece em um canal e toma medidas de
-proteГ?o: evitando que o canal seja tomado (usando as poucas maneiras
-possМveis), reconhecendo usuАrios ou sites expulsos e os rejeitando,
-reconhecendo usuАrios privilegiados e permitindo que estes recebam OPS
+proteц╖?o: evitando que o canal seja tomado (usando as poucas maneiras
+possц╜veis), reconhecendo usuц║rios ou sites expulsos e os rejeitando,
+reconhecendo usuц║rios privilegiados e permitindo que estes recebam OPS
 etc.
 
-%description -l ru
-Eggdrop, это IRC-бот написанный на языке C. Если вы не знаете,
-что такое IRC, то это вероятно не то, что вы ищете!
-Eggdrop находится на канале в целях оказания защитных мер:
-охраны канала от перехвата управления злоумышленниками,
-распознования пользователей или сайтов, для которых канал
-блокирован, с последующим отказом в доступе,
-распознавания операторов канала, с присвоением им
-соответствующих прав и привилегий.
+%description -l ru.UTF-8
+Eggdrop, я█я┌п╬ IRC-п╠п╬я┌ п╫п╟п©п╦я│п╟п╫п╫я▀п╧ п╫п╟ я▐п╥я▀п╨п╣ C. п∙я│п╩п╦ п╡я▀ п╫п╣ п╥п╫п╟п╣я┌п╣,
+я┤я┌п╬ я┌п╟п╨п╬п╣ IRC, я┌п╬ я█я┌п╬ п╡п╣я─п╬я▐я┌п╫п╬ п╫п╣ я┌п╬, я┤я┌п╬ п╡я▀ п╦я┴п╣я┌п╣!
+Eggdrop п╫п╟я┘п╬п╢п╦я┌я│я▐ п╫п╟ п╨п╟п╫п╟п╩п╣ п╡ я├п╣п╩я▐я┘ п╬п╨п╟п╥п╟п╫п╦я▐ п╥п╟я┴п╦я┌п╫я▀я┘ п╪п╣я─:
+п╬я┘я─п╟п╫я▀ п╨п╟п╫п╟п╩п╟ п╬я┌ п©п╣я─п╣я┘п╡п╟я┌п╟ я┐п©я─п╟п╡п╩п╣п╫п╦я▐ п╥п╩п╬я┐п╪я▀я┬п╩п╣п╫п╫п╦п╨п╟п╪п╦,
+я─п╟я│п©п╬п╥п╫п╬п╡п╟п╫п╦я▐ п©п╬п╩я▄п╥п╬п╡п╟я┌п╣п╩п╣п╧ п╦п╩п╦ я│п╟п╧я┌п╬п╡, п╢п╩я▐ п╨п╬я┌п╬я─я▀я┘ п╨п╟п╫п╟п╩
+п╠п╩п╬п╨п╦я─п╬п╡п╟п╫, я│ п©п╬я│п╩п╣п╢я┐я▌я┴п╦п╪ п╬я┌п╨п╟п╥п╬п╪ п╡ п╢п╬я│я┌я┐п©п╣,
+я─п╟я│п©п╬п╥п╫п╟п╡п╟п╫п╦я▐ п╬п©п╣я─п╟я┌п╬я─п╬п╡ п╨п╟п╫п╟п╩п╟, я│ п©я─п╦я│п╡п╬п╣п╫п╦п╣п╪ п╦п╪
+я│п╬п╬я┌п╡п╣я┌я│я┌п╡я┐я▌я┴п╦я┘ п©я─п╟п╡ п╦ п©я─п╦п╡п╦п╩п╣пЁп╦п╧.
 
 %prep
 %setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a29
