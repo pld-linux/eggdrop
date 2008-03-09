@@ -1,0 +1,11 @@
+--- src/tcl.c.org	2008-03-09 12:56:37.212570719 +0100
++++ src/tcl.c	2008-03-09 12:56:59.183621062 +0100
+@@ -350,7 +350,7 @@
+   utftot += sizeof(char *) * objc;
+   objc -= 5;
+   for (i = 0; i < objc; i++) {
+-    byteptr = (char *) Tcl_GetByteArrayFromObj(objv[i], &len);
++    byteptr = (char *) Tcl_GetStringFromObj(objv[i], &len);
+     strings[i] = (char *) nmalloc(len + 1);
+     utftot += len + 1;
+     strncpy(strings[i], byteptr, len);
