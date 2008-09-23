@@ -3,12 +3,12 @@ Summary(pl.UTF-8):	Eggdrop jest botem IRC napisanym w C
 Summary(pt_BR.UTF-8):	Bot de IRC escrito em C
 Summary(ru.UTF-8):	Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
-Version:	1.6.17
-Release:	4.1
+Version:	1.6.19
+Release:	1
 License:	GPL v2
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
-# Source0-md5:	68e181201483dee398f9904e8652e6ca
+# Source0-md5:	b706bbe4fdd05964e0ea0cd920f28539
 # In order to unify filenames, following language packs and third-party modules were
 # repackaged. Some files were renamed, but none modified. Original archives can be
 # found by looking at http://www.egghelp.org/
@@ -45,7 +45,7 @@ Source27:	http://pld.mysza.eu.org/sources/%{name}-module-idea-1.0.2.tar.gz
 # Source27-md5:	dce4a43dfcfb72e143c71e8f6c6fc8c8
 Source28:	http://pld.mysza.eu.org/sources/%{name}-module-twofish-1.0.tar.gz
 # Source28-md5:	861957c170b4af105199202e724be2a3
-Source29:	http://pld.mysza.eu.org/sources/%{name}-module-rijndael-1.0.tar.gz
+#Source29:	http://pld.mysza.eu.org/sources/%{name}-module-rijndael-1.0.tar.gz
 # Source29-md5:	0210476c24ed6f24e1fdc1cbab41a863
 Patch0:		%{name}-FHS.patch
 Patch1:		%{name}-doc_makefile.patch
@@ -54,11 +54,9 @@ Patch3:		%{name}-topicprot.patch
 Patch4:		%{name}-config_encryption.patch
 Patch5:		%{name}-autobotchk.patch
 Patch6:		%{name}-ssl.patch
-Patch7:		%{name}-amd64.patch
-Patch8:		%{name}-nolibs.patch
-Patch9:		%{name}-nohostwhowhom.patch
-Patch10:	%{name}-CVE-2007-2807.patch
-Patch11:	%{name}-bz-463.patch
+Patch7:		%{name}-nolibs.patch
+Patch8:		%{name}-nohostwhowhom.patch
+Patch9:		%{name}-bz-463.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -145,7 +143,7 @@ Eggdrop находится на канале в целях оказания за
 соответствующих прав и привилегий.
 
 %prep
-%setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a29
+%setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28
 %patch0 -p1
 %patch1 -p0
 %patch2 -p1
@@ -156,12 +154,11 @@ Eggdrop находится на канале в целях оказания за
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
-%patch10 -p1
-%patch11 -p0
 
 %build
 mv aclocal.m4 acinclude.m4
 cp -f /usr/share/automake/config.sub misc/
+cp -f %{name}.conf doc/%{name}.conf.example
 %{__aclocal}
 %{__autoheader}
 %{__autoconf}
