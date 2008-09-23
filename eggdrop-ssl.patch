@@ -1,9 +1,9 @@
-diff -burN eggdrop1.6.17.orig/aclocal.m4 eggdrop1.6.17/aclocal.m4
---- eggdrop1.6.17.orig/aclocal.m4	2004-11-01 14:40:44.093457768 +0100
-+++ eggdrop1.6.17/aclocal.m4	2004-11-01 14:41:51.767169800 +0100
-@@ -37,6 +37,64 @@
+diff -burNp eggdrop1.6.19/aclocal.m4 eggdrop1.6.19.new/aclocal.m4
+--- eggdrop1.6.19/aclocal.m4	2008-04-19 06:21:20.000000000 +0200
++++ eggdrop1.6.19.new/aclocal.m4	2008-09-22 14:03:38.304371902 +0200
+@@ -36,6 +36,63 @@ AC_DEFUN([EGG_MSG_CONFIGURE_START],
+   AC_MSG_RESULT
  ])
- 
  
 +dnl  EGG_SSL_CRAP()
 +dnl
@@ -62,14 +62,13 @@ diff -burN eggdrop1.6.17.orig/aclocal.m4 eggdrop1.6.17/aclocal.m4
 +#end of ssl checks - hoe (.16 by poci)
 +])dnl
 +
-+
+ 
  dnl EGG_MSG_CONFIGURE_END()
  dnl
- AC_DEFUN([EGG_MSG_CONFIGURE_END],
-diff -burN eggdrop1.6.17.orig/config.h.in eggdrop1.6.17/config.h.in
---- eggdrop1.6.17.orig/config.h.in	2004-11-01 14:40:44.110455184 +0100
-+++ eggdrop1.6.17/config.h.in	2004-11-01 14:41:51.769169496 +0100
-@@ -30,6 +30,9 @@
+diff -burNp eggdrop1.6.19/config.h.in eggdrop1.6.19.new/config.h.in
+--- eggdrop1.6.19/config.h.in	2006-11-20 12:38:25.000000000 +0100
++++ eggdrop1.6.19.new/config.h.in	2008-09-22 14:07:26.990831137 +0200
+@@ -33,6 +33,9 @@
  /* Define to 1 if you have the `clock' function. */
  #undef HAVE_CLOCK
  
@@ -79,19 +78,10 @@ diff -burN eggdrop1.6.17.orig/config.h.in eggdrop1.6.17/config.h.in
  /* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
     */
  #undef HAVE_DIRENT_H
-diff -burN eggdrop1.6.17.orig/configure eggdrop1.6.17/configure
---- eggdrop1.6.17.orig/configure	2004-11-01 14:40:44.098457008 +0100
-+++ eggdrop1.6.17/configure	2004-11-01 14:43:30.021232912 +0100
-@@ -315,7 +315,7 @@
- # include <unistd.h>
- #endif"
- 
--ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS egg_ac_parameters CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CPP EGREP INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA SET_MAKE RANLIB ac_ct_RANLIB LN_S HEAD_1 STRIP AWK BASENAME UNAME DEFAULT_MAKE MOD_EXT MODULE_XLIBS MOD_LD MOD_CC MOD_STRIP SHLIB_LD SHLIB_CC SHLIB_STRIP EGGEXEC TCLLIB TCLLIBFN TCLINC TCLINCFN TCL_REQS TCL_LIBS EGGVERSION DESTDIR MOD_UPDIR LIBOBJS LTLIBOBJS'
-+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS egg_ac_parameters CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CPP EGREP INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA SET_MAKE RANLIB ac_ct_RANLIB LN_S HEAD_1 STRIP AWK BASENAME UNAME DEFAULT_MAKE MOD_EXT MODULE_XLIBS MOD_LD MOD_CC MOD_STRIP SHLIB_LD SHLIB_CC SHLIB_STRIP EGGEXEC TCLLIB TCLLIBFN TCLINC TCLINCFN TCL_REQS TCL_LIBS SSL_LIBS SSL_INCLUDE EGGVERSION DESTDIR MOD_UPDIR LIBOBJS LTLIBOBJS'
- ac_subst_files=''
- 
- # Initialize some variables set by options.
-@@ -856,6 +856,7 @@
+diff -burNp eggdrop1.6.19/configure eggdrop1.6.19.new/configure
+--- eggdrop1.6.19/configure	2008-04-19 06:21:20.000000000 +0200
++++ eggdrop1.6.19.new/configure	2008-09-22 14:22:28.610498567 +0200
+@@ -856,6 +857,7 @@ Optional Packages:
    --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
    --with-tcllib=PATH      full path to Tcl library
    --with-tclinc=PATH      full path to Tcl header
@@ -99,9 +89,9 @@ diff -burN eggdrop1.6.17.orig/configure eggdrop1.6.17/configure
  
  Some influential environment variables:
    CC          C compiler command
-@@ -10100,6 +10101,374 @@
+@@ -10113,8 +10115,372 @@ EOF
  
- 
+             ac_config_commands="$ac_config_commands replace-if-changed"
  
 +#ssl checks - hoe
 +echo "$as_me:$LINENO: checking whether to include SSL support" >&5
@@ -407,7 +397,7 @@ diff -burN eggdrop1.6.17.orig/configure eggdrop1.6.17/configure
 +rm -f conftest.err conftest.$ac_ext
 +echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
 +echo "${ECHO_T}$ac_header_preproc" >&6
-+
+ 
 +# So?  What about this header?
 +case $ac_header_compiler:$ac_header_preproc:$ac_c_preproc_warn_flag in
 +  yes:no: )
@@ -467,37 +457,34 @@ diff -burN eggdrop1.6.17.orig/configure eggdrop1.6.17/configure
 +
 +
 +fi;
-+
+ 
 +#end of ssl checks - hoe (.16 by poci)
-+
-+
+ 
  
  # Substitute Makefile variables.
- 
-@@ -10811,6 +11180,8 @@
+@@ -10827,6 +11193,8 @@ s,@TCLINC@,$TCLINC,;t t
  s,@TCLINCFN@,$TCLINCFN,;t t
  s,@TCL_REQS@,$TCL_REQS,;t t
  s,@TCL_LIBS@,$TCL_LIBS,;t t
 +s,@SSL_LIBS@,$SSL_LIBS,;t t
 +s,@SSL_INCLUDE@,$SSL_INCLUDE,;t t
  s,@EGGVERSION@,$EGGVERSION,;t t
- s,@DESTDIR@,$DESTDIR,;t t
+ s,@DEST@,$DEST,;t t
  s,@MOD_UPDIR@,$MOD_UPDIR,;t t
-diff -burN eggdrop1.6.17.orig/configure.ac eggdrop1.6.17/configure.ac
---- eggdrop1.6.17.orig/configure.ac	2004-11-01 14:40:44.109455336 +0100
-+++ eggdrop1.6.17/configure.ac	2004-11-01 14:41:51.866154752 +0100
-@@ -148,6 +148,8 @@
+diff -burNp eggdrop1.6.19/configure.ac eggdrop1.6.19.new/configure.ac
+--- eggdrop1.6.19/configure.ac	2008-02-18 23:25:33.000000000 +0100
++++ eggdrop1.6.19.new/configure.ac	2008-09-22 14:23:32.432890637 +0200
+@@ -150,6 +150,7 @@ EGG_TCL_CHECK_THREADS
  EGG_TCL_LIB_REQS
  EGG_TCL_LUSH
  
 +EGG_SSL_CRAP
-+
  
  # Substitute Makefile variables.
  EGG_SUBST_EGGVERSION
-diff -burN eggdrop1.6.17.orig/disabled_modules eggdrop1.6.17/disabled_modules
---- eggdrop1.6.17.orig/disabled_modules	2004-11-01 14:40:44.110455184 +0100
-+++ eggdrop1.6.17/disabled_modules	1970-01-01 01:00:00.000000000 +0100
+diff -burNp eggdrop1.6.19/disabled_modules eggdrop1.6.19.new/disabled_modules
+--- eggdrop1.6.19/disabled_modules	2002-06-04 07:11:10.000000000 +0200
++++ eggdrop1.6.19.new/disabled_modules	2008-09-22 14:25:14.439395696 +0200
 @@ -1,12 +0,0 @@
 -#  disabled_modules -- File which lists all Eggdrop modules that are
 -#                      disabled by default.
@@ -511,9 +498,9 @@ diff -burN eggdrop1.6.17.orig/disabled_modules eggdrop1.6.17/disabled_modules
 -# Woobie only serves as an example for module programming. No need to
 -# compile it for normal bots ...
 -woobie
-diff -burN eggdrop1.6.17.orig/Makefile eggdrop1.6.17/Makefile
---- eggdrop1.6.17.orig/Makefile	2004-11-01 14:40:44.093457768 +0100
-+++ eggdrop1.6.17/Makefile	1970-01-01 01:00:00.000000000 +0100
+diff -burNp eggdrop1.6.19/Makefile eggdrop1.6.19.new/Makefile
+--- eggdrop1.6.19/Makefile	2008-04-19 06:21:34.000000000 +0200
++++ eggdrop1.6.19.new/Makefile	2008-09-22 14:25:56.388522764 +0200
 @@ -1,8 +0,0 @@
 -all:
 -	@echo ""
@@ -523,10 +510,10 @@ diff -burN eggdrop1.6.17.orig/Makefile eggdrop1.6.17/Makefile
 -	@echo " % ./configure"
 -	@echo ""
 -
-diff -burN eggdrop1.6.17.orig/Makefile.in eggdrop1.6.17/Makefile.in
---- eggdrop1.6.17.orig/Makefile.in	2004-11-01 14:40:44.109455336 +0100
-+++ eggdrop1.6.17/Makefile.in	2004-11-01 14:41:51.766169952 +0100
-@@ -57,6 +57,8 @@
+diff -burNp eggdrop1.6.19/Makefile.in eggdrop1.6.19.new/Makefile.in
+--- eggdrop1.6.19/Makefile.in	2004-08-28 08:43:21.000000000 +0200
++++ eggdrop1.6.19.new/Makefile.in	2008-09-22 14:29:11.247383482 +0200
+@@ -57,6 +57,8 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
  RANLIB = @RANLIB@
  MOD_EXT = @MOD_EXT@
  XREQS = @TCL_REQS@
@@ -535,7 +522,7 @@ diff -burN eggdrop1.6.17.orig/Makefile.in eggdrop1.6.17/Makefile.in
  TCLLIB = @TCLLIB@
  TCLLIBFN = @TCLLIBFN@
  
-@@ -89,7 +91,8 @@
+@@ -89,7 +91,8 @@ egg_install_msg =  echo "" && \
  MAKE_MODEGG = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(MOD_CC)' 'LD=$(MOD_LD)' \
  'STRIP=$(MOD_STRIP)' 'RANLIB=$(RANLIB)' 'CFLGS=$(CFLGS)' \
  'TCLLIB=$(TCLLIB)' 'TCLLIBFN=$(TCLLIBFN)' 'XREQS=$(XREQS)' \
@@ -545,7 +532,7 @@ diff -burN eggdrop1.6.17.orig/Makefile.in eggdrop1.6.17/Makefile.in
  
  MAKE_MODULES = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(SHLIB_CC)' 'LD=$(SHLIB_LD)' \
  'STRIP=$(SHLIB_STRIP)' 'CFLGS=$(CFLGS)' 'XLIBS=$(XLIBS)' 'MOD_EXT=$(MOD_EXT)' \
-@@ -99,12 +102,13 @@
+@@ -99,12 +102,13 @@ MAKE_STATIC = $(MAKE) 'MAKE=$(MAKE)' 'CC
  'STRIP=$(STRIP)' 'RANLIB=$(RANLIB)' 'CFLGS=$(CFLGS) -DSTATIC' \
  'TCLLIB=$(TCLLIB)' 'TCLLIBFN=$(TCLLIBFN)' 'XREQS=$(XREQS)' \
  'XLIBS=$(XLIBS)' 'EGGEXEC=$(EGGEXEC)' 'EGGBUILD=(static version)' \
@@ -561,7 +548,7 @@ diff -burN eggdrop1.6.17.orig/Makefile.in eggdrop1.6.17/Makefile.in
  
  MAKE_DEBMODULES = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(SHLIB_CC)' 'LD=$(SHLIB_LD)' \
  'XLIBS=$(XLIBS)' 'STRIP=touch' 'CFLGS=-g3 $(DEBCFLAGS) $(CFLGS)' \
-@@ -113,7 +117,8 @@
+@@ -113,7 +117,8 @@ MAKE_DEBMODULES = $(MAKE) 'MAKE=$(MAKE)'
  MAKE_SDEBUG = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(CC)' 'LD=$(LD) -g' \
  'STRIP=touch' 'RANLIB=$(RANLIB)' 'CFLGS=-g3 $(DEBCFLAGS) -DSTATIC $(CFLGS)' \
  'TCLLIB=$(TCLLIB)' 'TCLLIBFN=$(TCLLIBFN)' 'XREQS=$(XREQS)' 'XLIBS=$(XLIBS)' \
@@ -569,11 +556,11 @@ diff -burN eggdrop1.6.17.orig/Makefile.in eggdrop1.6.17/Makefile.in
 +'XSSL_INCLUDE=$(XSSL_INCLUDE)' 'XSSL_LIBS=$(XSSL_LIBS)' 'EGGEXEC=$(EGGEXEC)' \
 +'EGGBUILD=(static and debug version)' 'MODOBJS=mod/*.o'
  
- MAKE_DEPEND = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(CC)' 'LD=$(LD)' \
- 'STRIP=$(STRIP)' 'CFLGS=$(CFLGS)'
-diff -burN eggdrop1.6.17.orig/src/dcc.c eggdrop1.6.17/src/dcc.c
---- eggdrop1.6.17.orig/src/dcc.c	2004-11-01 14:40:44.050464304 +0100
-+++ eggdrop1.6.17/src/dcc.c	2004-11-01 14:41:51.870154144 +0100
+ MAKE_DEPEND = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(CC)'
+ 
+diff -burNp eggdrop1.6.19/src/dcc.c eggdrop1.6.19.new/src/dcc.c
+--- eggdrop1.6.19/src/dcc.c	2008-02-16 22:41:03.000000000 +0100
++++ eggdrop1.6.19.new/src/dcc.c	2008-09-22 14:30:37.252784308 +0200
 @@ -32,7 +32,11 @@
  #include "tandem.h"
  
@@ -586,9 +573,9 @@ diff -burN eggdrop1.6.17.orig/src/dcc.c eggdrop1.6.17/src/dcc.c
  
  extern struct userrec *userlist;
  extern struct chanset_t *chanset;
-diff -burN eggdrop1.6.17.orig/src/dccutil.c eggdrop1.6.17/src/dccutil.c
---- eggdrop1.6.17.orig/src/dccutil.c	2004-11-01 14:40:44.053463848 +0100
-+++ eggdrop1.6.17/src/dccutil.c	2004-11-01 14:41:51.872153840 +0100
+diff -burNp eggdrop1.6.19/src/dccutil.c eggdrop1.6.19.new/src/dccutil.c
+--- eggdrop1.6.19/src/dccutil.c	2008-02-16 22:41:03.000000000 +0100
++++ eggdrop1.6.19.new/src/dccutil.c	2008-09-22 14:31:42.540452895 +0200
 @@ -33,6 +33,7 @@
  #include "chan.h"
  #include "modules.h"
@@ -597,10 +584,10 @@ diff -burN eggdrop1.6.17.orig/src/dccutil.c eggdrop1.6.17/src/dccutil.c
  
  extern struct dcc_t *dcc;
  extern int dcc_total, max_dcc, dcc_flood_thr, backgrd, copy_to_tmp, MAXSOCKS;
-diff -burN eggdrop1.6.17.orig/src/eggdrop.h eggdrop1.6.17/src/eggdrop.h
---- eggdrop1.6.17.orig/src/eggdrop.h	2004-11-01 14:40:44.068461568 +0100
-+++ eggdrop1.6.17/src/eggdrop.h	2004-11-01 14:41:51.873153688 +0100
-@@ -616,17 +616,6 @@
+diff -burNp eggdrop1.6.19/src/eggdrop.h eggdrop1.6.19.new/src/eggdrop.h
+--- eggdrop1.6.19/src/eggdrop.h	2008-02-16 22:41:03.000000000 +0100
++++ eggdrop1.6.19.new/src/eggdrop.h	2008-09-22 14:33:40.008829213 +0200
+@@ -616,18 +616,6 @@ enum {
  #define HELP_TEXT       2
  #define HELP_IRC        16
  
@@ -615,13 +602,14 @@ diff -burN eggdrop1.6.17.orig/src/eggdrop.h eggdrop1.6.17/src/eggdrop.h
 -  unsigned long outbuflen;      /* Outbuf could be binary data  */
 -  unsigned long inbuflen;       /* Inbuf could be binary data   */
 -} sock_list;
- 
+-
  enum {
    EGG_OPTION_SET = 1,           /* Set option(s).               */
-diff -burN eggdrop1.6.17.orig/src/main.c eggdrop1.6.17/src/main.c
---- eggdrop1.6.17.orig/src/main.c	2004-11-01 14:40:44.069461416 +0100
-+++ eggdrop1.6.17/src/main.c	2004-11-01 14:41:51.875153384 +0100
-@@ -161,6 +161,9 @@
+   EGG_OPTION_UNSET = 2          /* Unset option(s).             */
+diff -burNp eggdrop1.6.19/src/main.c eggdrop1.6.19.new/src/main.c
+--- eggdrop1.6.19/src/main.c	2008-02-16 22:41:03.000000000 +0100
++++ eggdrop1.6.19.new/src/main.c	2008-09-22 14:35:26.008450672 +0200
+@@ -161,6 +161,9 @@ int cx_line[16];
  int cx_ptr = 0;
  #endif
  
@@ -631,7 +619,7 @@ diff -burN eggdrop1.6.17.orig/src/main.c eggdrop1.6.17/src/main.c
  
  void fatal(const char *s, int recoverable)
  {
-@@ -171,6 +174,9 @@
+@@ -171,6 +174,9 @@ void fatal(const char *s, int recoverabl
    for (i = 0; i < dcc_total; i++)
      if (dcc[i].sock >= 0)
        killsock(dcc[i].sock);
@@ -641,10 +629,10 @@ diff -burN eggdrop1.6.17.orig/src/main.c eggdrop1.6.17/src/main.c
    unlink(pid_file);
    if (!recoverable) {
      bg_send_quit(BG_ABORT);
-diff -burN eggdrop1.6.17.orig/src/Makefile.in eggdrop1.6.17/src/Makefile.in
---- eggdrop1.6.17.orig/src/Makefile.in	2004-11-01 14:40:44.067461720 +0100
-+++ eggdrop1.6.17/src/Makefile.in	2004-11-01 14:41:51.868154448 +0100
-@@ -11,6 +11,8 @@
+diff -burNp eggdrop1.6.19/src/Makefile.in eggdrop1.6.19.new/src/Makefile.in
+--- eggdrop1.6.19/src/Makefile.in	2006-11-20 12:38:25.000000000 +0100
++++ eggdrop1.6.19.new/src/Makefile.in	2008-09-22 14:38:37.400421493 +0200
+@@ -11,6 +11,8 @@ INSTALL = @INSTALL@
  INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_DATA = @INSTALL_DATA@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
@@ -653,7 +641,7 @@ diff -burN eggdrop1.6.17.orig/src/Makefile.in eggdrop1.6.17/src/Makefile.in
  
  CC = @CC@
  LD = @CC@
-@@ -37,7 +39,7 @@
+@@ -37,7 +39,7 @@ doofus:
  	@echo "Linking eggdrop $(EGGBUILD)."
  	@echo ""
  	@touch mod/mod.xlibs
@@ -662,9 +650,9 @@ diff -burN eggdrop1.6.17.orig/src/Makefile.in eggdrop1.6.17/src/Makefile.in
  	$(STRIP) ../$(EGGEXEC)
  	@echo ""
  	@echo "Successful compile: $(EGGEXEC)"
-diff -burN eggdrop1.6.17.orig/src/md5/md5c.c eggdrop1.6.17/src/md5/md5c.c
---- eggdrop1.6.17.orig/src/md5/md5c.c	2004-11-01 14:40:43.906486192 +0100
-+++ eggdrop1.6.17/src/md5/md5c.c	2004-11-01 14:41:51.920146544 +0100
+diff -burNp eggdrop1.6.19/src/md5/md5c.c eggdrop1.6.19.new/src/md5/md5c.c
+--- eggdrop1.6.19/src/md5/md5c.c	2004-04-10 09:49:23.000000000 +0200
++++ eggdrop1.6.19.new/src/md5/md5c.c	2008-09-22 14:40:36.140399142 +0200
 @@ -17,9 +17,23 @@
  
  #include <string.h>
@@ -689,28 +677,27 @@ diff -burN eggdrop1.6.17.orig/src/md5/md5c.c eggdrop1.6.17/src/md5/md5c.c
  /*
   * The basic MD5 functions.
   *
-diff -burN eggdrop1.6.17.orig/src/md5/md5.h eggdrop1.6.17/src/md5/md5.h
---- eggdrop1.6.17.orig/src/md5/md5.h	2004-11-01 14:40:43.905486344 +0100
-+++ eggdrop1.6.17/src/md5/md5.h	2004-11-01 14:41:51.876153232 +0100
-@@ -5,6 +5,9 @@
+diff -burNp eggdrop1.6.19/src/md5/md5.h eggdrop1.6.19.new/src/md5/md5.h
+--- eggdrop1.6.19/src/md5/md5.h	2003-03-06 04:35:59.000000000 +0100
++++ eggdrop1.6.19.new/src/md5/md5.h	2008-09-22 14:44:22.801432410 +0200
+@@ -5,6 +5,8 @@
   * Written by Solar Designer <solar@openwall.com> in 2001, and placed in
   * the public domain.  See md5c.c for more information.
   */
 +#include "../config.h"
 +#ifndef EGG_SSL_EXT
-+
  
  #ifndef _MD5_H
  #define _MD5_H
-@@ -24,3 +27,4 @@
+@@ -24,3 +26,4 @@ extern void MD5_Update(MD5_CTX *ctx, voi
  extern void MD5_Final(unsigned char *result, MD5_CTX *ctx);
  
  #endif
 +#endif
-diff -burN eggdrop1.6.17.orig/src/mod/irc.mod/chan.c eggdrop1.6.17/src/mod/irc.mod/chan.c
---- eggdrop1.6.17.orig/src/mod/irc.mod/chan.c	2004-11-01 14:40:44.040465824 +0100
-+++ eggdrop1.6.17/src/mod/irc.mod/chan.c	2004-11-01 14:41:51.953141528 +0100
-@@ -952,10 +952,10 @@
+diff -burNp eggdrop1.6.19/src/mod/irc.mod/chan.c eggdrop1.6.19.new/src/mod/irc.mod/chan.c
+--- eggdrop1.6.19/src/mod/irc.mod/chan.c	2008-02-16 22:41:09.000000000 +0100
++++ eggdrop1.6.19.new/src/mod/irc.mod/chan.c	2008-09-22 14:46:27.143879710 +0200
+@@ -965,10 +965,10 @@ static int got324(char *from, char *msg)
          q = strchr(p, ' ');
          if (q != NULL) {
            *q = 0;
@@ -723,10 +710,10 @@ diff -burN eggdrop1.6.17.orig/src/mod/irc.mod/chan.c eggdrop1.6.17/src/mod/irc.m
            *p = 0;
          }
        }
-diff -burN eggdrop1.6.17.orig/src/mod/irc.mod/irc.c eggdrop1.6.17/src/mod/irc.mod/irc.c
---- eggdrop1.6.17.orig/src/mod/irc.mod/irc.c	2004-11-01 14:40:44.037466280 +0100
-+++ eggdrop1.6.17/src/mod/irc.mod/irc.c	2004-11-01 14:41:51.987136360 +0100
-@@ -256,7 +256,7 @@
+diff -burNp eggdrop1.6.19/src/mod/irc.mod/irc.c eggdrop1.6.19.new/src/mod/irc.mod/irc.c
+--- eggdrop1.6.19/src/mod/irc.mod/irc.c	2008-02-16 22:41:09.000000000 +0100
++++ eggdrop1.6.19.new/src/mod/irc.mod/irc.c	2008-09-22 14:47:35.182249518 +0200
+@@ -256,7 +256,7 @@ static void maybe_revenge(struct chanset
  
  /* Set the key.
   */
@@ -735,10 +722,10 @@ diff -burN eggdrop1.6.17.orig/src/mod/irc.mod/irc.c eggdrop1.6.17/src/mod/irc.mo
  {
    nfree(chan->channel.key);
    if (k == NULL) {
-diff -burN eggdrop1.6.17.orig/src/mod/irc.mod/irc.h eggdrop1.6.17/src/mod/irc.mod/irc.h
---- eggdrop1.6.17.orig/src/mod/irc.mod/irc.h	2004-11-01 14:40:44.039465976 +0100
-+++ eggdrop1.6.17/src/mod/irc.mod/irc.h	2004-11-01 14:41:51.988136208 +0100
-@@ -69,7 +69,7 @@
+diff -burNp eggdrop1.6.19/src/mod/irc.mod/irc.h eggdrop1.6.19.new/src/mod/irc.mod/irc.h
+--- eggdrop1.6.19/src/mod/irc.mod/irc.h	2008-02-16 22:41:09.000000000 +0100
++++ eggdrop1.6.19.new/src/mod/irc.mod/irc.h	2008-09-22 14:53:47.281677127 +0200
+@@ -69,7 +69,7 @@ static void set_delay(struct chanset_t *
  
  static void reset_chan_info(struct chanset_t *);
  static void recheck_channel(struct chanset_t *, int);
@@ -747,30 +734,30 @@ diff -burN eggdrop1.6.17.orig/src/mod/irc.mod/irc.h eggdrop1.6.17/src/mod/irc.mo
  static void maybe_revenge(struct chanset_t *, char *, char *, int);
  static int detect_chan_flood(char *, char *, char *, struct chanset_t *, int,
                               char *);
-diff -burN eggdrop1.6.17.orig/src/mod/irc.mod/mode.c eggdrop1.6.17/src/mod/irc.mod/mode.c
---- eggdrop1.6.17.orig/src/mod/irc.mod/mode.c	2004-11-01 14:40:44.041465672 +0100
-+++ eggdrop1.6.17/src/mod/irc.mod/mode.c	2004-11-01 14:41:51.991135752 +0100
-@@ -1128,7 +1128,7 @@
+diff -burNp eggdrop1.6.19/src/mod/irc.mod/mode.c eggdrop1.6.19.new/src/mod/irc.mod/mode.c
+--- eggdrop1.6.19/src/mod/irc.mod/mode.c	2008-02-16 22:41:09.000000000 +0100
++++ eggdrop1.6.19.new/src/mod/irc.mod/mode.c	2008-09-22 14:57:12.177766159 +0200
+@@ -1128,7 +1128,7 @@ static int gotmode(char *from, char *ori
+             break;
            }
-           check_tcl_mode(nick, from, u, chan->dname, ms2, op);
            if (ms2[0] == '+') {
 -            set_key(chan, op);
 +            set_keyegg(chan, op);
              if (channel_active(chan))
                got_key(chan, nick, from, op);
            } else {
-@@ -1139,7 +1139,7 @@
+@@ -1139,7 +1139,7 @@ static int gotmode(char *from, char *ori
                         !chan_master(user) && !match_my_nick(nick))
                  add_mode(chan, '+', 'k', chan->key_prot);
              }
 -            set_key(chan, NULL);
-+            set_keyegg(chan, NULL);
++	    set_keyegg(chan, NULL);
            }
+           check_tcl_mode(nick, from, u, chan->dname, ms2, op);
            break;
-         case 'o':
-diff -burN eggdrop1.6.17.orig/src/mod/module.h eggdrop1.6.17/src/mod/module.h
---- eggdrop1.6.17.orig/src/mod/module.h	2004-11-01 14:40:43.926483152 +0100
-+++ eggdrop1.6.17/src/mod/module.h	2004-11-01 14:41:51.995135144 +0100
+diff -burNp eggdrop1.6.19/src/mod/module.h eggdrop1.6.19.new/src/mod/module.h
+--- eggdrop1.6.19/src/mod/module.h	2008-02-16 22:41:06.000000000 +0100
++++ eggdrop1.6.19.new/src/mod/module.h	2008-09-22 15:00:36.262853551 +0200
 @@ -471,13 +471,23 @@
  /* IPv6 leftovers: 286 */
  /* IPv6 leftovers: 287 */
@@ -796,10 +783,10 @@ diff -burN eggdrop1.6.17.orig/src/mod/module.h eggdrop1.6.17/src/mod/module.h
  
  /* hostmasking */
  #define maskhost(a,b) _maskhost((a),(b),1)
-diff -burN eggdrop1.6.17.orig/src/mod/server.mod/servmsg.c eggdrop1.6.17/src/mod/server.mod/servmsg.c
---- eggdrop1.6.17.orig/src/mod/server.mod/servmsg.c	2004-11-01 14:40:43.987473880 +0100
-+++ eggdrop1.6.17/src/mod/server.mod/servmsg.c	2004-11-01 14:41:52.036128912 +0100
-@@ -1239,6 +1239,14 @@
+diff -burNp eggdrop1.6.19/src/mod/server.mod/servmsg.c eggdrop1.6.19.new/src/mod/server.mod/servmsg.c
+--- eggdrop1.6.19/src/mod/server.mod/servmsg.c	2008-02-16 22:41:10.000000000 +0100
++++ eggdrop1.6.19.new/src/mod/server.mod/servmsg.c	2008-09-22 15:16:40.818273894 +0200
+@@ -1293,6 +1293,14 @@ static void server_resolve_success(int s
        fatal("NO SERVERS WILL ACCEPT MY CONNECTION.", 0);
    } else {
      dcc[servidx].sock = serv;
@@ -814,9 +801,9 @@ diff -burN eggdrop1.6.17.orig/src/mod/server.mod/servmsg.c eggdrop1.6.17/src/mod
      /* Queue standard login */
      dcc[servidx].timeval = now;
      SERVER_SOCKET.timeout_val = &server_timeout;
-diff -burN eggdrop1.6.17.orig/src/modules.c eggdrop1.6.17/src/modules.c
---- eggdrop1.6.17.orig/src/modules.c	2004-11-01 14:40:44.071461112 +0100
-+++ eggdrop1.6.17/src/modules.c	2004-11-01 14:41:52.041128152 +0100
+diff -burNp eggdrop1.6.19/src/modules.c eggdrop1.6.19.new/src/modules.c
+--- eggdrop1.6.19/src/modules.c	2008-02-16 22:41:04.000000000 +0100
++++ eggdrop1.6.19.new/src/modules.c	2008-09-22 15:30:23.753434245 +0200
 @@ -29,9 +29,17 @@
  #include "main.h"
  #include "modules.h"
@@ -835,7 +822,7 @@ diff -burN eggdrop1.6.17.orig/src/modules.c eggdrop1.6.17/src/modules.c
  #ifndef STATIC
  #  ifdef MOD_USE_SHL
  #    include <dl.h>
-@@ -94,6 +102,10 @@
+@@ -94,6 +102,10 @@ extern int parties, noshare, dcc_total, 
             password_timeout, force_expire, protect_readonly, reserved_port_min,
             reserved_port_max, copy_to_tmp, quiet_reject;
  
@@ -846,18 +833,17 @@ diff -burN eggdrop1.6.17.orig/src/modules.c eggdrop1.6.17/src/modules.c
  extern party_t *party;
  extern time_t now, online_since;
  extern tand_t *tandbot;
-@@ -128,6 +140,10 @@
+@@ -128,6 +140,9 @@ void check_static(char *name, char *(*fu
  }
  #endif /* STATIC */
  
 +#ifdef EGG_SSL_EXT
 +int net_switch_to_ssl(int);
 +#endif
-+
  
  /* The null functions */
  void null_func()
-@@ -564,7 +580,13 @@
+@@ -564,7 +579,13 @@ Function global_table[] = {
    (Function) 0,                   /* IPv6 leftovers: 286                 */
    (Function) 0,                   /* IPv6 leftovers: 287                 */
    /* 288 - 291 */
@@ -871,10 +857,10 @@ diff -burN eggdrop1.6.17.orig/src/modules.c eggdrop1.6.17/src/modules.c
    (Function) strip_mirc_codes,
    (Function) check_ansi,
    (Function) oatoi,
-diff -burN eggdrop1.6.17.orig/src/net.c eggdrop1.6.17/src/net.c
---- eggdrop1.6.17.orig/src/net.c	2004-11-01 14:40:44.052464000 +0100
-+++ eggdrop1.6.17/src/net.c	2004-11-01 14:41:52.044127696 +0100
-@@ -34,6 +34,18 @@
+diff -burNp eggdrop1.6.19/src/net.c eggdrop1.6.19.new/src/net.c
+--- eggdrop1.6.19/src/net.c	2008-02-16 22:41:04.000000000 +0100
++++ eggdrop1.6.19.new/src/net.c	2008-09-22 16:10:28.739840200 +0200
+@@ -52,6 +52,18 @@
  #  endif
  #endif
  
@@ -893,20 +879,20 @@ diff -burN eggdrop1.6.17.orig/src/net.c eggdrop1.6.17/src/net.c
  extern struct dcc_t *dcc;
  extern int backgrd, use_stderr, resolve_timeout, dcc_total;
  extern unsigned long otraffic_irc_today, otraffic_bn_today, otraffic_dcc_today,
-@@ -46,7 +58,11 @@
- int firewallport = 1080;      /* Default port of socks 4/5 firewalls.         */
+@@ -65,6 +77,12 @@ int firewallport = 1080;      /* Default
  char botuser[21] = "eggdrop"; /* Username of the user running the bot.        */
  int dcc_sanitycheck = 0;      /* Do some sanity checking on dcc connections.  */
--
+ 
 +#ifdef EGG_SSL_EXT
 +SSL_CTX *ssl_ctx=NULL;
 +char	*tls_rand_file = NULL;
 +int     use_ssl = 0; /* kyotou */
 +#endif
++
  sock_list *socklist = NULL;   /* Enough to be safe.                           */
  int MAXSOCKS = 0;
- jmp_buf alarmret;             /* Env buffer for alarm() returns.              */
-@@ -70,6 +86,46 @@
+ sigjmp_buf alarmret;             /* Env buffer for alarm() returns.              */
+@@ -88,6 +106,46 @@ IP my_atoul(char *s)
    return ret;
  }
  
@@ -953,14 +939,14 @@ diff -burN eggdrop1.6.17.orig/src/net.c eggdrop1.6.17/src/net.c
  /* Initialize the socklist
   */
  void init_net()
-@@ -78,8 +134,34 @@
+@@ -96,9 +154,35 @@ void init_net()
  
    for (i = 0; i < MAXSOCKS; i++) {
      socklist[i].flags = SOCK_UNUSED;
 +#ifdef EGG_SSL_EXT
 +    socklist[i].ssl=NULL;
 +#endif
-+  }
+   }
 +#ifdef EGG_SSL_EXT
 +  /* good place to init ssl stuff */
 +  SSL_load_error_strings();
@@ -971,26 +957,27 @@ diff -burN eggdrop1.6.17.orig/src/net.c eggdrop1.6.17/src/net.c
 +  if (seed_PRNG())
 +    fatal("Wasn't able to properly seed the PRNG!",0);
 +#endif
-+}
-+
+ }
+ 
 +#ifdef EGG_SSL_EXT
 +/* cleanup mess when quiting */
 +int clean_net() {
 +   if (ssl_ctx) {
 +	SSL_CTX_free(ssl_ctx);
 +	ssl_ctx = NULL;
-   }
++   }
 +  if (tls_rand_file)
 +	RAND_write_file(tls_rand_file);
 + return 0;
- }
++ }
 +#endif
- 
++
  int expmem_net()
  {
-@@ -289,6 +371,13 @@
+   int i, tot = 0;
+@@ -231,6 +315,13 @@ int sockoptions(int sock, int operation,
  
-   for (i = 0; i < MAXSOCKS; i++) {
+   for (i = 0; i < MAXSOCKS; i++)
      if ((socklist[i].sock == sock) && !(socklist[i].flags & SOCK_UNUSED)) {
 +#ifdef EGG_SSL_EXT
 +      if (socklist[i].ssl) {
@@ -998,11 +985,11 @@ diff -burN eggdrop1.6.17.orig/src/net.c eggdrop1.6.17/src/net.c
 +	    SSL_free(socklist[i].ssl);
 +	    socklist[i].ssl=NULL;
 +      }
-+#endif
-       close(socklist[i].sock);
-       if (socklist[i].inbuf != NULL) {
-         nfree(socklist[i].inbuf);
-@@ -428,6 +517,63 @@
++#endif    
+       if (operation == EGG_OPTION_SET)
+         socklist[i].flags |= sock_options;
+       else if (operation == EGG_OPTION_UNSET)
+@@ -366,6 +457,64 @@ static int proxy_connect(int sock, char 
    return sock;
  }
  
@@ -1063,10 +1050,11 @@ diff -burN eggdrop1.6.17.orig/src/net.c eggdrop1.6.17/src/net.c
 +}
 +#endif
 +
- /* Ordinary non-binary connection attempt */
- int open_telnet(char *server, int port)
- {
-@@ -639,6 +785,9 @@
++
+ /* Starts a connection attempt to a socket
+  *
+  * If given a normal hostname, this will be resolved to the corresponding
+@@ -627,6 +776,9 @@ static int sockread(char *s, int *len)
      for (i = 0; i < MAXSOCKS; i++) {
        if ((!(socklist[i].flags & SOCK_UNUSED)) &&
            ((FD_ISSET(socklist[i].sock, &fd)) ||
@@ -1076,7 +1064,7 @@ diff -burN eggdrop1.6.17.orig/src/net.c eggdrop1.6.17/src/net.c
            ((socklist[i].sock == STDOUT) && (!backgrd) &&
            (FD_ISSET(STDIN, &fd))))) {
          if (socklist[i].flags & (SOCK_LISTEN | SOCK_CONNECT)) {
-@@ -663,7 +812,31 @@
+@@ -651,7 +803,31 @@ static int sockread(char *s, int *len)
          if ((socklist[i].sock == STDOUT) && !backgrd)
            x = read(STDIN, s, grab);
          else
@@ -1103,12 +1091,12 @@ diff -burN eggdrop1.6.17.orig/src/net.c eggdrop1.6.17/src/net.c
            x = read(socklist[i].sock, s, grab);
 +	}
 +#else
-+	  x = read(socklist[i].sock, s, grab);
++	   x = read(socklist[i].sock, s, grab);
 +#endif
          if (x <= 0) {           /* eof */
            if (errno != EAGAIN) { /* EAGAIN happens when the operation would
                                    * block on a non-blocking socket, if the
-@@ -956,6 +1129,26 @@
+@@ -944,6 +1120,26 @@ void tputs(register int z, char *s, unsi
          socklist[i].outbuflen += len;
          return;
        }
@@ -1135,7 +1123,7 @@ diff -burN eggdrop1.6.17.orig/src/net.c eggdrop1.6.17/src/net.c
        /* Try. */
        x = write(z, s, len);
        if (x == -1)
-@@ -1022,6 +1215,27 @@
+@@ -1010,6 +1206,27 @@ void dequeue_sockets()
          (socklist[i].outbuf != NULL) && (FD_ISSET(socklist[i].sock, &wfds))) {
        /* Trick tputs into doing the work */
        errno = 0;
@@ -1163,9 +1151,9 @@ diff -burN eggdrop1.6.17.orig/src/net.c eggdrop1.6.17/src/net.c
        x = write(socklist[i].sock, socklist[i].outbuf, socklist[i].outbuflen);
        if ((x < 0) && (errno != EAGAIN)
  #ifdef EBADSLT
-diff -burN eggdrop1.6.17.orig/src/net.h eggdrop1.6.17/src/net.h
---- eggdrop1.6.17.orig/src/net.h	1970-01-01 01:00:00.000000000 +0100
-+++ eggdrop1.6.17/src/net.h	2004-11-01 14:41:52.045127544 +0100
+diff -burNp eggdrop1.6.19/src/net.h eggdrop1.6.19.new/src/net.h
+--- eggdrop1.6.19/src/net.h	1970-01-01 01:00:00.000000000 +0100
++++ eggdrop1.6.19.new/src/net.h	2008-09-22 16:12:38.979826983 +0200
 @@ -0,0 +1,30 @@
 +#ifndef _EGG_NET_H
 +#define _EGG_NET_H
@@ -1197,10 +1185,10 @@ diff -burN eggdrop1.6.17.orig/src/net.h eggdrop1.6.17/src/net.h
 +} sock_list;
 +
 +#endif				/* _EGG_NET_H */
-diff -burN eggdrop1.6.17.orig/src/patch.h eggdrop1.6.17/src/patch.h
---- eggdrop1.6.17.orig/src/patch.h	2004-11-01 14:40:44.074460656 +0100
-+++ eggdrop1.6.17/src/patch.h	2004-11-01 14:42:19.178002720 +0100
-@@ -46,7 +46,9 @@
+diff -burNp eggdrop1.6.19/src/patch.h eggdrop1.6.19.new/src/patch.h
+--- eggdrop1.6.19/src/patch.h	2008-04-19 06:21:20.000000000 +0200
++++ eggdrop1.6.19.new/src/patch.h	2008-09-22 16:13:41.491758122 +0200
+@@ -36,7 +36,9 @@
   *
   *
   */
@@ -1211,10 +1199,10 @@ diff -burN eggdrop1.6.17.orig/src/patch.h eggdrop1.6.17/src/patch.h
  /*
   *
   *
-diff -burN eggdrop1.6.17.orig/src/tcl.c eggdrop1.6.17/src/tcl.c
---- eggdrop1.6.17.orig/src/tcl.c	2004-11-01 14:40:44.052464000 +0100
-+++ eggdrop1.6.17/src/tcl.c	2004-11-01 14:41:52.049126936 +0100
-@@ -45,6 +45,10 @@
+diff -burNp eggdrop1.6.19/src/tcl.c eggdrop1.6.19.new/src/tcl.c
+--- eggdrop1.6.19/src/tcl.c	2008-02-16 22:41:04.000000000 +0100
++++ eggdrop1.6.19.new/src/tcl.c	2008-09-22 16:16:08.499821489 +0200
+@@ -45,6 +45,10 @@ typedef struct {
  
  extern time_t online_since;
  
@@ -1225,20 +1213,20 @@ diff -burN eggdrop1.6.17.orig/src/tcl.c eggdrop1.6.17/src/tcl.c
  extern char origbotname[], botuser[], motdfile[], admin[], userfile[],
              firewall[], helpdir[], notify_new[], hostname[], myip[], moddir[],
              tempdir[], owner[], network[], botnetnick[], bannerfile[],
-@@ -524,6 +528,9 @@
+@@ -522,6 +526,9 @@ static tcl_ints def_tcl_ints[] = {
    {"enable-simul",          &enable_simul,         0}, /* compat */
    {"debug-output",          &debug_output,         0}, /* compat */
    {"use-console-r",         &use_console_r,        0}, /* compat */
 +#ifdef EGG_SSL_EXT
-+  {"use-ssl",			&use_ssl,		0}, /* kyotou */
++  {"use-ssl",               &use_ssl,              0}, /* kyotou */
 +#endif
    {NULL,                    NULL,                  0}
  };
  
-diff -burN eggdrop1.6.17.orig/src/tclmisc.c eggdrop1.6.17/src/tclmisc.c
---- eggdrop1.6.17.orig/src/tclmisc.c	2004-11-01 14:40:44.070461264 +0100
-+++ eggdrop1.6.17/src/tclmisc.c	2004-11-01 14:41:52.089120856 +0100
-@@ -26,7 +26,13 @@
+diff -burNp eggdrop1.6.19/src/tclmisc.c eggdrop1.6.19.new/src/tclmisc.c
+--- eggdrop1.6.19/src/tclmisc.c	2008-02-16 22:41:04.000000000 +0100
++++ eggdrop1.6.19.new/src/tclmisc.c	2008-09-22 16:17:34.872716077 +0200
+@@ -26,7 +26,12 @@
  #include "main.h"
  #include "modules.h"
  #include "tandem.h"
@@ -1249,7 +1237,6 @@ diff -burN eggdrop1.6.17.orig/src/tclmisc.c eggdrop1.6.17/src/tclmisc.c
 +#else
 +#include "openssl/md5.h"
 +#endif
-+
  
  #ifdef TIME_WITH_SYS_TIME
  #  include <sys/time.h>

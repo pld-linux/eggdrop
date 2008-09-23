@@ -1,8 +1,8 @@
-diff -urN eggdrop1.6.15/eggdrop.conf eggdrop1.6.15-config_encryption/eggdrop.conf
---- eggdrop1.6.15/eggdrop.conf	Mon May  5 00:05:32 2003
-+++ eggdrop1.6.15-config_encryption/eggdrop.conf	Tue May  6 15:44:42 2003
-@@ -1273,15 +1273,18 @@
- #loadmodule seen
+diff -burNp eggdrop1.6.19/eggdrop.conf eggdrop1.6.19-new/eggdrop.conf
+--- eggdrop1.6.19/eggdrop.conf	2008-02-16 21:15:30.000000000 +0100
++++ eggdrop1.6.19-new/eggdrop.conf	2008-09-23 11:32:44.879761861 +0200
+@@ -422,14 +422,19 @@ die "Please make sure you edit your conf
+ set mod-path "modules/"
  
  
 -#### BLOWFISH MODULE ####
@@ -13,12 +13,13 @@ diff -urN eggdrop1.6.15/eggdrop.conf eggdrop1.6.15-config_encryption/eggdrop.con
  # Please note that when you change your encryption method later (i.e.
  # using other modules like a md5 module), you can't use your current
  # userfile anymore. Eggdrop will not start without an encryption module.
-+# Choose only one of the following
- #loadmodule blowfish
--
+-loadmodule blowfish
++# WARNING! rijndael temporarily disabled, do not use it.
++# # Choose only one of the following:
++#loadmodule blowfish
 +#loadmodule idea
 +#loadmodule twofish
-+#loadmodule rijndael
++#loadmodule rijndael (do not use it, needs fixing)
  
- #### ASSOC MODULE ####
  
+ #### DNS MODULE ####

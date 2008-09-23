@@ -1,6 +1,7 @@
---- src/tcl.c.org	2008-03-09 12:56:37.212570719 +0100
-+++ src/tcl.c	2008-03-09 12:56:59.183621062 +0100
-@@ -292,7 +292,7 @@
+diff -burNp eggdrop1.6.19/src/tcl.c eggdrop1.6.19-new/src/tcl.c
+--- eggdrop1.6.19/src/tcl.c	2008-02-16 22:41:04.000000000 +0100
++++ eggdrop1.6.19-new/src/tcl.c	2008-09-22 16:45:55.460597054 +0200
+@@ -282,7 +282,7 @@ static char *tcl_eggstr(ClientData cdata
        if (!obj)
          return NULL;
        len = 0;
@@ -9,7 +10,7 @@
        if (!bytes)
          return NULL;
        s = malloc(len + 1);
-@@ -350,7 +350,7 @@
+@@ -339,7 +339,7 @@ static int utf_converter(ClientData cdat
    utftot += sizeof(char *) * objc;
    objc -= 5;
    for (i = 0; i < objc; i++) {

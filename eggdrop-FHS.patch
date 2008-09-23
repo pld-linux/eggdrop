@@ -1,16 +1,17 @@
-diff -burN eggdrop1.6.17.orig/configure eggdrop1.6.17/configure
---- eggdrop1.6.17.orig/configure	2004-10-18 00:15:56.795954240 +0200
-+++ eggdrop1.6.17/configure	2004-10-18 00:23:38.287796816 +0200
-@@ -315,7 +315,7 @@
+diff -burNp eggdrop1.6.19/configure eggdrop1.6.19.new/configure
+--- eggdrop1.6.19/configure	2008-04-19 06:21:20.000000000 +0200
++++ eggdrop1.6.19.new/configure	2008-09-22 09:29:38.000000000 +0200
+@@ -315,7 +315,8 @@ ac_includes_default="\
  # include <unistd.h>
  #endif"
  
 -ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS egg_ac_parameters CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CPP EGREP INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA SET_MAKE RANLIB ac_ct_RANLIB LN_S HEAD_1 STRIP AWK BASENAME UNAME DEFAULT_MAKE MOD_EXT MODULE_XLIBS MOD_LD MOD_CC MOD_STRIP SHLIB_LD SHLIB_CC SHLIB_STRIP EGGEXEC TCLLIB TCLLIBFN TCLINC TCLINCFN TCL_REQS TCL_LIBS EGGVERSION DEST MOD_UPDIR LIBOBJS LTLIBOBJS'
 +ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS egg_ac_parameters CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CPP EGREP INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA SET_MAKE RANLIB ac_ct_RANLIB LN_S HEAD_1 STRIP AWK BASENAME UNAME DEFAULT_MAKE MOD_EXT MODULE_XLIBS MOD_LD MOD_CC MOD_STRIP SHLIB_LD SHLIB_CC SHLIB_STRIP EGGEXEC TCLLIB TCLLIBFN TCLINC TCLINCFN TCL_REQS TCL_LIBS EGGVERSION DESTDIR MOD_UPDIR LIBOBJS LTLIBOBJS'
++
  ac_subst_files=''
  
  # Initialize some variables set by options.
-@@ -10113,8 +10113,8 @@
+@@ -10129,8 +10130,8 @@ _ACEOF
  
  
  
@@ -21,7 +22,7 @@ diff -burN eggdrop1.6.17.orig/configure eggdrop1.6.17/configure
    fi
  
  
-@@ -10812,7 +10812,7 @@
+@@ -10828,7 +10829,7 @@ s,@TCLINCFN@,$TCLINCFN,;t t
  s,@TCL_REQS@,$TCL_REQS,;t t
  s,@TCL_LIBS@,$TCL_LIBS,;t t
  s,@EGGVERSION@,$EGGVERSION,;t t
@@ -30,9 +31,9 @@ diff -burN eggdrop1.6.17.orig/configure eggdrop1.6.17/configure
  s,@MOD_UPDIR@,$MOD_UPDIR,;t t
  s,@LIBOBJS@,$LIBOBJS,;t t
  s,@LTLIBOBJS@,$LTLIBOBJS,;t t
-diff -burN eggdrop1.6.17.orig/doc/html/compiling.html eggdrop1.6.17/doc/html/compiling.html
---- eggdrop1.6.17.orig/doc/html/compiling.html	2004-10-18 00:15:56.620980840 +0200
-+++ eggdrop1.6.17/doc/html/compiling.html	2004-10-18 00:24:19.855477568 +0200
+diff -burNp eggdrop1.6.19/doc/html/compiling.html eggdrop1.6.19.new/doc/html/compiling.html
+--- eggdrop1.6.19/doc/html/compiling.html	2008-02-16 22:40:58.000000000 +0100
++++ eggdrop1.6.19.new/doc/html/compiling.html	2008-09-22 09:32:52.000000000 +0200
 @@ -147,7 +147,7 @@
  
          <blockquote>
@@ -42,7 +43,7 @@ diff -burN eggdrop1.6.17.orig/doc/html/compiling.html eggdrop1.6.17/doc/html/com
  </pre>
          </blockquote>
  
-@@ -155,7 +155,7 @@
+@@ -155,7 +155,7 @@ make install DEST=&lt;directory&gt;
  
          <blockquote>
  <pre>
@@ -51,7 +52,7 @@ diff -burN eggdrop1.6.17.orig/doc/html/compiling.html eggdrop1.6.17/doc/html/com
  </pre>
          </blockquote>
        </ol>
-@@ -255,7 +255,7 @@
+@@ -255,7 +255,7 @@ sh5 ./configure --with-tclinc=&#39;&lt;f
  
            <blockquote>
  <pre>
@@ -60,7 +61,7 @@ diff -burN eggdrop1.6.17.orig/doc/html/compiling.html eggdrop1.6.17/doc/html/com
  </pre>
            </blockquote>
  
-@@ -263,7 +263,7 @@
+@@ -263,7 +263,7 @@ gmake install DEST=&#39;directory&#39;
  
            <blockquote>
  <pre>
@@ -69,7 +70,7 @@ diff -burN eggdrop1.6.17.orig/doc/html/compiling.html eggdrop1.6.17/doc/html/com
  </pre>
            </blockquote></li>
          </ol>
-@@ -389,14 +389,14 @@
+@@ -389,14 +389,14 @@ tar -zxf eggdrop1.6.19.tar.gz
  
            <li>Compile the bot using &#39;make eggdrop&#39;.<br><br></li>
  
@@ -86,9 +87,9 @@ diff -burN eggdrop1.6.17.orig/doc/html/compiling.html eggdrop1.6.17/doc/html/com
  </pre>
            </blockquote>
  
-diff -burN eggdrop1.6.17.orig/doc/html/faqs.html eggdrop1.6.17/doc/html/faqs.html
---- eggdrop1.6.17.orig/doc/html/faqs.html	2004-10-18 00:15:56.612982056 +0200
-+++ eggdrop1.6.17/doc/html/faqs.html	2004-10-18 00:24:19.882473464 +0200
+diff -burNp eggdrop1.6.19/doc/html/faqs.html eggdrop1.6.19.new/doc/html/faqs.html
+--- eggdrop1.6.19/doc/html/faqs.html	2008-02-16 22:40:58.000000000 +0100
++++ eggdrop1.6.19.new/doc/html/faqs.html	2008-09-22 09:36:32.000000000 +0200
 @@ -254,7 +254,7 @@
  
            <li>
@@ -98,9 +99,9 @@ diff -burN eggdrop1.6.17.orig/doc/html/faqs.html eggdrop1.6.17/doc/html/faqs.htm
              and install your bot.</p>
            </li>
  
-diff -burN eggdrop1.6.17.orig/doc/html/install.html eggdrop1.6.17/doc/html/install.html
---- eggdrop1.6.17.orig/doc/html/install.html	2004-10-18 00:15:56.623980384 +0200
-+++ eggdrop1.6.17/doc/html/install.html	2004-10-18 00:24:19.894471640 +0200
+diff -burNp eggdrop1.6.19/doc/html/install.html eggdrop1.6.19.new/doc/html/install.html
+--- eggdrop1.6.19/doc/html/install.html	2008-02-16 22:40:58.000000000 +0100
++++ eggdrop1.6.19.new/doc/html/install.html	2008-09-22 09:39:15.000000000 +0200
 @@ -100,13 +100,13 @@
         <p>If you want to install to a different directory, use:</p>
  
@@ -117,9 +118,9 @@ diff -burN eggdrop1.6.17.orig/doc/html/install.html eggdrop1.6.17/doc/html/insta
         </blockquote>
  
         <p>Note that you must use full path for every file to be correctly
-diff -burN eggdrop1.6.17.orig/doc/html/readme.html eggdrop1.6.17/doc/html/readme.html
---- eggdrop1.6.17.orig/doc/html/readme.html	2004-10-18 00:15:56.632979016 +0200
-+++ eggdrop1.6.17/doc/html/readme.html	2004-10-18 00:24:19.979458720 +0200
+diff -burNp eggdrop1.6.19/doc/html/readme.html eggdrop1.6.19.new/doc/html/readme.html
+--- eggdrop1.6.19/doc/html/readme.html	2008-02-16 22:40:59.000000000 +0100
++++ eggdrop1.6.19.new/doc/html/readme.html	2008-09-22 09:39:49.000000000 +0200
 @@ -261,7 +261,7 @@
      <blockquote>
        <p>If you followed <a href="install.html">Compilation and
@@ -129,9 +130,9 @@ diff -burN eggdrop1.6.17.orig/doc/html/readme.html eggdrop1.6.17/doc/html/readme
        this will be pretty easy. Just upload the new eggdrop1.6.x.tar.gz file
        to your home dir on your shell, gunzip and untar it, and type &#39;cd
        ~/eggdrop1.6.x&#39;. Next, type &#39;./configure&#39;, &#39;make
-diff -burN eggdrop1.6.17.orig/doc/html/starting.html eggdrop1.6.17/doc/html/starting.html
---- eggdrop1.6.17.orig/doc/html/starting.html	2004-10-18 00:15:56.613981904 +0200
-+++ eggdrop1.6.17/doc/html/starting.html	2004-10-18 00:24:19.983458112 +0200
+diff -burNp eggdrop1.6.19/doc/html/starting.html eggdrop1.6.19.new/doc/html/starting.html
+--- eggdrop1.6.19/doc/html/starting.html	2008-02-16 22:40:59.000000000 +0100
++++ eggdrop1.6.19.new/doc/html/starting.html	2008-09-22 09:42:21.000000000 +0200
 @@ -97,7 +97,7 @@
      Eggdrop, you just have to do:</p>
  
@@ -141,10 +142,10 @@ diff -burN eggdrop1.6.17.orig/doc/html/starting.html eggdrop1.6.17/doc/html/star
      </blockquote>
  
      <p>and it will copy all the necessary files.</p>
-diff -burN eggdrop1.6.17.orig/doc/Makefile.in eggdrop1.6.17/doc/Makefile.in
---- eggdrop1.6.17.orig/doc/Makefile.in	2004-10-18 00:15:56.638978104 +0200
-+++ eggdrop1.6.17/doc/Makefile.in	2004-10-18 00:23:49.173141992 +0200
-@@ -34,39 +34,39 @@
+diff -burNp eggdrop1.6.19/doc/Makefile.in eggdrop1.6.19.new/doc/Makefile.in
+--- eggdrop1.6.19/doc/Makefile.in	2004-08-08 20:17:00.000000000 +0200
++++ eggdrop1.6.19.new/doc/Makefile.in	2008-09-22 09:45:18.000000000 +0200
+@@ -34,39 +34,39 @@ clean:
  	@rm -f *~
  
  install:
@@ -197,16 +198,16 @@ diff -burN eggdrop1.6.17.orig/doc/Makefile.in eggdrop1.6.17/doc/Makefile.in
 +			$(INSTALL_DATA) $$i $(DESTDIR)/doc/html/; \
  		done; \
  	fi
-diff -burN eggdrop1.6.17.orig/eggdrop.conf eggdrop1.6.17/eggdrop.conf
---- eggdrop1.6.17.orig/eggdrop.conf	2004-10-18 00:15:56.808952264 +0200
-+++ eggdrop1.6.17/eggdrop.conf	2004-10-18 00:26:48.348903136 +0200
+diff -burNp eggdrop1.6.19/eggdrop.conf eggdrop1.6.19.new/eggdrop.conf
+--- eggdrop1.6.19/eggdrop.conf	2008-02-16 21:15:30.000000000 +0100
++++ eggdrop1.6.19.new/eggdrop.conf	2008-09-22 09:52:43.000000000 +0200
 @@ -1,4 +1,4 @@
 -#! /path/to/executable/eggdrop
 +#! /usr/bin/eggdrop
  # ^- This should contain a fully qualified path to your Eggdrop executable.
  #
  # $Id$
-@@ -185,22 +185,22 @@
+@@ -185,22 +185,22 @@ set sort-users 0
  
  # Specify here where Eggdrop should look for help files. Don't modify this
  # setting unless you know what you're doing!
@@ -233,7 +234,7 @@ diff -burN eggdrop1.6.17.orig/eggdrop.conf eggdrop1.6.17/eggdrop.conf
  
  # This specifies what permissions the user, channel, and notes files should
  # be set to. The octal values are the same as for the chmod system command.
-@@ -420,7 +420,7 @@
+@@ -419,7 +419,7 @@ die "Please make sure you edit your conf
  # If you run the bot from the compilation directory, you will want to set
  # this to "". If you use 'make install' (like all good kiddies do ;), this
  # is a fine default. Otherwise, use your head :)
@@ -241,22 +242,22 @@ diff -burN eggdrop1.6.17.orig/eggdrop.conf eggdrop1.6.17/eggdrop.conf
 +set mod-path "/usr/lib/eggdrop/modules/"
  
  
- #### DNS MODULE ####
-@@ -1327,17 +1327,17 @@
+ #### BLOWFISH MODULE ####
+@@ -1334,19 +1334,19 @@ loadmodule uptime
  # directory. All scripts should be put there, although you can place them where
  # you like as long as you can supply a fully qualified path to them.
  #
 -# source scripts/script.tcl
-+# source /usr/share/eggdrop/scripts/script.tcl
++# /usr/share/eggdrop/scripts/script.tcl
  
 -source scripts/alltools.tcl
 -source scripts/action.fix.tcl
 +source /usr/share/eggdrop/scripts/alltools.tcl
 +source /usr/share/eggdrop/scripts/action.fix.tcl
  
- # Use this script for Tcl and Eggdrop downwards compatibility.
+ # Use this script for Tcl and Eggdrop backwards compatibility.
  # NOTE: This can also cause problems with some newer scripts.
--source scripts/compat.tcl
+-#source scripts/compat.tcl
 +source /usr/share/eggdrop/scripts/compat.tcl
  
  # This script provides many useful informational functions, like setting
@@ -265,10 +266,12 @@ diff -burN eggdrop1.6.17.orig/eggdrop.conf eggdrop1.6.17/eggdrop.conf
 -source scripts/userinfo.tcl
 +source /usr/share/eggdrop/scripts/userinfo.tcl
  loadhelp userinfo.help
-diff -burN eggdrop1.6.17.orig/INSTALL eggdrop1.6.17/INSTALL
---- eggdrop1.6.17.orig/INSTALL	2004-10-18 00:15:56.820950440 +0200
-+++ eggdrop1.6.17/INSTALL	2004-10-18 00:21:41.065617296 +0200
-@@ -66,11 +66,11 @@
+ 
+ # A few IRC networks (EFnet and Undernet) have added some simple checks to
+diff -burNp eggdrop1.6.19/INSTALL eggdrop1.6.19.new/INSTALL
+--- eggdrop1.6.19/INSTALL	2008-02-16 22:40:54.000000000 +0100
++++ eggdrop1.6.19.new/INSTALL	2008-09-22 09:53:40.000000000 +0200
+@@ -66,11 +66,11 @@ Last revised: July 24, 2004
  
           If you want to install to a different directory, use:
  
@@ -282,10 +285,10 @@ diff -burN eggdrop1.6.17.orig/INSTALL eggdrop1.6.17/INSTALL
  
           Note that you must use full path for every file to be correctly
           installed.
-diff -burN eggdrop1.6.17.orig/Makefile.in eggdrop1.6.17/Makefile.in
---- eggdrop1.6.17.orig/Makefile.in	2004-10-18 00:15:56.809952112 +0200
-+++ eggdrop1.6.17/Makefile.in	2004-10-18 00:22:54.704422496 +0200
-@@ -11,7 +11,7 @@
+diff -burNp eggdrop1.6.19/Makefile.in eggdrop1.6.19.new/Makefile.in
+--- eggdrop1.6.19/Makefile.in	2004-08-28 08:43:21.000000000 +0200
++++ eggdrop1.6.19.new/Makefile.in	2008-09-22 09:56:26.000000000 +0200
+@@ -11,7 +11,7 @@ VPATH = @srcdir@
  
  @SET_MAKE@
  prefix = @prefix@
@@ -294,7 +297,7 @@ diff -burN eggdrop1.6.17.orig/Makefile.in eggdrop1.6.17/Makefile.in
  EGGEXEC = @EGGEXEC@
  EGGVERSION = @EGGVERSION@
  
-@@ -120,7 +120,7 @@
+@@ -119,7 +119,7 @@ MAKE_DEPEND = $(MAKE) 'MAKE=$(MAKE)' 'CC
  
  MAKE_CONFIG = $(MAKE) 'MAKE=$(MAKE)'
  
@@ -303,7 +306,7 @@ diff -burN eggdrop1.6.17.orig/Makefile.in eggdrop1.6.17/Makefile.in
  
  all: @DEFAULT_MAKE@
  
-@@ -309,109 +309,109 @@
+@@ -308,109 +308,109 @@ install-start:
  		echo ""; \
  		exit 1; \
  	fi
@@ -456,7 +459,7 @@ diff -burN eggdrop1.6.17.orig/Makefile.in eggdrop1.6.17/Makefile.in
  		done; \
  	fi
  	@cd src/mod/ && $(MAKE_INSTALL) install-help
-@@ -419,25 +419,25 @@
+@@ -418,25 +418,25 @@ install-help:
  install-language:
  	@echo "Copying language files."
  	@if test ! "x`echo $(srcdir)/language/*.lang`" = "x$(srcdir)/language/*.lang"; then \
@@ -489,7 +492,7 @@ diff -burN eggdrop1.6.17.orig/Makefile.in eggdrop1.6.17/Makefile.in
  	@cd doc/ && $(MAKE_INSTALL) install
  
  install-scripts:
-@@ -450,7 +450,7 @@
+@@ -449,7 +449,7 @@ install-end:
  	@echo "You MUST ensure that you edit/verify your configuration file."
  	@echo "An example configuration file, eggdrop.conf, is distributed with Eggdrop."
  	@echo ""
@@ -498,10 +501,10 @@ diff -burN eggdrop1.6.17.orig/Makefile.in eggdrop1.6.17/Makefile.in
  	@echo ""
  
  #safety hash
-diff -burN eggdrop1.6.17.orig/scripts/Makefile.in eggdrop1.6.17/scripts/Makefile.in
---- eggdrop1.6.17.orig/scripts/Makefile.in	2004-10-18 00:15:56.805952720 +0200
-+++ eggdrop1.6.17/scripts/Makefile.in	2004-10-18 00:27:06.471148136 +0200
-@@ -31,44 +31,44 @@
+diff -burNp eggdrop1.6.19/scripts/Makefile.in eggdrop1.6.19.new/scripts/Makefile.in
+--- eggdrop1.6.19/scripts/Makefile.in	2008-02-16 07:00:17.000000000 +0100
++++ eggdrop1.6.19.new/scripts/Makefile.in	2008-09-22 09:58:28.000000000 +0200
+@@ -32,44 +32,44 @@ clean:
  	@rm -f *~
  
  install:
@@ -560,9 +563,9 @@ diff -burN eggdrop1.6.17.orig/scripts/Makefile.in eggdrop1.6.17/scripts/Makefile
  			done; \
  		fi; \
  	fi
-diff -burN eggdrop1.6.17.orig/src/eggdrop.h eggdrop1.6.17/src/eggdrop.h
---- eggdrop1.6.17.orig/src/eggdrop.h	2004-10-18 00:15:56.762959256 +0200
-+++ eggdrop1.6.17/src/eggdrop.h	2004-10-18 00:27:26.368123336 +0200
+diff -burNp eggdrop1.6.19/src/eggdrop.h eggdrop1.6.19.new/src/eggdrop.h
+--- eggdrop1.6.19/src/eggdrop.h	2008-02-16 22:41:03.000000000 +0100
++++ eggdrop1.6.19.new/src/eggdrop.h	2008-09-22 10:00:48.000000000 +0200
 @@ -75,7 +75,7 @@
  
  
@@ -572,10 +575,10 @@ diff -burN eggdrop1.6.17.orig/src/eggdrop.h eggdrop1.6.17/src/eggdrop.h
  #define BASELANG "english"    /* language which always gets loaded before
                                   all other languages. You do not want to
                                   change this.                              */
-diff -burN eggdrop1.6.17.orig/src/mod/Makefile.in eggdrop1.6.17/src/mod/Makefile.in
---- eggdrop1.6.17.orig/src/mod/Makefile.in	2004-10-18 00:15:56.711967008 +0200
-+++ eggdrop1.6.17/src/mod/Makefile.in	2004-10-18 00:27:34.444895480 +0200
-@@ -121,50 +121,50 @@
+diff -burNp eggdrop1.6.19/src/mod/Makefile.in eggdrop1.6.19.new/src/mod/Makefile.in
+--- eggdrop1.6.19/src/mod/Makefile.in	2004-08-28 08:43:22.000000000 +0200
++++ eggdrop1.6.19.new/src/mod/Makefile.in	2008-09-22 10:02:45.000000000 +0200
+@@ -123,50 +123,50 @@ install: install-help install-language
  
  install-help:
  	@echo "Copying module help files."
