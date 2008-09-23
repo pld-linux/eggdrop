@@ -641,3 +641,20 @@ diff -burNp eggdrop1.6.19/src/mod/Makefile.in eggdrop1.6.19.new/src/mod/Makefile
  			done; \
  		fi; \
  	done;
+diff -burNp eggdrop1.6.19/eggdrop.conf eggdrop1.6.19-new/eggdrop.conf
+--- eggdrop1.6.19/eggdrop.conf	2008-02-16 21:15:30.000000000 +0100
++++ eggdrop1.6.19-new/eggdrop.conf	2008-09-23 19:10:36.435603076 +0200
+@@ -1359,11 +1359,11 @@ if {[info exists net-type]} {
+   switch -- ${net-type} {
+     "0" {
+       # EFnet
+-      source scripts/quotepong.tcl
++      source /usr/share/eggdrop/scripts/quotepong.tcl
+     }
+     "2" {
+       # Undernet
+-      source scripts/quotepass.tcl
++      source /usr/share/eggdrop/scripts/quotepass.tcl
+     }
+   }
+ }
