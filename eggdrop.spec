@@ -46,7 +46,6 @@ Source27:	http://pld.mysza.eu.org/sources/%{name}-module-idea-1.0.2.tar.gz
 Source28:	http://pld.mysza.eu.org/sources/%{name}-module-twofish-1.0.tar.gz
 # Source28-md5:	861957c170b4af105199202e724be2a3
 #Source29:	http://pld.mysza.eu.org/sources/%{name}-module-rijndael-1.0.tar.gz
-# Source29-md5:	0210476c24ed6f24e1fdc1cbab41a863
 Patch0:		%{name}-FHS.patch
 Patch1:		%{name}-doc_makefile.patch
 Patch2:		%{name}-multilevel_sharing.patch
