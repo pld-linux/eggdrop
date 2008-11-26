@@ -152,7 +152,8 @@ Eggdrop находится на канале в целях оказания за
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
+# fixes some utf8 but breaks iso via netlink.tcl
+# %patch9 -p1
 
 %build
 # detect threaded tcl version
