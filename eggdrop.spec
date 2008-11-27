@@ -1,10 +1,11 @@
+%bcond_with	suzi # encoding enhancements
 Summary:	Eggdrop is an IRC bot, written in C
 Summary(pl.UTF-8):	Eggdrop jest botem IRC napisanym w C
 Summary(pt_BR.UTF-8):	Bot de IRC escrito em C
 Summary(ru.UTF-8):	Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
 Version:	1.6.19
-Release:	3
+Release:	4
 License:	GPL v2
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
@@ -46,6 +47,9 @@ Source27:	%{name}-module-idea-1.0.2.tar.gz
 Source28:	%{name}-module-twofish-1.0.tar.gz
 # Source28-md5:	861957c170b4af105199202e724be2a3
 #Source29:	%{name}-module-rijndael-1.0.tar.gz
+# http://eggdrop.msk.ru/files/irc/eggdrop1.6.19-patch-sp0009+SSL.tar.bz2
+Source30:	http://eggdrop.msk.ru/files/irc/eggdrop1.6.19-patch-sp0009.tar.bz2
+# Source30-md5:	a9c610c95a13d3dc54809173d8a75c34
 Patch0:		%{name}-FHS.patch
 Patch1:		%{name}-doc_makefile.patch
 Patch2:		%{name}-multilevel_sharing.patch
@@ -55,7 +59,6 @@ Patch5:		%{name}-autobotchk.patch
 Patch6:		%{name}-ssl.patch
 Patch7:		%{name}-nolibs.patch
 Patch8:		%{name}-nohostwhowhom.patch
-Patch9:		%{name}-bz-463.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -142,18 +145,21 @@ Eggdrop находится на канале в целях оказания за
 соответствующих прав и привилегий.
 
 %prep
-%setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28
+%setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a30
 %patch0 -p1
 %patch1 -p0
-%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
 %patch7 -p1
 %patch8 -p1
-# fixes some utf8 but breaks iso via netlink.tcl
-# %patch9 -p1
+
+%if %{with suzi}
+patch -p1 < eggdrop1.6.19-sp.0009.diff || exit 1
+%else
+%patch2 -p1
+%patch6 -p1
+%endif
 
 %build
 # detect threaded tcl version
@@ -199,7 +205,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc docs/*
+%doc docs/* %{?with_suzi:docs/*utf-8*.txt}
 %attr(755,root,root) %{_bindir}/%{name}
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
