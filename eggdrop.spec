@@ -49,7 +49,7 @@ Source28:	%{name}-module-twofish-1.0.tar.gz
 #Source29:	%{name}-module-rijndael-1.0.tar.gz
 # http://eggdrop.msk.ru/files/irc/eggdrop1.6.19-patch-sp0009+SSL.tar.bz2
 Source30:	http://eggdrop.msk.ru/files/irc/eggdrop1.6.19-patch-sp0009.tar.bz2
-# Source30-md5:	a9c610c95a13d3dc54809173d8a75c34
+# Source30-md5:	37df8dbb76a2b2283e2e80c182dc9967
 Patch0:		%{name}-FHS.patch
 Patch1:		%{name}-doc_makefile.patch
 Patch2:		%{name}-multilevel_sharing.patch
