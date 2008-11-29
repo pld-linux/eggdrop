@@ -1,4 +1,7 @@
-%bcond_with	suzi # encoding enhancements
+#
+# Conditional build:
+%bcond_with	suzi	# encoding enhancements
+#
 Summary:	Eggdrop is an IRC bot, written in C
 Summary(pl.UTF-8):	Eggdrop jest botem IRC napisanym w C
 Summary(pt_BR.UTF-8):	Bot de IRC escrito em C
