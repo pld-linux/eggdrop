@@ -1,0 +1,821 @@
+diff -urN eggdrop1.6.19/config.h.in eggdrop1.6.19-ipv6/config.h.in
+--- config.h.in	 2006-11-20 12:38:25.000000000 +0100
++++ config.h.in	2008-07-27 22:13:41.000000000 +0200
+@@ -372,6 +372,9 @@
+ /* Define to `unsigned' if <sys/types.h> does not define. */
+ #undef size_t
+
++/* Define if there is IPV6 */
++#define IPV6
++
+ /* Define to empty if the keyword `volatile' does not work. Warning: valid
+    code using `volatile' can become incorrect without. Disable with care. */
+ #undef volatile
+diff -urN eggdrop1.6.19/eggdrop.conf eggdrop1.6.19-ipv6/eggdrop.conf
+--- eggdrop.conf	2008-02-16 21:15:30.000000000 +0100
++++ eggdrop.conf	2008-07-27 22:13:43.000000000 +0200
+@@ -56,7 +56,9 @@
+ # by hostname or by IP. You may also want to set the hostname here if
+ # Eggdrop has trouble detecting it when it starts up.
+ #set my-hostname "virtual.host.com"
+-#set my-ip "99.99.0.0"
++#set my-ip "98.76.54.32"
++#set my-hostname6 "virtual.host6.com"
++#set my-ip6 "2002:624c:3620::1"
+
+ # If you want to have your Eggdrop messages displayed in a language other
+ # than English, change this setting to match your preference. An alternative
+diff -urN eggdrop1.6.19/src/botnet.c eggdrop1.6.19-ipv6/src/botnet.c
+--- src/botnet.c	2008-02-16 22:41:03.000000000 +0100
++++ src/botnet.c	2008-07-27 22:13:40.000000000 +0200
+@@ -1063,7 +1063,7 @@
+   strcpy(dcc[i].u.bot->version, "(primitive bot)");
+   dcc[i].u.bot->numver = idx;
+   dcc[i].u.bot->port = dcc[i].port;     /* Remember where i started */
+-  dcc[i].sock = getsock(SOCK_STRONGCONN);
++  dcc[i].sock = getsock(SOCK_STRONGCONN,getprotocol(dcc[i].host));
+   nfree(linker);
+   if (dcc[i].sock < 0 ||
+       open_telnet_raw(dcc[i].sock, iptostr(htonl(dcc[i].addr)),
+@@ -1099,7 +1099,7 @@
+     return;
+   }
+   killsock(dcc[idx].sock);
+-  dcc[idx].sock = getsock(SOCK_STRONGCONN);
++  dcc[idx].sock = getsock(SOCK_STRONGCONN,getprotocol(dcc[idx].host));
+   dcc[uidx].u.relay->sock = dcc[idx].sock;
+   dcc[idx].port++;
+   dcc[idx].timeval = now;
+@@ -1145,7 +1145,7 @@
+     return;
+   }
+
+-  dcc[i].sock = getsock(SOCK_STRONGCONN | SOCK_VIRTUAL);
++  dcc[i].sock = getsock(SOCK_STRONGCONN | SOCK_VIRTUAL,getprotocol(bi->address));
+   if (dcc[i].sock < 0) {
+     lostdcc(i);
+     dprintf(idx, "%s\n", MISC_NOFREESOCK);
+diff -urN eggdrop1.6.19/src/chanprog.c eggdrop1.6.19-ipv6/src/chanprog.c
+--- src/chanprog.c	2008-02-16 22:41:03.000000000 +0100
++++ src/chanprog.c	2008-07-27 22:13:41.000000000 +0200
+@@ -294,6 +294,8 @@
+           botnetnick, ver, i, i == 1 ? "" : "s",
+           (int) (expected_memory() / 1024));
+
++  dprintf(idx, "Unofficial IPv6 patch for v1.6.19 based on the v1.6.18 IPv6 patch \n");
++
+   s[0] = 0;
+   if (now2 > 86400) {
+     /* days */
+diff -urN eggdrop1.6.19/src/dcc.c eggdrop1.6.19-ipv6/src/dcc.c
+--- src/dcc.c	2008-02-16 22:41:03.000000000 +0100
++++ src/dcc.c	2008-07-27 22:13:42.000000000 +0200
+@@ -234,7 +234,7 @@
+
+   /* Try next port */
+   killsock(dcc[idx].sock);
+-  dcc[idx].sock = getsock(SOCK_STRONGCONN);
++  dcc[idx].sock = getsock(SOCK_STRONGCONN,getprotocol(dcc[idx].host));
+   dcc[idx].port++;
+   dcc[idx].timeval = now;
+   if (dcc[idx].sock < 0 ||
+@@ -1174,7 +1174,8 @@
+   changeover_dcc(i, &DCC_IDENTWAIT, 0);
+   dcc[i].timeval = now;
+   dcc[i].u.ident_sock = dcc[idx].sock;
+-  sock = open_telnet(iptostr(htonl(dcc[i].addr)), 113);
++  // sock = open_telnet(iptostr(htonl(dcc[i].addr)), 113);
++  sock = open_telnet(dcc[i].host, 113);
+   putlog(LOG_MISC, "*", DCC_TELCONN, dcc[i].host, dcc[i].port);
+   s[0] = 0;
+   if (sock < 0) {
+diff -urN eggdrop1.6.19/src/main.c eggdrop1.6.19-ipv6/src/main.c
+--- src/main.c	2008-02-16 22:41:03.000000000 +0100
++++ src/main.c	2008-07-28 18:35:52.000000000 +0200
+@@ -90,8 +90,8 @@
+  * modified versions of this bot.
+  */
+
+-char egg_version[1024] = "1.6.19";
+-int egg_numver = 1061800;
++char egg_version[1024] = "1.6.19";
++int egg_numver = 1061900;
+
+ char notify_new[121] = "";      /* Person to send a note to for new users */
+ int default_flags = 0;          /* Default user flags                     */
+@@ -239,7 +239,7 @@
+      *       _not_ safe <cybah>
+      */
+     x = creat("DEBUG.DEBUG", 0644);
+-    setsock(x, SOCK_NONSOCK);
++    setsock(x, SOCK_NONSOCK,AF_INET);
+     if (x >= 0) {
+       strncpyz(s, ctime(&now), sizeof s);
+       dprintf(-x, "Debug (%s) written %s\n", ver, s);
+@@ -264,7 +264,7 @@
+   putlog(LOG_MISC, "*", "* Please REPORT this BUG!");
+   putlog(LOG_MISC, "*", "* Check doc/BUG-REPORT on how to do so.");
+   x = creat("DEBUG", 0644);
+-  setsock(x, SOCK_NONSOCK);
++  setsock(x, SOCK_NONSOCK,AF_INET);
+   if (x < 0) {
+     putlog(LOG_MISC, "*", "* Failed to write DEBUG");
+   } else {
+@@ -906,7 +906,7 @@
+       userlist = adduser(userlist, dcc[n].nick, "none", "-", USER_PARTY);
+       dcc[n].user = get_user_by_handle(userlist, dcc[n].nick);
+     }
+-    setsock(STDOUT, 0);          /* Entry in net table */
++    setsock(STDOUT, 0,AF_INET);          /* Entry in net table */
+     dprintf(n, "\n### ENTERING DCC CHAT SIMULATION ###\n\n");
+     dcc_chatter(n);
+   }
+diff -urN eggdrop1.6.19/src/mod/filesys.mod/filesys.c eggdrop1.6.19-ipv6/src/mod/filesys.mod/filesys.c
+--- src/mod/filesys.mod/filesys.c	2008-02-16 22:41:09.000000000 +0100
++++ src/mod/filesys.mod/filesys.c	2008-07-27 22:13:44.000000000 +0200
+@@ -820,7 +820,7 @@
+       lostdcc(i);
+     } else {
+       dcc[i].timeval = now;
+-      dcc[i].sock = getsock(SOCK_BINARY);
++      dcc[i].sock = getsock(SOCK_BINARY,getprotocol(ip));
+       if (dcc[i].sock < 0 || open_telnet_dcc(dcc[i].sock, ip, prt) < 0)
+         dcc[i].type->eof(i);
+     }
+@@ -865,7 +865,7 @@
+   } else {
+     ip = newsplit(&msg);
+     prt = newsplit(&msg);
+-    sock = getsock(0);
++    sock = getsock(0,getprotocol(ip));
+     if (sock < 0 || open_telnet_dcc(sock, ip, prt) < 0) {
+       neterror(buf);
+       if (!quiet_reject)
+diff -urN eggdrop1.6.19/src/mod/module.h eggdrop1.6.19-ipv6/src/mod/module.h
+--- src/mod/module.h	2008-02-16 22:41:06.000000000 +0100
++++ src/mod/module.h	2008-07-27 22:13:45.000000000 +0200
+@@ -198,7 +198,8 @@
+ /* 80 - 83 */
+ #define new_dcc ((int (*) (struct dcc_table *, int))global[80])
+ #define lostdcc ((void (*) (int))global[81])
+-#define getsock ((int (*) (int))global[82])
++/* #define getsock ((int (*) (int))global[82]) */
++#define getsock ((int (*) (int,int))global[82])
+ #define killsock ((void (*) (int))global[83])
+ /* 84 - 87 */
+ #define open_listen ((int (*) (int *))global[84])
+@@ -469,6 +470,7 @@
+ #define quiet_reject (*(int *)(global[284]))
+ #define file_readable ((int (*) (char *))global[285])
+ /* IPv6 leftovers: 286 */
++#define getprotocol ((int (*)(char *))global[286]) /* get protocol */
+ /* IPv6 leftovers: 287 */
+ /* 288 - 291 */
+ /* IPv6 leftovers: 288 */
+diff -urN eggdrop1.6.19/src/mod/server.mod/server.c eggdrop1.6.19-ipv6/src/mod/server.mod/server.c
+--- src/mod/server.mod/server.c	2008-02-16 22:41:10.000000000 +0100
++++ src/mod/server.mod/server.c	2008-07-27 22:13:47.000000000 +0200
+@@ -1517,7 +1517,7 @@
+     return;
+   }
+   egg_snprintf(ip, sizeof ip, "%lu", iptolong(htonl(dcc[i].addr)));
+-  dcc[i].sock = getsock(0);
++  dcc[i].sock = getsock(0,getprotocol(ip));
+   if (dcc[i].sock < 0 || open_telnet_dcc(dcc[i].sock, ip, buf) < 0) {
+     neterror(buf);
+     if (!quiet_reject)
+diff -urN eggdrop1.6.19/src/mod/server.mod/servmsg.c eggdrop1.6.19-ipv6/src/mod/server.mod/servmsg.c
+--- src/mod/server.mod/servmsg.c	2008-02-16 22:41:10.000000000 +0100
++++ src/mod/server.mod/servmsg.c	2008-07-27 22:13:47.000000000 +0200
+@@ -1261,7 +1261,9 @@
+     /* I'm resolving... don't start another server connect request */
+     resolvserv = 1;
+     /* Resolve the hostname. */
+-    dcc_dnsipbyhost(dcc[servidx].host);
++    // dcc_dnsipbyhost(dcc[servidx].host);
++    server_resolve_success(servidx);
++
+   }
+ }
+
+@@ -1283,7 +1285,9 @@
+   dcc[servidx].addr = dcc[servidx].u.dns->ip;
+   strcpy(pass, dcc[servidx].u.dns->cbuf);
+   changeover_dcc(servidx, &SERVER_SOCKET, 0);
+-  serv = open_telnet(iptostr(htonl(dcc[servidx].addr)), dcc[servidx].port);
++    //serv = open_telnet(iptostr(htonl(dcc[servidx].addr)), dcc[servidx].port);
++  serv = open_telnet(dcc[servidx].host, dcc[servidx].port);
++
+   if (serv < 0) {
+     neterror(s);
+     putlog(LOG_SERV, "*", "%s %s (%s)", IRC_FAILEDCONNECT, dcc[servidx].host,
+diff -urN eggdrop1.6.19/src/mod/share.mod/share.c eggdrop1.6.19-ipv6/src/mod/share.mod/share.c
+--- src/mod/share.mod/share.c	2008-02-16 22:41:11.000000000 +0100
++++ src/mod/share.mod/share.c	2008-07-27 22:13:48.000000000 +0200
+@@ -1137,7 +1137,7 @@
+   } else {
+     ip = newsplit(&par);
+     port = newsplit(&par);
+-    sock = getsock(SOCK_BINARY); /* Don't buffer this -> mark binary. */
++    sock = getsock(SOCK_BINARY,getprotocol(ip)); /* Don't buffer this -> mark binary. */
+     if (sock < 0 || open_telnet_dcc(sock, ip, port) < 0) {
+       killsock(sock);
+       putlog(LOG_BOTS, "*", "Asynchronous connection failed!");
+diff -urN eggdrop1.6.19/src/modules.c eggdrop1.6.19-ipv6/src/modules.c
+--- src/modules.c	2008-02-16 22:41:04.000000000 +0100
++++ src/modules.c	2008-07-27 22:13:45.000000000 +0200
+@@ -99,6 +99,7 @@
+ extern tand_t *tandbot;
+ extern Tcl_Interp *interp;
+ extern sock_list *socklist;
++extern int getprotocol(char *);
+
+ int cmd_die();
+ int xtra_kill();
+@@ -561,7 +562,7 @@
+   /* 284 - 287 */
+   (Function) & quiet_reject,      /* int                                 */
+   (Function) file_readable,
+-  (Function) 0,                   /* IPv6 leftovers: 286                 */
++  (Function) getprotocol,         /* IPv6 leftovers: 286                 */
+   (Function) 0,                   /* IPv6 leftovers: 287                 */
+   /* 288 - 291 */
+   (Function) 0,                   /* IPv6 leftovers: 288                 */
+diff -urN eggdrop1.6.19/src/net.c eggdrop1.6.19-ipv6/src/net.c
+--- src/net.c	2008-02-16 22:41:04.000000000 +0100
++++ src/net.c	2008-07-27 22:13:46.000000000 +0200
+@@ -60,6 +60,9 @@
+ 
+ char hostname[121] = "";      /* Hostname can be specified in the config file.*/
+ char myip[121] = "";          /* IP can be specified in the config file.      */
++char myip6[121] = "";		/* IPV6 can be specified in the config file.	*/
++char hostname6[121] = "";	/* Hostname6 can be specified in the config file*/
++
+ char firewall[121] = "";      /* Socks server for firewall.                   */
+ int firewallport = 1080;      /* Default port of socks 4/5 firewalls.         */
+ char botuser[21] = "eggdrop"; /* Username of the user running the bot.        */
+@@ -88,6 +91,28 @@
+   return ret;
+ }
+ 
++/* define the protocol based on a given host */
++int getprotocol(char *host)
++{
++#ifndef IPV6
++	return AF_INET;
++#else
++	struct hostent *he;
++	if (!setjmp(alarmret)) {
++		alarm(resolve_timeout);
++		he = gethostbyname2(host,AF_INET6);
++		alarm(0);
++	} else
++		he = NULL;
++	
++	if(!he)
++	{
++		return AF_INET; // we check no resolve on IPv4 and assume it, if IPv6 does not works
++	}
++	return AF_INET6;
++#endif
++}
++
+ /* Initialize the socklist
+  */
+ void init_net()
+@@ -114,6 +139,9 @@
+   return tot;
+ }
+ 
++struct hostent *myipv6he;
++char myipv6host[120];
++
+ /* Get my ip number
+  */
+ IP getmyip()
+@@ -122,6 +150,25 @@
+   char s[121];
+   IP ip;
+   struct in_addr *in;
++    
++  myipv6he = NULL;
++  
++  #ifdef IPV6
++  	if (myip[0]) {
++  		myipv6he = gethostbyname2(myip6,AF_INET6);
++  		if (myipv6he==NULL)
++  			fatal("Hostname IPV6 self-lookup failed.",0);
++  	}
++  	if (hostname6[0]) {
++  		myipv6he = gethostbyname2(hostname6,AF_INET6);
++  		if (myipv6he==NULL)
++  			fatal("Hostname IPV6 self-lookup failed.",0);
++  	}
++  	if(myipv6he!=NULL)
++  	{
++  		inet_ntop(AF_INET6,&myipv6he,myipv6host,119);
++  	}
++  #endif
+   if (myip[0]) {
+     if ((myip[strlen(myip) - 1] >= '0') && (myip[strlen(myip) - 1] <= '9'))
+       return (IP) inet_addr(myip);
+@@ -133,9 +180,10 @@
+     gethostname(s, 120);
+     hp = gethostbyname(s);
+   }
+-  if (hp == NULL)
++  if (hp == NULL && myipv6he==NULL)
+     fatal("Hostname self-lookup failed. Please set 'my-ip' in the config "
+           "file.", 0);
++  if (hp == NULL) return 0;
+   in = (struct in_addr *) (hp->h_addr_list[0]);
+   ip = (IP) (in->s_addr);
+   return ip;
+@@ -244,7 +292,7 @@
+ 
+ /* Return a free entry in the socket entry
+  */
+-int allocsock(int sock, int options)
++int allocsock(int sock, int options, int af_ty)
+ {
+   int i;
+ 
+@@ -255,6 +303,7 @@
+       socklist[i].inbuflen = socklist[i].outbuflen = 0;
+       socklist[i].flags = options;
+       socklist[i].sock = sock;
++      socklist[i].af = af_ty;
+       return i;
+     }
+   }
+@@ -264,9 +313,9 @@
+ 
+ /* Request a normal socket for i/o
+  */
+-void setsock(int sock, int options)
++void setsock(int sock, int options, int af_ty)
+ {
+-  int i = allocsock(sock, options), parm;
++  int i = allocsock(sock, options, af_ty), parm;
+ 
+   if (((sock != STDOUT) || backgrd) && !(socklist[i].flags & SOCK_NONSOCK)) {
+     parm = 1;
+@@ -284,12 +333,12 @@
+   fcntl(sock, F_SETFL, O_NONBLOCK);
+ }
+ 
+-int getsock(int options)
++int getsock(int options, int AF_DEF)
+ {
+-  int sock = socket(AF_INET, SOCK_STREAM, 0);
++  int sock = socket(AF_DEF, SOCK_STREAM, 0);
+ 
+   if (sock >= 0)
+-    setsock(sock, options);
++    setsock(sock, options, AF_DEF);
+   else
+     putlog(LOG_MISC, "*", "Warning: Can't create new socket!");
+   return sock;
+@@ -328,23 +377,39 @@
+  */
+ static int proxy_connect(int sock, char *host, int port, int proxy)
+ {
++  #ifdef IPV6
++	unsigned char x[32];
++#else
+   unsigned char x[10];
++#endif
++
+   struct hostent *hp;
+   char s[256];
++  int af_ty;
+   int i;
++  af_ty=getprotocol(host);
+ 
+   /* socks proxy */
+   if (proxy == PROXY_SOCKS) {
+     /* numeric IP? */
+-    if (host[strlen(host) - 1] >= '0' && host[strlen(host) - 1] <= '9') {
++    if ((host[strlen(host) - 1] >= '0' && host[strlen(host) - 1] <= '9') && af_ty!=AF_INET6) {
+       IP ip = ((IP) inet_addr(host));
+       egg_memcpy(x, &ip, 4);
+     } else {
+       /* no, must be host.domain */
+       if (!sigsetjmp(alarmret, 1)) {
++   #ifdef IPV6
+         alarm(resolve_timeout);
++       if (af_ty==AF_INET6)
++       {
++               hp = gethostbyname(host);
++       } else {
++   #endif
+         hp = gethostbyname(host);
++   #ifdef IPV6
++       }
+         alarm(0);
++   #endif
+       } else
+         hp = NULL;
+       if (hp == NULL) {
+@@ -356,6 +421,17 @@
+     for (i = 0; i < MAXSOCKS; i++)
+       if (!(socklist[i].flags & SOCK_UNUSED) && socklist[i].sock == sock)
+         socklist[i].flags |= SOCK_PROXYWAIT;    /* drummer */
++          
++ #ifdef IPV6
++ 	if (af_ty==AF_INET6)
++ 		egg_snprintf(s, sizeof s,"\004\001%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%s", (port >> 8) % 256, (port % 256),
++ 		x[0], x[1], x[2], x[3],
++ 		x[4], x[5], x[6], x[7],
++ 		x[8], x[9], x[10], x[11],
++ 		x[12], x[13], x[14], x[15],
++ 		botuser);
++ 	else
++ #endif   
+       egg_snprintf(s, sizeof s, "\004\001%c%c%c%c%c%c%s", (port >> 8) % 256,
+                    (port % 256), x[0], x[1], x[2], x[3], botuser);
+     tputs(sock, s, strlen(botuser) + 9);        /* drummer */
+@@ -366,6 +442,19 @@
+   return sock;
+ }
+ 
++/*
++ * Return protocol of socket
++ */
++int getsockproto(int sock)
++{
++	int i;
++	for (i = 0 ; i < MAXSOCKS ; i++) {
++		if (socklist[i].sock == sock)
++			return socklist[i].af;
++	}
++	return AF_INET; // default
++}
++
+ /* Starts a connection attempt to a socket
+  *
+  * If given a normal hostname, this will be resolved to the corresponding
+@@ -379,9 +468,15 @@
+ int open_telnet_raw(int sock, char *server, int sport)
+ {
+   struct sockaddr_in name;
++#ifdef IPV6
++  struct sockaddr_in6 name6;
++  unsigned long succ;
++#endif
++  int rc;
+   struct hostent *hp;
+   char host[121];
+-  int i, port, rc;
++  int i, port;
++  int af_ty;
+   volatile int proxy;
+ 
+   /* firewall?  use socks */
+@@ -399,6 +494,43 @@
+     strcpy(host, server);
+     port = sport;
+   }
++#ifdef IPV6
++	af_ty = getprotocol(host);
++	if(af_ty==AF_INET6)
++	{
++		succ=getmyip();
++		bzero((char *) &name6, sizeof(struct sockaddr_in6));
++		
++		name6.sin6_family = AF_INET6;
++		if (myip[0])
++		{
++			if (myipv6he==NULL)
++			{
++				memcpy(&name6.sin6_addr,&in6addr_any,16);
++			} else {
++				memcpy(&name6.sin6_addr,myipv6he->h_addr,myipv6he->h_length);
++			}
++		} else {
++		
++		}
++		if (bind(sock, (struct sockaddr *) &name6, sizeof(name6)) < 0) {
++			killsock(sock);
++			return -1;
++		}
++		bzero((char *) &name6, sizeof(struct sockaddr_in6));
++		name6.sin6_family = AF_INET6;
++		name6.sin6_port = htons(port);
++		if (!setjmp(alarmret)) {
++			alarm(resolve_timeout);
++			hp = gethostbyname2(host,AF_INET6);
++			alarm(0) ;
++		} else {
++			hp = NULL ;
++		}
++		egg_memcpy((char *) &name6.sin6_addr, hp->h_addr, hp->h_length);
++		name6.sin6_family = hp->h_addrtype;
++	} else {
++#endif
+   egg_bzero((char *) &name, sizeof(struct sockaddr_in));
+ 
+   name.sin_family = AF_INET;
+@@ -428,11 +560,20 @@
+     egg_memcpy(&name.sin_addr, hp->h_addr, hp->h_length);
+     name.sin_family = hp->h_addrtype;
+   }
++#ifdef IPV6
++	}
++#endif  
+   for (i = 0; i < MAXSOCKS; i++) {
+     if (!(socklist[i].flags & SOCK_UNUSED) && (socklist[i].sock == sock))
+       socklist[i].flags = (socklist[i].flags & ~SOCK_VIRTUAL) | SOCK_CONNECT;
+   }
+-  rc = connect(sock, (struct sockaddr *) &name, sizeof(struct sockaddr_in));
++  //rc = connect(sock, (struct sockaddr *) &name, sizeof(struct sockaddr_in));
++#ifdef IPV6
++	if (af_ty == AF_INET6)
++		rc = connect(sock, (struct sockaddr *) &name6, sizeof(struct sockaddr_in6));
++	else
++#endif
++		rc = connect(sock, (struct sockaddr *) &name, sizeof(struct sockaddr_in)) ;
+   if (rc < 0) {
+     if (errno == EINPROGRESS) {
+       /* Firewall?  announce connect attempt to proxy */
+@@ -451,8 +592,12 @@
+ /* Ordinary non-binary connection attempt */
+ int open_telnet(char *server, int port)
+ {
+-  int sock = getsock(0), ret = open_telnet_raw(sock, server, port);
++  int sock = getsock(0,getprotocol(server)), ret = open_telnet_raw(sock, server, port);
++ 
++  putlog(LOG_DEBUG, "*", "net.c / open_telnet");
+ 
++  if (ret < 0)
++  	killsock(sock);
+   return ret;
+ }
+ 
+@@ -462,7 +607,12 @@
+ int open_address_listen(IP addr, int *port)
+  {
+   int sock = 0;
++  int af_def;
++  unsigned long ipp;
+   socklen_t addrlen;
++#ifdef IPV6
++  struct sockaddr_in6 name6;
++#endif 
+   struct sockaddr_in name;
+ 
+   if (firewall[0]) {
+@@ -473,7 +623,8 @@
+   }
+ 
+   if (getmyip() > 0) {
+-    sock = getsock(SOCK_LISTEN);
++     af_def=AF_INET;
++    sock = getsock(SOCK_LISTEN,af_def);
+     if (sock < 1)
+       return -1;
+ 
+@@ -483,7 +634,7 @@
+     name.sin_addr.s_addr = addr;
+     if (bind(sock, (struct sockaddr *) &name, sizeof(name)) < 0) {
+       killsock(sock);
+-      return -1;
++      goto tryv6;
+     }
+     /* what port are we on? */
+     addrlen = sizeof(name);
+@@ -494,9 +645,37 @@
+     *port = ntohs(name.sin_port);
+     if (listen(sock, 1) < 0) {
+       killsock(sock);
++      goto tryv6;
++    }
++    return sock;
++  }
++  tryv6:
++#ifdef IPV6
++	ipp=getmyip();
++	af_def=AF_INET6;
++	if(af_def==AF_INET6 && myipv6he!=NULL)
++	{
++		sock = getsock(SOCK_LISTEN,af_def);
++		bzero((char *) &name6,sizeof(name6));
++		name6.sin6_family=af_def;
++		name6.sin6_port=htons(*port);
++		memcpy(&name6.sin6_addr,myipv6he->h_addr,myipv6he->h_length);
++		if (bind(sock, (struct sockaddr *) &name6, sizeof(name6)) < 0) {
++			killsock(sock);
++			return -1;
++		}
++		addrlen = sizeof(name6);
++		if (getsockname(sock, (struct sockaddr *) &name6, &addrlen) < 0) {
++			killsock(sock);
++			return -1;
++		}
++		*port = ntohs(name6.sin6_port);
++		if (listen(sock, 1) < 0) {
++			killsock(sock);
+       return -1;
+     }
+   }
++#endif
+ 
+   return sock;
+ }
+@@ -520,6 +699,9 @@
+   return inet_ntoa(a);
+ }
+ 
++unsigned long notalloc=0;
++
++
+ /* Short routine to answer a connect received on a socket made previously
+  * by open_listen ... returns hostname of the caller & the new socket
+  * does NOT dispose of old "public" socket!
+@@ -529,23 +711,57 @@
+ {
+   int new_sock;
+   socklen_t addrlen;
++  int af_ty;
++#ifdef IPV6
++  struct sockaddr_in6 from6;
++#endif
+   struct sockaddr_in from;
++  af_ty=getsockproto(sock);
+ 
+   addrlen = sizeof(struct sockaddr);
++#ifdef IPV6
++	if (af_ty==AF_INET6)
++	{
++		addrlen = sizeof(from6);
++		new_sock = accept(sock, (struct sockaddr *) &from6, &addrlen);
++	} else {
++#endif
++	addrlen = sizeof(struct sockaddr);
+   new_sock = accept(sock, (struct sockaddr *) &from, &addrlen);
++#ifdef IPV6
++	}
++#endif
+ 
+   if (new_sock < 0)
+     return -1;
+   if (ip != NULL) {
++#ifdef IPV6
++	if (af_ty==AF_INET6)
++	{
++		*ip=notalloc;
++		inet_ntop(AF_INET6,&from6,caller,119);
++		caller[120]=0;
++	} else {
++#endif   
+     *ip = from.sin_addr.s_addr;
+     /* DNS is now done asynchronously. We now only provide the IP address. */
+     strncpyz(caller, iptostr(*ip), 121);
+     *ip = ntohl(*ip);
++#ifdef IPV6
++	}
++#endif
+   }
+   if (port != NULL)
++  {
++#ifdef IPV6
++  	if (af_ty==AF_INET6)
++  		*port = ntohs(from6.sin6_port);
++  	else
++#endif
+     *port = ntohs(from.sin_port);
++	}
+   /* Set up all the normal socket crap */
+-  setsock(new_sock, (binary ? SOCK_BINARY : 0));
++  setsock(new_sock, (binary ? SOCK_BINARY : 0),af_ty);
+   return new_sock;
+ }
+ 
+@@ -562,6 +778,14 @@
+     p = atoi(port);
+   else
+     p = 2000;
++#ifdef IPV6
++	if(getprotocol(server)==AF_INET6)
++	{
++		server[0]=0;
++		if(strlen(server)<500)
++			strcpy(sv,server);
++	} else {
++#endif  
+   if (server != NULL)
+     addr = my_atoul(server);
+   else
+@@ -573,6 +797,9 @@
+   c[2] = (addr >> 8) & 0xff;
+   c[3] = addr & 0xff;
+   sprintf(sv, "%u.%u.%u.%u", c[0], c[1], c[2], c[3]);
++#ifdef IPV6
++	}
++#endif 
+   p = open_telnet_raw(sock, sv, p);
+   return p;
+ }
+@@ -1112,6 +1339,14 @@
+   if (!dcc_sanitycheck)
+     return 1;
+ 
++#ifdef IPV6
++	if(getprotocol(ipaddy)==AF_INET6)
++	{
++		return 1;
++	}
++#endif
++
++
+   if (prt < 1) {
+     putlog(LOG_MISC, "*", "ALERT: (%s!%s) specified an impossible port of %u!",
+            nick, from, prt);
+diff -urN eggdrop1.6.19/src/proto.h eggdrop1.6.19-ipv6/src/proto.h
+--- src/proto.h	2008-02-16 22:41:04.000000000 +0100
++++ src/proto.h	2008-07-27 22:13:46.000000000 +0200
+@@ -245,9 +245,11 @@
+ unsigned long iptolong(IP);
+ IP getmyip();
+ void neterror(char *);
+-void setsock(int, int);
+-int allocsock(int, int);
+-int getsock(int);
++void setsock(int, int, int);
++int allocsock(int, int, int);
++int getsock(int, int);
++int getprotocol(char *);
++char *hostnamefromip(unsigned long);
+ void killsock(int);
+ int answer(int, char *, unsigned long *, unsigned short *, int);
+ inline int open_listen(int *);
+diff -urN eggdrop1.6.19/src/tcl.c eggdrop1.6.19-ipv6/src/tcl.c
+--- src/tcl.c	2008-02-16 22:41:04.000000000 +0100
++++ src/tcl.c	2008-07-27 22:13:49.000000000 +0200
+@@ -46,7 +46,7 @@
+ extern time_t online_since;
+
+ extern char origbotname[], botuser[], motdfile[], admin[], userfile[],
+-            firewall[], helpdir[], notify_new[], hostname[], myip[], moddir[],
++            firewall[], helpdir[], notify_new[], hostname[], hostname6[], myip[], myip6[], moddir[],
+             tempdir[], owner[], network[], botnetnick[], bannerfile[],
+             egg_version[], natip[], configfile[], logfile_suffix[], textdir[],
+             pid_file[];
+@@ -461,6 +461,8 @@
+   {"owner",           owner,          120,           STR_PROTECT},
+   {"my-ip",           myip,           120,                     0},
+   {"my-hostname",     hostname,       120,                     0},
++  {"my-ip6",       myip6,                120,                     0},
++  {"my-hostname6",    hostname6,         120,                     0},
+   {"network",         network,        40,                      0},
+   {"whois-fields",    whois_fields,   1024,                    0},
+   {"nat-ip",          natip,          120,                     0},
+diff -urN eggdrop1.6.19/src/tcldcc.c eggdrop1.6.19-ipv6/src/tcldcc.c
+--- src/tcldcc.c	2008-02-16 22:41:04.000000000 +0100
++++ src/tcldcc.c	2008-07-27 22:13:50.000000000 +0200
+@@ -850,7 +850,7 @@
+     Tcl_AppendResult(irp, "out of dcc table space", NULL);
+     return TCL_ERROR;
+   }
+-  sock = getsock(0);
++  sock = getsock(0,getprotocol(argv[1]));
+
+   if (sock < 0) {
+     Tcl_AppendResult(irp, MISC_NOFREESOCK, NULL);
+diff -urN eggdrop1.6.19/src/tclmisc.c eggdrop1.6.19-ipv6/src/tclmisc.c
+--- src/tclmisc.c	2008-02-16 22:41:04.000000000 +0100
++++ src/tclmisc.c	2008-07-27 22:13:50.000000000 +0200
+@@ -428,6 +428,21 @@
+   return TCL_OK;
+ }
+
++extern char myipv6host[120];
++
++static int tcl_myip6 STDVAR
++{
++       char s[120];
++       getmyip();
++
++       BADARGS(1, 1, "");
++       s[0]=0;
++       if (strlen(myipv6host)<120)
++               strcpy(s,myipv6host);
++       Tcl_AppendResult(irp, s, NULL);
++       return TCL_OK;
++}
++
+ static int tcl_rand STDVAR
+ {
+   unsigned long x;*** eggdrop1.6.19/src/net.h.org	Thu Feb  5 23:55:45 2009
+--- src/net.h.org	2009-02-05 23:59:43.000000000 +0100
++++ src/net.h	2009-02-05 23:59:52.000000000 +0100
+@@ -22,9 +22,7 @@
+   char		*outbuf;
+   unsigned long  outbuflen;	/* Outbuf could be binary data	*/
+   unsigned long	 inbuflen;	/* Inbuf could be binary data	*/
+-#ifdef USE_IPV6
+   unsigned int af;
+-#endif /* USE_IPV6 */
+ } sock_list;
+ 
+ #endif				/* _EGG_NET_H */
