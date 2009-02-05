@@ -62,6 +62,8 @@ Patch5:		%{name}-autobotchk.patch
 Patch6:		%{name}-ssl.patch
 Patch7:		%{name}-nolibs.patch
 Patch8:		%{name}-nohostwhowhom.patch
+Patch9:		%{name}-nmu.patch
+Patch10:	%{name}-ipv6-ssl.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -164,6 +166,9 @@ patch -p1 < eggdrop1.6.19-sp.0009.diff || exit 1
 %patch6 -p1
 %endif
 
+%patch9 -p0
+%patch10 -p0
+
 %build
 # detect threaded tcl version
 sed -i -e 's#TclpFinalizeThreadData#Tcl_FinalizeThread#g' aclocal.m4
@@ -182,7 +187,8 @@ cd ../dns.mod
 %configure
 cd ../../..
 %configure \
-	--enable-tcl-threads
+	--enable-tcl-threads \
+	--enable-ipv6
 %{__make} config
 %{__make}
 
