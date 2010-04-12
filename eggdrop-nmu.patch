@@ -1,0 +1,18 @@
+--- configure
++++ configure
+@@ -10034,7 +10034,6 @@
+ fi
+ 
+ 
+-  if test "$egg_cv_var_tcl_threaded" = "yes"; then
+     if test "$enable_tcl_threads" = "no"; then
+ 
+       cat << 'EOF' >&2
+@@ -10056,7 +10055,6 @@
+     if test ! "${ac_cv_lib_pthread-x}" = "x"; then
+       LIBS="$ac_cv_lib_pthread $LIBS"
+     fi
+-  fi
+ 
+ 
+   if test "$EGG_CYGWIN" = "yes"; then
