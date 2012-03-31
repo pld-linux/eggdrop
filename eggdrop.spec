@@ -67,6 +67,7 @@ Patch7:		%{name}-nolibs.patch
 Patch8:		%{name}-nohostwhowhom.patch
 Patch9:		%{name}-nmu.patch
 Patch10:	%{name}-ipv6-ssl.patch
+Patch11:	ssl-md5.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -172,6 +173,7 @@ patch -p1 < eggdrop1.6.19-sp.0009.diff || exit 1
 
 #%patch9 -p0 - wtf is this?
 #%{?with_ssl:%patch10 -p1}
+%patch11 -p1
 
 # detect threaded tcl version
 sed -i -e 's#TclpFinalizeThreadData#Tcl_FinalizeThread#g' acinclude.m4
