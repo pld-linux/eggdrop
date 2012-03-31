@@ -342,33 +342,22 @@
            }
            break;
          case 'o':
---- src/mod/module.h	2004-03-27 06:50:00.000000000 +0000
-+++ src/mod/module.h	2004-03-27 06:50:00.000000000 +0000
-@@ -472,6 +472,16 @@
+--- src/mod/module.h~	2012-03-31 15:38:27.000000000 +0300
++++ src/mod/module.h	2012-03-31 15:44:10.254563119 +0300
+@@ -473,8 +473,13 @@
+ /* 284 - 287 */
+ #define quiet_reject (*(int *)(global[284]))
+ #define file_readable ((int (*) (char *))global[285])
++#ifdef EGG_SSL_EXT
++#define net_switch_to_ssl ((int (*)(int))global[286])
++#define use_ssl (*(int *)global[287]) /* kyotou */
++#else
  /* IPv6 leftovers: 286 */
  /* IPv6 leftovers: 287 */
++#endif
  /* 288 - 291 */
-+#ifdef EGG_SSL_EXT
-+#define net_switch_to_ssl ((int (*)(int))global[289])
-+#define ssl_use (*(int *)global[290])
-+#define strip_mirc_codes ((void (*)(int, char *))global[291])
-+#define check_ansi ((int (*) (char *))global[292])
-+#define oatoi ((int (*) (const char *))global[293])
-+/* 292 - 295 */
-+#define str_isdigit ((int (*) (const char *))global[294])
-+#define remove_crlf ((void (*)(char **))global[295])
-+#else
  /* IPv6 leftovers: 288 */
  #define strip_mirc_codes ((void (*)(int, char *))global[289])
- #define check_ansi ((int (*) (char *))global[290])
-@@ -479,6 +489,7 @@
- /* 292 - 295 */
- #define str_isdigit ((int (*) (const char *))global[292])
- #define remove_crlf ((void (*) (char **))global[293])
-+#endif
- #define addr_match ((int (*)(const char *, const char *, int, int))global[294])
- #define mask_match ((int (*)(const char *, const char *))global[295])
- /* 296 - 299 */
 --- src/mod/server.mod/servmsg.c	2004-03-27 06:50:00.000000000 +0000
 +++ src/mod/server.mod/servmsg.c	2004-03-27 06:50:00.000000000 +0000
 @@ -1360,6 +1360,14 @@
@@ -428,20 +417,20 @@
  
  /* The null functions */
  void null_func()
-@@ -564,7 +580,13 @@
+@@ -561,8 +576,13 @@
+   /* 284 - 287 */
+   (Function) & quiet_reject,      /* int                                 */
+   (Function) file_readable,
++#ifdef EGG_SSL_EXT
++  (Function) net_switch_to_ssl,   /* 286 */
++  (Function) & use_ssl,           /* 287 kyotou  */
++#else
    (Function) 0,                   /* IPv6 leftovers: 286                 */
    (Function) 0,                   /* IPv6 leftovers: 287                 */
-   /* 288 - 291 */
-+#ifdef EGG_SSL_EXT
-   (Function) 0,                   /* IPv6 leftovers: 288                 */
-+  (Function) net_switch_to_ssl,
-+  (Function) & ssl_use,
-+#else
-+  (Function) 0,                   /* IPv6 leftovers: 288                 */
 +#endif
+   /* 288 - 291 */
+   (Function) 0,                   /* IPv6 leftovers: 288                 */
    (Function) strip_mirc_codes,
-   (Function) check_ansi,
-   (Function) oatoi,
 --- src/net.c	2004-03-27 06:50:00.000000000 +0000
 +++ src/net.c	2004-03-27 06:50:00.000000000 +0000
 @@ -52,6 +52,18 @@
