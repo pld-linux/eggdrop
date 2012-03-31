@@ -48,7 +48,7 @@
  MAKE_DEPEND = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(CC)'
  
 --- aclocal.m4	2004-03-27 06:50:00.000000000 +0000
-+++ aclocal.m4	2004-03-27 06:50:00.000000000 +0000
++++ aclocal.m4	2012-03-31 19:46:26.881862392 +0300
 @@ -37,6 +37,64 @@
  ])
  
@@ -90,7 +90,7 @@
 +
 +      if test -n "$SSL_INCLUDE" && test -n "$SSL_LIB" && test -n "$CRYPTO_LIB"; then
 +        SSL_LIBS="-lssl -lcrypto -L$SSL_LIB -L$CRYPTO_LIB";
-+        AC_DEFINE(EGG_SSL_EXT)
++        AC_DEFINE([EGG_SSL_EXT], [], [SSL support])
 +        AC_MSG_RESULT(yes)
 +      else
 +        AC_MSG_RESULT(no)
