@@ -350,7 +350,7 @@
  #define file_readable ((int (*) (char *))global[285])
 +#ifdef EGG_SSL_EXT
 +#define net_switch_to_ssl ((int (*)(int))global[286])
-+#define use_ssl (*(int *)global[287]) /* kyotou */
++#define ssl_use (*(int *)global[287]) /* kyotou */
 +#else
  /* IPv6 leftovers: 286 */
  /* IPv6 leftovers: 287 */
@@ -423,7 +423,7 @@
    (Function) file_readable,
 +#ifdef EGG_SSL_EXT
 +  (Function) net_switch_to_ssl,   /* 286 */
-+  (Function) & use_ssl,           /* 287 kyotou  */
++  (Function) &ssl_use,           /* 287 kyotou  */
 +#else
    (Function) 0,                   /* IPv6 leftovers: 286                 */
    (Function) 0,                   /* IPv6 leftovers: 287                 */
