@@ -37,9 +37,8 @@ diff -burNp eggdrop1.6.19/src/chanprog.c eggdrop1.6.19.new/src/chanprog.c
 +  }
 +}
 +
-diff -burNp eggdrop1.6.19/src/mod/channels.mod/channels.c eggdrop1.6.19.new/src/mod/channels.mod/channels.c
---- eggdrop1.6.19/src/mod/channels.mod/channels.c	2008-02-16 22:41:06.000000000 +0100
-+++ eggdrop1.6.19.new/src/mod/channels.mod/channels.c	2008-09-22 11:34:55.161533902 +0200
+--- eggdrop1.6.21/src/mod/channels.mod/channels.c~	2012-03-31 04:33:59.000000000 +0300
++++ eggdrop1.6.21/src/mod/channels.mod/channels.c	2012-03-31 04:34:36.050919651 +0300
 @@ -385,6 +385,7 @@ static void write_channels()
    FILE *f;
    char s[121], w[1024], w2[1024], name[163];
@@ -56,25 +55,24 @@ diff -burNp eggdrop1.6.19/src/mod/channels.mod/channels.c eggdrop1.6.19.new/src/
      convert_element(chan->need_op, need1);
      convert_element(chan->need_invite, need2);
      convert_element(chan->need_key, need3);
-@@ -412,7 +414,7 @@ static void write_channels()
+@@ -417,7 +417,7 @@
+     convert_element(chan->need_unban, need4);
      convert_element(chan->need_limit, need5);
-     /* Do not indent me (adds extra spaces to chan file). */
      fprintf(f,
--"channel %s %s%schanmode %s idle-kick %d stopnethack-mode %d revenge-mode %d \
-+"channel %s %s%schanmode %s topic %s idle-kick %d stopnethack-mode %d revenge-mode %d \
- need-op %s need-invite %s need-key %s need-unban %s need-limit %s \
- flood-chan %d:%d flood-ctcp %d:%d flood-join %d:%d flood-kick %d:%d \
- flood-deop %d:%d flood-nick %d:%d aop-delay %d:%d ban-time %d exempt-time %d \
-@@ -422,7 +424,7 @@ invite-time %d %cenforcebans %cdynamicba
- %cseen %cinactive %cdynamicexempts %cuserexempts %cdynamicinvites \
- %cuserinvites %cnodesynch ",
-             channel_static(chan) ? "set" : "add", name, channel_static(chan) ?
--            " " : " { ", w2, chan->idle_kick, chan->stopnethack_mode,
-+	    " " : " { ", w2, topic, chan->idle_kick, chan->stopnethack_mode,
+-            "channel add %s { chanmode %s idle-kick %d stopnethack-mode %d "
++            "channel add %s { chanmode %s idle-kick topic %d stopnethack-mode %d "
+             "revenge-mode %d need-op %s need-invite %s need-key %s "
+             "need-unban %s need-limit %s flood-chan %d:%d flood-ctcp %d:%d "
+             "flood-join %d:%d flood-kick %d:%d flood-deop %d:%d "
+@@ -428,7 +428,7 @@
+             "%crevenge %crevengebot %cautovoice %csecret %cshared %ccycle "
+             "%cseen %cinactive %cdynamicexempts %cuserexempts %cdynamicinvites "
+             "%cuserinvites %cnodesynch %cstatic }" "\n",
+-            name, w2, chan->idle_kick, chan->stopnethack_mode,
++            name, w2, topic, chan->idle_kick, chan->stopnethack_mode,
              chan->revenge_mode, need1, need2, need3, need4, need5,
              chan->flood_pub_thr, chan->flood_pub_time,
              chan->flood_ctcp_thr, chan->flood_ctcp_time,
-diff -burNp eggdrop1.6.19/src/mod/channels.mod/cmdschan.c eggdrop1.6.19.new/src/mod/channels.mod/cmdschan.c
 --- eggdrop1.6.19/src/mod/channels.mod/cmdschan.c	2008-02-16 22:41:07.000000000 +0100
 +++ eggdrop1.6.19.new/src/mod/channels.mod/cmdschan.c	2008-09-22 11:37:38.571477034 +0200
 @@ -1269,6 +1269,7 @@ static void cmd_chaninfo(struct userrec 

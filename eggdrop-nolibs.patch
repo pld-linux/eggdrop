@@ -1,6 +1,6 @@
-diff -burN eggdrop1.6.17.orig/aclocal.m4 eggdrop1.6.17/aclocal.m4
---- eggdrop1.6.17.orig/aclocal.m4	2004-10-18 00:15:56.783956064 +0200
-+++ eggdrop1.6.17/aclocal.m4	2004-10-18 00:38:40.107699352 +0200
+diff -burN eggdrop1.6.17.orig/acinclude.m4 eggdrop1.6.17/acinclude.m4
+--- eggdrop1.6.17.orig/acinclude.m4	2004-10-18 00:15:56.783956064 +0200
++++ eggdrop1.6.17/acinclude.m4	2004-10-18 00:38:40.107699352 +0200
 @@ -757,9 +757,9 @@
    if test "$IRIX" = "yes"; then
      AC_MSG_WARN([Skipping library tests because they CONFUSE IRIX.])

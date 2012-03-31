@@ -1,18 +1,19 @@
 #
 # Conditional build:
 %bcond_with	suzi	# encoding enhancements
+%bcond_without	ssl		# openssl patch
 #
 Summary:	Eggdrop is an IRC bot, written in C
 Summary(pl.UTF-8):	Eggdrop jest botem IRC napisanym w C
 Summary(pt_BR.UTF-8):	Bot de IRC escrito em C
 Summary(ru.UTF-8):	Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
-Version:	1.6.19
-Release:	6
+Version:	1.6.21
+Release:	0.3
 License:	GPL v2
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
-# Source0-md5:	b706bbe4fdd05964e0ea0cd920f28539
+# Source0-md5:	5663b2daecc790e6e9237e1d5a2caa50
 # In order to unify filenames, following language packs and third-party modules were
 # repackaged. Some files were renamed, but none modified. Original archives can be
 # found by looking at http://www.egghelp.org/
@@ -67,7 +68,7 @@ Patch10:	%{name}-ipv6-ssl.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	openssl-devel >= 0.9.7d
+%{?with_ssl:BuildRequires:	openssl-devel >= 0.9.7d}
 BuildRequires:	tcl-devel
 Requires:	tcl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -151,8 +152,9 @@ Eggdrop находится на канале в целях оказания за
 
 %prep
 %setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a30
+mv aclocal.m4 acinclude.m4
 %patch0 -p1
-%patch1 -p0
+%patch1 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
@@ -163,17 +165,16 @@ Eggdrop находится на канале в целях оказания за
 patch -p1 < eggdrop1.6.19-sp.0009.diff || exit 1
 %else
 %patch2 -p1
-%patch6 -p1
+%{?with_ssl:%patch6 -p1}
 %endif
 
-%patch9 -p0
-%patch10 -p0
+#%patch9 -p0 - wtf is this?
+%{?with_ssl:%patch10 -p1}
+
+# detect threaded tcl version
+sed -i -e 's#TclpFinalizeThreadData#Tcl_FinalizeThread#g' acinclude.m4
 
 %build
-# detect threaded tcl version
-sed -i -e 's#TclpFinalizeThreadData#Tcl_FinalizeThread#g' aclocal.m4
-
-mv aclocal.m4 acinclude.m4
 cp -f /usr/share/automake/config.sub misc/
 cp -f %{name}.conf doc/%{name}.conf.example
 %{__aclocal}
@@ -197,7 +198,8 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/modules,%{_mandir}/man1,%{_datadir}/%{name}}
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+	INSTALL="install -p" \
+	DEST=$RPM_BUILD_ROOT
 
 mv $RPM_BUILD_ROOT/%{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
 mv $RPM_BUILD_ROOT{/{text/*,help,scripts,language},%{_datadir}/%{name}/}
