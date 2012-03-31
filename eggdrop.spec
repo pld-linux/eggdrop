@@ -52,7 +52,7 @@ Source28:	%{name}-module-twofish-1.0.tar.gz
 # Source28-md5:	861957c170b4af105199202e724be2a3
 #Source29:	%{name}-module-rijndael-1.0.tar.gz
 # http://eggdrop.msk.ru/files/irc/eggdrop1.6.19-patch-sp0009+SSL.tar.bz2
-Source30:	http://eggdrop.msk.ru/files/irc/eggdrop1.6.19-patch-sp0009.tar.bz2
+Source30:	http://eggdrop.msk.ru/files/irc/%{name}1.6.19-patch-sp0009.tar.bz2
 # Source30-md5:	37df8dbb76a2b2283e2e80c182dc9967
 Patch0:		%{name}-FHS.patch
 Patch1:		%{name}-doc_makefile.patch
@@ -72,6 +72,8 @@ URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_ssl:BuildRequires:	openssl-devel >= 0.9.7d}
+BuildRequires:	rpm >= 4.4.9-56
+BuildRequires:	rpmbuild(macros) >= 1.453
 BuildRequires:	tcl-devel
 Requires:	tcl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -173,7 +175,9 @@ patch -p1 < eggdrop1.6.19-sp.0009.diff || exit 1
 
 #%patch9 -p0 - wtf is this?
 #%{?with_ssl:%patch10 -p1}
+%if "%{pld_release}" == "ac"
 %patch11 -p1
+%endif
 
 # detect threaded tcl version
 sed -i -e 's#TclpFinalizeThreadData#Tcl_FinalizeThread#g' acinclude.m4
