@@ -9,7 +9,7 @@ Summary(pt_BR.UTF-8):	Bot de IRC escrito em C
 Summary(ru.UTF-8):	Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
 Version:	1.6.21
-Release:	0.3
+Release:	0.6
 License:	GPL v2
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
@@ -57,9 +57,11 @@ Source30:	http://eggdrop.msk.ru/files/irc/eggdrop1.6.19-patch-sp0009.tar.bz2
 Patch0:		%{name}-FHS.patch
 Patch1:		%{name}-doc_makefile.patch
 Patch2:		%{name}-multilevel_sharing.patch
+# http://www.egghelp.org/files.htm#patches
 Patch3:		%{name}-topicprot.patch
 Patch4:		%{name}-config_encryption.patch
 Patch5:		%{name}-autobotchk.patch
+# http://www.egghelp.org/files.htm#patches
 Patch6:		%{name}-ssl.patch
 Patch7:		%{name}-nolibs.patch
 Patch8:		%{name}-nohostwhowhom.patch
@@ -152,6 +154,7 @@ Eggdrop находится на канале в целях оказания за
 
 %prep
 %setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a30
+%{?with_ssl:%patch6 -p0}
 mv aclocal.m4 acinclude.m4
 %patch0 -p1
 %patch1 -p1
@@ -165,11 +168,10 @@ mv aclocal.m4 acinclude.m4
 patch -p1 < eggdrop1.6.19-sp.0009.diff || exit 1
 %else
 %patch2 -p1
-%{?with_ssl:%patch6 -p1}
 %endif
 
 #%patch9 -p0 - wtf is this?
-%{?with_ssl:%patch10 -p1}
+#%{?with_ssl:%patch10 -p1}
 
 # detect threaded tcl version
 sed -i -e 's#TclpFinalizeThreadData#Tcl_FinalizeThread#g' acinclude.m4
