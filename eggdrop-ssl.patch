@@ -1,13 +1,62 @@
---- eggdrop1.6.19/aclocal.m4	2008-04-19 06:21:20.000000000 +0200
-+++ eggdrop1.6.19.new/aclocal.m4	2008-09-22 14:03:38.304371902 +0200
-@@ -36,6 +36,63 @@ AC_DEFUN([EGG_MSG_CONFIGURE_START],
-   AC_MSG_RESULT
+--- Makefile.in	2004-03-27 06:50:00.000000000 +0000
++++ Makefile.in	2004-03-27 06:50:00.000000000 +0000
+@@ -62,6 +62,10 @@
+ INSTALL_DATA = @INSTALL_DATA@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ 
++# Stuff for SSL
++XSSL_LIBS = @SSL_LIBS@
++XSSL_INCLUDE = @SSL_INCLUDE@
++
+ # Stuff for Tcl
+ TCLLIB = @TCLLIB@
+ TCLLIBFN = @TCLLIBFN@
+@@ -95,7 +99,8 @@
+ MAKE_MODEGG = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(MOD_CC)' 'LD=$(MOD_LD)' \
+ 'STRIP=$(MOD_STRIP)' 'RANLIB=$(RANLIB)' 'CFLGS=$(CFLGS)' \
+ 'TCLLIB=$(TCLLIB)' 'TCLLIBFN=$(TCLLIBFN)' 'XREQS=$(XREQS)' \
+-'XLIBS=$(XLIBS)' 'EGGEXEC=$(EGGEXEC)' 'EGGBUILD=(standard build)' 'MODOBJS='
++'XSSL_LIBS=$(XSSL_LIBS)' 'XLIBS=$(XLIBS)' 'EGGEXEC=$(EGGEXEC)' \
++'XSSL_INCLUDE=$(XSSL_INCLUDE)' 'EGGBUILD=' 'MODOBJS='
+ 
+ MAKE_MODULES = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(SHLIB_CC)' 'LD=$(SHLIB_LD)' \
+ 'STRIP=$(SHLIB_STRIP)' 'CFLGS=$(CFLGS)' 'XLIBS=$(XLIBS)' \
+@@ -105,12 +110,13 @@
+ 'STRIP=$(STRIP)' 'RANLIB=$(RANLIB)' 'CFLGS=$(CFLGS) -DSTATIC' \
+ 'TCLLIB=$(TCLLIB)' 'TCLLIBFN=$(TCLLIBFN)' 'XREQS=$(XREQS)' \
+ 'XLIBS=$(XLIBS)' 'EGGEXEC=$(EGGEXEC)' 'EGGBUILD=(static version)' \
+-'MODOBJS=mod/*.o'
++'XSSL_INCLUDE=$(XSSL_INCLUDE)' 'XSSL_LIBS=$(XSSL_LIBS)' 'MODOBJS=mod/*.o'
+ 
+ MAKE_DEBEGG = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(MOD_CC)' 'LD=$(MOD_LD)' \
+ 'STRIP=touch' 'RANLIB=$(RANLIB)' 'CFLGS=$(DEBCFLGS) $(CFLGS)' \
+ 'TCLLIB=$(TCLLIB)' 'TCLLIBFN=$(TCLLIBFN)' 'XREQS=$(XREQS)' \
+-'XLIBS=$(XLIBS)' 'EGGEXEC=$(EGGEXEC)' 'EGGBUILD=(debug version)' 'MODOBJS='
++'XSSL_LIBS=$(XSSL_LIBS)' 'XLIBS=$(XLIBS)' 'EGGEXEC=$(EGGEXEC)' \
++'XSSL_INCLUDE=$(XSSL_INCLUDE)' 'EGGBUILD=(debug version)' 'MODOBJS='
+ 
+ MAKE_DEBMODULES = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(SHLIB_CC)' 'LD=$(SHLIB_LD)' \
+ 'XLIBS=$(XLIBS)' 'STRIP=touch' 'CFLGS=$(DEBCFLGS) $(CFLGS)' \
+@@ -119,7 +125,8 @@
+ MAKE_SDEBUG = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(CC)' 'LD=$(LD)' \
+ 'STRIP=touch' 'RANLIB=$(RANLIB)' 'CFLGS=$(DEBCFLGS) $(CFLGS) -DSTATIC' \
+ 'TCLLIB=$(TCLLIB)' 'TCLLIBFN=$(TCLLIBFN)' 'XREQS=$(XREQS)' 'XLIBS=$(XLIBS)' \
+-'EGGEXEC=$(EGGEXEC)' 'EGGBUILD=(static debug version)' 'MODOBJS=mod/*.o'
++'XSSL_INCLUDE=$(XSSL_INCLUDE)' 'XSSL_LIBS=$(XSSL_LIBS)' 'EGGEXEC=$(EGGEXEC)' \
++'EGGBUILD=(static and debug version)' 'MODOBJS=mod/*.o'
+ 
+ MAKE_DEPEND = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(CC)'
+ 
+--- aclocal.m4	2004-03-27 06:50:00.000000000 +0000
++++ aclocal.m4	2004-03-27 06:50:00.000000000 +0000
+@@ -37,6 +37,64 @@
  ])
+ 
  
 +dnl  EGG_SSL_CRAP()
 +dnl
 +AC_DEFUN(EGG_SSL_CRAP, [dnl
-+#ssl checks - hoe
++#ssl checks
 +AC_MSG_CHECKING(whether to include SSL support)
 +AC_ARG_WITH(ssl,
 +[  --with-ssl[=PATH]         Include SSL support (DIR is OpenSSL's install dir).],
@@ -41,7 +90,7 @@
 +
 +      if test -n "$SSL_INCLUDE" && test -n "$SSL_LIB" && test -n "$CRYPTO_LIB"; then
 +        SSL_LIBS="-lssl -lcrypto -L$SSL_LIB -L$CRYPTO_LIB";
-+        AC_DEFINE([EGG_SSL_EXT], [], [SSL support])
++        AC_DEFINE(EGG_SSL_EXT)
 +        AC_MSG_RESULT(yes)
 +      else
 +        AC_MSG_RESULT(no)
@@ -58,83 +107,57 @@
 +    AC_SUBST(SSL_INCLUDE)dnl
 +])
 +
-+#end of ssl checks - hoe (.16 by poci)
++#end of ssl checks
 +])dnl
 +
- 
++
  dnl EGG_MSG_CONFIGURE_END()
  dnl
---- eggdrop1.6.19/config.h.in	2006-11-20 12:38:25.000000000 +0100
-+++ eggdrop1.6.19.new/config.h.in	2008-09-22 14:07:26.990831137 +0200
-@@ -33,6 +33,9 @@
- /* Define to 1 if you have the `clock' function. */
- #undef HAVE_CLOCK
+ AC_DEFUN([EGG_MSG_CONFIGURE_END],
+--- config.h.in	2004-03-27 06:50:00.000000000 +0000
++++ config.h.in	2004-03-27 06:50:00.000000000 +0000
+@@ -62,6 +62,9 @@
+    */
+ #undef HAVE_DECL_TZNAME
  
 +/* Defines ssl mode  */
-+#undef EGG_SSL_EXT
++#undef EGG_SSL_EXT 
 +
  /* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
     */
  #undef HAVE_DIRENT_H
---- eggdrop1.6.19/configure.ac	2008-02-18 23:25:33.000000000 +0100
-+++ eggdrop1.6.19.new/configure.ac	2008-09-22 14:23:32.432890637 +0200
-@@ -150,6 +150,7 @@ EGG_TCL_CHECK_THREADS
- EGG_TCL_LIB_REQS
- EGG_TCL_LUSH
+--- configure.ac	2004-03-27 06:50:00.000000000 +0000
++++ configure.ac	2004-03-27 06:50:00.000000000 +0000
+@@ -151,6 +151,7 @@
+                 /usr/local/pkgs/tcl/include /sys/include \
+                 /usr/pkg/lib /beos/system/include /beos/devel/include $HOME"
  
 +EGG_SSL_CRAP
  
- # Substitute Makefile variables.
- EGG_SUBST_EGGVERSION
---- eggdrop1.6.19/Makefile.in	2004-08-28 08:43:21.000000000 +0200
-+++ eggdrop1.6.19.new/Makefile.in	2008-09-22 14:29:11.247383482 +0200
-@@ -57,6 +57,8 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
- RANLIB = @RANLIB@
- MOD_EXT = @MOD_EXT@
- XREQS = @TCL_REQS@
+ # We save the cache (if used) here to speed things up if we can't find Tcl.
+ AC_CACHE_SAVE
+--- src/Makefile.in	2004-03-27 06:50:00.000000000 +0000
++++ src/Makefile.in	2004-03-27 06:50:00.000000000 +0000
+@@ -11,6 +11,8 @@
+ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_DATA = @INSTALL_DATA@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 +XSSL_LIBS = @SSL_LIBS@
 +XSSL_INCLUDE = @SSL_INCLUDE@
- TCLLIB = @TCLLIB@
- TCLLIBFN = @TCLLIBFN@
  
-@@ -89,7 +91,8 @@ egg_install_msg =  echo "" && \
- MAKE_MODEGG = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(MOD_CC)' 'LD=$(MOD_LD)' \
- 'STRIP=$(MOD_STRIP)' 'RANLIB=$(RANLIB)' 'CFLGS=$(CFLGS)' \
- 'TCLLIB=$(TCLLIB)' 'TCLLIBFN=$(TCLLIBFN)' 'XREQS=$(XREQS)' \
--'XLIBS=$(XLIBS)' 'EGGEXEC=$(EGGEXEC)' 'EGGBUILD=(standard build)' 'MODOBJS='
-+'XSSL_LIBS=$(XSSL_LIBS)' 'XLIBS=$(XLIBS)' 'EGGEXEC=$(EGGEXEC)' \
-+'XSSL_INCLUDE=$(XSSL_INCLUDE)' 'EGGBUILD=' 'MODOBJS='
- 
- MAKE_MODULES = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(SHLIB_CC)' 'LD=$(SHLIB_LD)' \
- 'STRIP=$(SHLIB_STRIP)' 'CFLGS=$(CFLGS)' 'XLIBS=$(XLIBS)' 'MOD_EXT=$(MOD_EXT)' \
-@@ -99,12 +102,13 @@ MAKE_STATIC = $(MAKE) 'MAKE=$(MAKE)' 'CC
- 'STRIP=$(STRIP)' 'RANLIB=$(RANLIB)' 'CFLGS=$(CFLGS) -DSTATIC' \
- 'TCLLIB=$(TCLLIB)' 'TCLLIBFN=$(TCLLIBFN)' 'XREQS=$(XREQS)' \
- 'XLIBS=$(XLIBS)' 'EGGEXEC=$(EGGEXEC)' 'EGGBUILD=(static version)' \
--'MODOBJS=mod/*.o'
-+'XSSL_INCLUDE=$(XSSL_INCLUDE)' 'XSSL_LIBS=$(XSSL_LIBS)' 'MODOBJS=mod/*.o'
- 
- MAKE_DEBEGG = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(MOD_CC)' 'LD=$(MOD_LD) -g' \
- 'STRIP=touch' 'RANLIB=$(RANLIB)' 'CFLGS=-g3 $(DEBCFLAGS) $(CFLGS)' \
- 'TCLLIB=$(TCLLIB)' 'TCLLIBFN=$(TCLLIBFN)' 'XREQS=$(XREQS)' \
--'XLIBS=$(XLIBS)' 'EGGEXEC=$(EGGEXEC)' 'EGGBUILD=(debug version)' 'MODOBJS='
-+'XSSL_LIBS=$(XSSL_LIBS)' 'XLIBS=$(XLIBS)' 'EGGEXEC=$(EGGEXEC)' \
-+'XSSL_INCLUDE=$(XSSL_INCLUDE)' 'EGGBUILD=(debug version)' 'MODOBJS='
- 
- MAKE_DEBMODULES = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(SHLIB_CC)' 'LD=$(SHLIB_LD)' \
- 'XLIBS=$(XLIBS)' 'STRIP=touch' 'CFLGS=-g3 $(DEBCFLAGS) $(CFLGS)' \
-@@ -113,7 +117,8 @@ MAKE_DEBMODULES = $(MAKE) 'MAKE=$(MAKE)'
- MAKE_SDEBUG = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(CC)' 'LD=$(LD) -g' \
- 'STRIP=touch' 'RANLIB=$(RANLIB)' 'CFLGS=-g3 $(DEBCFLAGS) -DSTATIC $(CFLGS)' \
- 'TCLLIB=$(TCLLIB)' 'TCLLIBFN=$(TCLLIBFN)' 'XREQS=$(XREQS)' 'XLIBS=$(XLIBS)' \
--'EGGEXEC=$(EGGEXEC)' 'EGGBUILD=(static debug version)' 'MODOBJS=mod/*.o'
-+'XSSL_INCLUDE=$(XSSL_INCLUDE)' 'XSSL_LIBS=$(XSSL_LIBS)' 'EGGEXEC=$(EGGEXEC)' \
-+'EGGBUILD=(static and debug version)' 'MODOBJS=mod/*.o'
- 
- MAKE_DEPEND = $(MAKE) 'MAKE=$(MAKE)' 'CC=$(CC)'
- 
---- eggdrop1.6.19/src/dcc.c	2008-02-16 22:41:03.000000000 +0100
-+++ eggdrop1.6.19.new/src/dcc.c	2008-09-22 14:30:37.252784308 +0200
+ CC = @CC@
+ LD = @CC@
+@@ -37,7 +39,7 @@
+ 	@echo "Linking eggdrop $(EGGBUILD)."
+ 	@echo ""
+ 	@touch mod/mod.xlibs
+-	$(LD) -o ../$(EGGEXEC) $(eggdrop_objs) $(MODOBJS) $(XLIBS) md5/md5c.o compat/*.o `cat mod/mod.xlibs`
++	$(LD) -o ../$(EGGEXEC) $(eggdrop_objs) $(MODOBJS) $(XLIBS) md5/md5c.o compat/*.o `cat mod/mod.xlibs` $(XSSL_LIBS) $(XSSL_INCLUDE)
+ 	$(STRIP) ../$(EGGEXEC)
+ 	@echo ""
+ 	@echo "Successful compile: $(EGGEXEC)"
+--- src/dcc.c	2004-03-27 06:50:00.000000000 +0000
++++ src/dcc.c	2004-03-27 06:50:00.000000000 +0000
 @@ -32,7 +32,11 @@
  #include "tandem.h"
  
@@ -147,8 +170,8 @@
  
  extern struct userrec *userlist;
  extern struct chanset_t *chanset;
---- eggdrop1.6.19/src/dccutil.c	2008-02-16 22:41:03.000000000 +0100
-+++ eggdrop1.6.19.new/src/dccutil.c	2008-09-22 14:31:42.540452895 +0200
+--- src/dccutil.c	2004-03-27 06:50:00.000000000 +0000
++++ src/dccutil.c	2004-03-27 06:50:00.000000000 +0000
 @@ -33,6 +33,7 @@
  #include "chan.h"
  #include "modules.h"
@@ -156,72 +179,77 @@
 +#include "net.h"
  
  extern struct dcc_t *dcc;
- extern int dcc_total, max_dcc, dcc_flood_thr, backgrd, copy_to_tmp, MAXSOCKS;
---- eggdrop1.6.19/src/eggdrop.h	2008-02-16 22:41:03.000000000 +0100
-+++ eggdrop1.6.19.new/src/eggdrop.h	2008-09-22 14:33:40.008829213 +0200
-@@ -616,18 +616,6 @@ enum {
- #define HELP_TEXT       2
- #define HELP_IRC        16
+ extern int dcc_total, dcc_flood_thr, backgrd, copy_to_tmp, max_socks;
+--- src/eggdrop.h	2004-03-27 06:50:00.000000000 +0000
++++ src/eggdrop.h	2004-03-27 06:50:00.000000000 +0000
+@@ -678,15 +678,6 @@
+   ClientData cd;
+ };
  
--/* This is used by the net module to keep track of sockets and what's
-- * queued on them
-- */
--typedef struct {
+-typedef struct sock_list {
 -  int sock;
 -  short flags;
--  char *inbuf;
--  char *outbuf;
--  unsigned long outbuflen;      /* Outbuf could be binary data  */
--  unsigned long inbuflen;       /* Inbuf could be binary data   */
+-  union {
+-    struct sock_handler sock;
+-    struct tclsock_handler tclsock;
+-  } handler;
 -} sock_list;
 -
  enum {
    EGG_OPTION_SET = 1,           /* Set option(s).               */
    EGG_OPTION_UNSET = 2          /* Unset option(s).             */
---- eggdrop1.6.19/src/main.c	2008-02-16 22:41:03.000000000 +0100
-+++ eggdrop1.6.19.new/src/main.c	2008-09-22 14:35:26.008450672 +0200
-@@ -161,6 +161,9 @@ int cx_line[16];
+--- src/main.c	2004-03-27 06:50:00.000000000 +0000
++++ src/main.c	2004-03-27 06:50:00.000000000 +0000
+@@ -164,6 +164,10 @@
  int cx_ptr = 0;
  #endif
  
 +#ifdef EGG_SSL_EXT
-+int clean_net();
++void init_ssl();
++int clean_ssl();
 +#endif
  
  void fatal(const char *s, int recoverable)
  {
-@@ -171,6 +174,9 @@ void fatal(const char *s, int recoverabl
+@@ -174,6 +178,9 @@
    for (i = 0; i < dcc_total; i++)
      if (dcc[i].sock >= 0)
        killsock(dcc[i].sock);
 +  #ifdef EGG_SSL_EXT
-+  clean_net();
++  clean_ssl();
 +  #endif
    unlink(pid_file);
    if (!recoverable) {
      bg_send_quit(BG_ABORT);
---- eggdrop1.6.19/src/Makefile.in	2006-11-20 12:38:25.000000000 +0100
-+++ eggdrop1.6.19.new/src/Makefile.in	2008-09-22 14:38:37.400421493 +0200
-@@ -11,6 +11,8 @@ INSTALL = @INSTALL@
- INSTALL_PROGRAM = @INSTALL_PROGRAM@
- INSTALL_DATA = @INSTALL_DATA@
- INSTALL_SCRIPT = @INSTALL_SCRIPT@
-+XSSL_LIBS = @SSL_LIBS@
-+XSSL_INCLUDE = @SSL_INCLUDE@
+@@ -1029,6 +1036,9 @@
+   init_userent();
+   init_misc();
+   init_bots();
++#ifdef EGG_SSL_EXT
++  init_ssl();
++#endif
+   init_modules();
+   if (backgrd)
+     bg_prepare_split();
+--- src/md5/md5.h	2004-03-27 06:50:00.000000000 +0000
++++ src/md5/md5.h	2004-03-27 06:50:00.000000000 +0000
+@@ -5,6 +5,9 @@
+  * Written by Solar Designer <solar@openwall.com> in 2001, and placed in
+  * the public domain.  See md5c.c for more information.
+  */
++#include "../config.h"
++#ifndef EGG_SSL_EXT
++
  
- CC = @CC@
- LD = @CC@
-@@ -37,7 +39,7 @@ doofus:
- 	@echo "Linking eggdrop $(EGGBUILD)."
- 	@echo ""
- 	@touch mod/mod.xlibs
--	$(LD) -o ../$(EGGEXEC) $(eggdrop_objs) $(MODOBJS) $(XLIBS) md5/md5c.o compat/*.o `cat mod/mod.xlibs`
-+	$(LD) -o ../$(EGGEXEC) $(eggdrop_objs) $(MODOBJS) $(XLIBS) md5/md5c.o compat/*.o `cat mod/mod.xlibs` $(XSSL_LIBS) $(XSSL_INCLUDE)
- 	$(STRIP) ../$(EGGEXEC)
- 	@echo ""
- 	@echo "Successful compile: $(EGGEXEC)"
---- eggdrop1.6.19/src/md5/md5c.c	2004-04-10 09:49:23.000000000 +0200
-+++ eggdrop1.6.19.new/src/md5/md5c.c	2008-09-22 14:40:36.140399142 +0200
+ #ifndef _MD5_H
+ #define _MD5_H
+@@ -24,3 +27,4 @@
+ extern void MD5_Final(unsigned char *result, MD5_CTX *ctx);
+ 
+ #endif
++#endif
+--- src/md5/md5c.c	2004-03-27 06:50:00.000000000 +0000
++++ src/md5/md5c.c	2004-03-27 06:50:00.000000000 +0000
 @@ -17,9 +17,23 @@
  
  #include <string.h>
@@ -246,25 +274,20 @@
  /*
   * The basic MD5 functions.
   *
---- eggdrop1.6.19/src/md5/md5.h	2003-03-06 04:35:59.000000000 +0100
-+++ eggdrop1.6.19.new/src/md5/md5.h	2008-09-22 14:44:22.801432410 +0200
-@@ -5,6 +5,8 @@
-  * Written by Solar Designer <solar@openwall.com> in 2001, and placed in
-  * the public domain.  See md5c.c for more information.
-  */
-+#include "../config.h"
-+#ifndef EGG_SSL_EXT
+--- src/mod/compress.mod/compress.c	2004-03-27 06:50:00.000000000 +0000
++++ src/mod/compress.mod/compress.c	2004-03-27 06:50:00.000000000 +0000
+@@ -36,6 +36,8 @@
+ #include "src/mod/module.h"
+ #include "share.mod/share.h"
  
- #ifndef _MD5_H
- #define _MD5_H
-@@ -24,3 +26,4 @@ extern void MD5_Update(MD5_CTX *ctx, voi
- extern void MD5_Final(unsigned char *result, MD5_CTX *ctx);
- 
- #endif
-+#endif
---- eggdrop1.6.19/src/mod/irc.mod/chan.c	2008-02-16 22:41:09.000000000 +0100
-+++ eggdrop1.6.19.new/src/mod/irc.mod/chan.c	2008-09-22 14:46:27.143879710 +0200
-@@ -965,10 +965,10 @@ static int got324(char *from, char *msg)
++#include <zlib.h>
++
+ #ifdef HAVE_MMAP
+ #  undef panic
+ #  include <sys/types.h>
+--- src/mod/irc.mod/chan.c	2004-03-27 06:50:00.000000000 +0000
++++ src/mod/irc.mod/chan.c	2004-03-27 06:50:00.000000000 +0000
+@@ -991,10 +991,10 @@
          q = strchr(p, ' ');
          if (q != NULL) {
            *q = 0;
@@ -277,9 +300,9 @@
            *p = 0;
          }
        }
---- eggdrop1.6.19/src/mod/irc.mod/irc.c	2008-02-16 22:41:09.000000000 +0100
-+++ eggdrop1.6.19.new/src/mod/irc.mod/irc.c	2008-09-22 14:47:35.182249518 +0200
-@@ -256,7 +256,7 @@ static void maybe_revenge(struct chanset
+--- src/mod/irc.mod/irc.c	2004-03-27 06:50:00.000000000 +0000
++++ src/mod/irc.mod/irc.c	2004-03-27 06:50:00.000000000 +0000
+@@ -256,7 +256,7 @@
  
  /* Set the key.
   */
@@ -288,47 +311,46 @@
  {
    nfree(chan->channel.key);
    if (k == NULL) {
---- eggdrop1.6.19/src/mod/irc.mod/irc.h	2008-02-16 22:41:09.000000000 +0100
-+++ eggdrop1.6.19.new/src/mod/irc.mod/irc.h	2008-09-22 14:53:47.281677127 +0200
-@@ -69,7 +69,7 @@ static void set_delay(struct chanset_t *
+--- src/mod/irc.mod/irc.h	2004-03-27 06:50:00.000000000 +0000
++++ src/mod/irc.mod/irc.h	2004-03-27 06:50:00.000000000 +0000
+@@ -68,7 +68,7 @@
  
- static void reset_chan_info(struct chanset_t *);
+ static void reset_chan_info(struct chanset_t *, int);
  static void recheck_channel(struct chanset_t *, int);
 -static void set_key(struct chanset_t *, char *);
 +static void set_keyegg(struct chanset_t *, char *);
  static void maybe_revenge(struct chanset_t *, char *, char *, int);
  static int detect_chan_flood(char *, char *, char *, struct chanset_t *, int,
                               char *);
---- eggdrop1.6.19/src/mod/irc.mod/mode.c	2008-02-16 22:41:09.000000000 +0100
-+++ eggdrop1.6.19.new/src/mod/irc.mod/mode.c	2008-09-22 14:57:12.177766159 +0200
-@@ -1128,7 +1128,7 @@ static int gotmode(char *from, char *ori
-             break;
-           }
+--- src/mod/irc.mod/mode.c	2004-03-27 06:50:00.000000000 +0000
++++ src/mod/irc.mod/mode.c	2004-03-27 06:50:00.000000000 +0000
+@@ -1209,7 +1209,7 @@
+           if (!(chan = modebind_refresh(ch, from, &user, NULL, NULL)))
+             return 0;
            if (ms2[0] == '+') {
 -            set_key(chan, op);
 +            set_keyegg(chan, op);
              if (channel_active(chan))
                got_key(chan, nick, from, op);
            } else {
-@@ -1139,7 +1139,7 @@ static int gotmode(char *from, char *ori
+@@ -1220,7 +1220,7 @@
                         !chan_master(user) && !match_my_nick(nick))
                  add_mode(chan, '+', 'k', chan->key_prot);
              }
 -            set_key(chan, NULL);
-+	    set_keyegg(chan, NULL);
++            set_keyegg(chan, NULL);
            }
-           check_tcl_mode(nick, from, u, chan->dname, ms2, op);
            break;
---- eggdrop1.6.19/src/mod/module.h	2008-02-16 22:41:06.000000000 +0100
-+++ eggdrop1.6.19.new/src/mod/module.h	2008-09-22 15:00:36.262853551 +0200
-@@ -471,13 +471,23 @@
+         case 'o':
+--- src/mod/module.h	2004-03-27 06:50:00.000000000 +0000
++++ src/mod/module.h	2004-03-27 06:50:00.000000000 +0000
+@@ -472,6 +472,16 @@
  /* IPv6 leftovers: 286 */
  /* IPv6 leftovers: 287 */
  /* 288 - 291 */
--/* IPv6 leftovers: 288 */
 +#ifdef EGG_SSL_EXT
 +#define net_switch_to_ssl ((int (*)(int))global[289])
-+#define use_ssl (*(int *)global[290]) /* kyotou */
++#define ssl_use (*(int *)global[290])
 +#define strip_mirc_codes ((void (*)(int, char *))global[291])
 +#define check_ansi ((int (*) (char *))global[292])
 +#define oatoi ((int (*) (const char *))global[293])
@@ -336,35 +358,36 @@
 +#define str_isdigit ((int (*) (const char *))global[294])
 +#define remove_crlf ((void (*)(char **))global[295])
 +#else
+ /* IPv6 leftovers: 288 */
  #define strip_mirc_codes ((void (*)(int, char *))global[289])
  #define check_ansi ((int (*) (char *))global[290])
- #define oatoi ((int (*) (const char *))global[291])
+@@ -479,6 +489,7 @@
  /* 292 - 295 */
  #define str_isdigit ((int (*) (const char *))global[292])
- #define remove_crlf ((void (*)(char **))global[293])
+ #define remove_crlf ((void (*) (char **))global[293])
 +#endif
- 
- /* hostmasking */
- #define maskhost(a,b) _maskhost((a),(b),1)
---- eggdrop1.6.19/src/mod/server.mod/servmsg.c	2008-02-16 22:41:10.000000000 +0100
-+++ eggdrop1.6.19.new/src/mod/server.mod/servmsg.c	2008-09-22 15:16:40.818273894 +0200
-@@ -1293,6 +1293,14 @@ static void server_resolve_success(int s
+ #define addr_match ((int (*)(const char *, const char *, int, int))global[294])
+ #define mask_match ((int (*)(const char *, const char *))global[295])
+ /* 296 - 299 */
+--- src/mod/server.mod/servmsg.c	2004-03-27 06:50:00.000000000 +0000
++++ src/mod/server.mod/servmsg.c	2004-03-27 06:50:00.000000000 +0000
+@@ -1360,6 +1360,14 @@
        fatal("NO SERVERS WILL ACCEPT MY CONNECTION.", 0);
    } else {
      dcc[servidx].sock = serv;
 +	#ifdef EGG_SSL_EXT
-+	if (use_ssl) { /* kyotou */
++	if (ssl_use) {
 +		if (net_switch_to_ssl(serv)==0) {
 +			putlog(LOG_SERV, "*", "SSL %s %s (Error while switching to SSL)", IRC_FAILEDCONNECT, dcc[servidx].host);
-+			lostdcc(servidx);
++			lostdcc(servidx);    
 +		}
-+	}
++	}    
 +	#endif
      /* Queue standard login */
      dcc[servidx].timeval = now;
      SERVER_SOCKET.timeout_val = &server_timeout;
---- eggdrop1.6.19/src/modules.c	2008-02-16 22:41:04.000000000 +0100
-+++ eggdrop1.6.19.new/src/modules.c	2008-09-22 15:30:23.753434245 +0200
+--- src/modules.c	2004-03-27 06:50:00.000000000 +0000
++++ src/modules.c	2004-03-27 06:50:00.000000000 +0000
 @@ -29,9 +29,17 @@
  #include "main.h"
  #include "modules.h"
@@ -383,43 +406,44 @@
  #ifndef STATIC
  #  ifdef MOD_USE_SHL
  #    include <dl.h>
-@@ -94,6 +102,10 @@ extern int parties, noshare, dcc_total, 
+@@ -94,6 +102,10 @@
             password_timeout, force_expire, protect_readonly, reserved_port_min,
             reserved_port_max, copy_to_tmp, quiet_reject;
  
 +#ifdef EGG_SSL_EXT
-+extern int      use_ssl; /* kyotou */
++extern int      ssl_use;
 +#endif
 +
  extern party_t *party;
  extern time_t now, online_since;
  extern tand_t *tandbot;
-@@ -128,6 +140,9 @@ void check_static(char *name, char *(*fu
+@@ -128,6 +140,10 @@
  }
  #endif /* STATIC */
  
 +#ifdef EGG_SSL_EXT
 +int net_switch_to_ssl(int);
 +#endif
++
  
  /* The null functions */
  void null_func()
-@@ -564,7 +579,13 @@ Function global_table[] = {
+@@ -564,7 +580,13 @@
    (Function) 0,                   /* IPv6 leftovers: 286                 */
    (Function) 0,                   /* IPv6 leftovers: 287                 */
    /* 288 - 291 */
 +#ifdef EGG_SSL_EXT
    (Function) 0,                   /* IPv6 leftovers: 288                 */
 +  (Function) net_switch_to_ssl,
-+  (Function) & use_ssl, /* kyotou */
++  (Function) & ssl_use,
 +#else
 +  (Function) 0,                   /* IPv6 leftovers: 288                 */
 +#endif
    (Function) strip_mirc_codes,
    (Function) check_ansi,
    (Function) oatoi,
---- eggdrop1.6.19/src/net.c	2008-02-16 22:41:04.000000000 +0100
-+++ eggdrop1.6.19.new/src/net.c	2008-09-22 16:10:28.739840200 +0200
+--- src/net.c	2004-03-27 06:50:00.000000000 +0000
++++ src/net.c	2004-03-27 06:50:00.000000000 +0000
 @@ -52,6 +52,18 @@
  #  endif
  #endif
@@ -439,20 +463,20 @@
  extern struct dcc_t *dcc;
  extern int backgrd, use_stderr, resolve_timeout, dcc_total;
  extern unsigned long otraffic_irc_today, otraffic_bn_today, otraffic_dcc_today,
-@@ -65,6 +77,12 @@ int firewallport = 1080;      /* Default
+@@ -64,7 +76,11 @@
+ int firewallport = 1080;      /* Default port of socks 4/5 firewalls.         */
  char botuser[21] = "eggdrop"; /* Username of the user running the bot.        */
  int dcc_sanitycheck = 0;      /* Do some sanity checking on dcc connections.  */
- 
+-
 +#ifdef EGG_SSL_EXT
 +SSL_CTX *ssl_ctx=NULL;
 +char	*tls_rand_file = NULL;
-+int     use_ssl = 0; /* kyotou */
++int     ssl_use = 0;
 +#endif
-+
  sock_list *socklist = NULL;   /* Enough to be safe.                           */
- int MAXSOCKS = 0;
- sigjmp_buf alarmret;             /* Env buffer for alarm() returns.              */
-@@ -88,6 +106,46 @@ IP my_atoul(char *s)
+ sigjmp_buf alarmret;          /* Env buffer for alarm() returns.              */
+ 
+@@ -87,6 +103,73 @@
    return ret;
  }
  
@@ -465,50 +489,44 @@
 +
 +#if OPENSSL_VERSION_NUMBER >= 0x00905100
 +    if (RAND_status())
-+	return 0;     /* PRNG already good seeded */
++      return 0;     /* PRNG already good seeded */
 +#endif
 +    /* if the device '/dev/urandom' is present, OpenSSL uses it by default.
 +     * check if it's present, else we have to make random data ourselfs.
 +     */
 +    if ((fh = fopen("/dev/urandom", "r"))) {
-+	fclose(fh);
-+	return 0;
++      fclose(fh);
++      return 0;
 +    }
 +    if (RAND_file_name(rand_file, sizeof(rand_file)))
-+	tls_rand_file = rand_file;
++      tls_rand_file = rand_file;
 +    else
-+	return 1;
++      return 1;
 +    if (!RAND_load_file(rand_file, 1024)) {
-+	/* no .rnd file found, create new seed */
-+	unsigned int c;
-+	c = time(NULL);
-+	RAND_seed(&c, sizeof(c));
-+	c = getpid();
-+	RAND_seed(&c, sizeof(c));
-+	RAND_seed(stackdata, sizeof(stackdata));
++      /* no .rnd file found, create new seed */
++      unsigned int c;
++      c = time(NULL);
++      RAND_seed(&c, sizeof(c));
++      c = getpid();
++      RAND_seed(&c, sizeof(c));
++      RAND_seed(stackdata, sizeof(stackdata));
 +    }
 +#if OPENSSL_VERSION_NUMBER >= 0x00905100
 +    if (!RAND_status())
-+	return 2;   /* PRNG still badly seeded */
++      return 2;   /* PRNG still badly seeded */
 +#endif
 +    return 0;
 +}
-+#endif
 +
++void init_ssl()
++{
++  int i;
++  struct threaddata *td = threaddata();
++ 
++  for (i = 0; i < td->MAXSOCKS; i++) {
++    td->socklist[i].ssl = NULL;
++  }
 +
- /* Initialize the socklist
-  */
- void init_net()
-@@ -96,9 +154,35 @@ void init_net()
- 
-   for (i = 0; i < MAXSOCKS; i++) {
-     socklist[i].flags = SOCK_UNUSED;
-+#ifdef EGG_SSL_EXT
-+    socklist[i].ssl=NULL;
-+#endif
-   }
-+#ifdef EGG_SSL_EXT
-+  /* good place to init ssl stuff */
 +  SSL_load_error_strings();
 +  OpenSSL_add_ssl_algorithms();
 +  ssl_ctx=SSL_CTX_new(SSLv23_client_method());
@@ -516,40 +534,45 @@
 +  fatal("SSL_CTX_new() failed",0);
 +  if (seed_PRNG())
 +    fatal("Wasn't able to properly seed the PRNG!",0);
-+#endif
- }
- 
-+#ifdef EGG_SSL_EXT
-+/* cleanup mess when quiting */
-+int clean_net() {
++}
++
++int clean_ssl() {
 +   if (ssl_ctx) {
-+	SSL_CTX_free(ssl_ctx);
-+	ssl_ctx = NULL;
-+   }
++      SSL_CTX_free(ssl_ctx);
++      ssl_ctx = NULL;
++  }
 +  if (tls_rand_file)
-+	RAND_write_file(tls_rand_file);
++      RAND_write_file(tls_rand_file);
 + return 0;
-+ }
++}
 +#endif
 +
  int expmem_net()
  {
    int i, tot = 0;
-@@ -231,6 +315,13 @@ int sockoptions(int sock, int operation,
+@@ -249,6 +332,7 @@
+       td->socklist[i].handler.sock.outbuflen = 0;
+       td->socklist[i].flags = options;
+       td->socklist[i].sock = sock;
++      td->socklist[i].ssl = NULL;
+       return i;
+     }
+   }
+@@ -345,6 +429,13 @@
  
-   for (i = 0; i < MAXSOCKS; i++)
-     if ((socklist[i].sock == sock) && !(socklist[i].flags & SOCK_UNUSED)) {
+   for (i = 0; i < td->MAXSOCKS; i++) {
+     if ((td->socklist[i].sock == sock) && !(td->socklist[i].flags & SOCK_UNUSED)) {
 +#ifdef EGG_SSL_EXT
-+      if (socklist[i].ssl) {
-+    	SSL_shutdown(socklist[i].ssl);
-+	    SSL_free(socklist[i].ssl);
-+	    socklist[i].ssl=NULL;
++      if (td->socklist[i].ssl) {
++        SSL_shutdown(td->socklist[i].ssl);
++        SSL_free(td->socklist[i].ssl);
++        td->socklist[i].ssl = NULL;
 +      }
-+#endif    
-       if (operation == EGG_OPTION_SET)
-         socklist[i].flags |= sock_options;
-       else if (operation == EGG_OPTION_UNSET)
-@@ -366,6 +457,64 @@ static int proxy_connect(int sock, char 
++#endif
+       if (!(td->socklist[i].flags & SOCK_TCL)) { /* nothing to free for tclsocks */
+         close(td->socklist[i].sock);
+         if (td->socklist[i].handler.sock.inbuf != NULL) {
+@@ -508,6 +599,65 @@
    return sock;
  }
  
@@ -557,107 +580,111 @@
 +int net_switch_to_ssl(int sock) {
 +int err;
 +int i=0;
++struct threaddata *td = threaddata();
++
 +    debug0("net_switch_to_ssl()");
-+    while (i<MAXSOCKS) {
-+     if (socklist[i].sock==sock) {
++    while (i < td->MAXSOCKS) {
++     if (td->socklist[i].sock==sock) {
 +      break;
 +     }
 +     i++;
 +    }
-+    if (i==MAXSOCKS) {
++    if (i == td->MAXSOCKS) {
 +        debug0("Error while swithing to SSL - sock not found in list");
 +	return 0;
 +    }
 +
-+    if (socklist[i].ssl) {
++    if (td->socklist[i].ssl) {
 +        debug0("Error while swithing to SSL - already in ssl");
 +	return 0;
 +    }
-+    socklist[i].ssl = SSL_new(ssl_ctx);
-+    if (!socklist[i].ssl) {
++    td->socklist[i].ssl = SSL_new(ssl_ctx);
++    if (!td->socklist[i].ssl) {
 +        debug0("Error while swithing to SSL - SSL_new() error");
 +	return 0;
 +    }
 +
-+     SSL_set_fd(socklist[i].ssl, socklist[i].sock);
-+     err = SSL_connect(socklist[i].ssl);
-+
++     SSL_set_fd(td->socklist[i].ssl, td->socklist[i].sock);
++     err = SSL_connect(td->socklist[i].ssl);
++   
 +     while (err <= 0) {
 +        int errs;
-+        errs=SSL_get_error(socklist[i].ssl,err);
++        errs=SSL_get_error(td->socklist[i].ssl,err);
 +        if ((errs!=SSL_ERROR_WANT_READ)&&(errs!=SSL_ERROR_WANT_WRITE)&&
 +	        (errs!=SSL_ERROR_WANT_X509_LOOKUP)) {
 +		putlog(LOG_DEBUG,"*", "SSL_connect() = %d, %s", err,
 +			(char *)ERR_error_string(ERR_get_error(), NULL));
-+	 	SSL_shutdown(socklist[i].ssl);
-+	 	SSL_free(socklist[i].ssl);
-+	 	socklist[i].ssl = NULL;
-+	        return 0;
++	 	SSL_shutdown(td->socklist[i].ssl);
++	 	SSL_free(td->socklist[i].ssl);
++	 	td->socklist[i].ssl = NULL;
++	        return 0;	    
 +        }
 +        usleep(1000);
-+        err = SSL_connect(socklist[i].ssl);
++        err = SSL_connect(td->socklist[i].ssl);
 +     }
 +
 +     if (err==1) {
-+      debug0("SSL_connect() success");
++      debug0("SSL_connect() success"); 
 +      return 1;
 +     }
-+     debug0("Error while SSL_connect()");
-+     SSL_shutdown(socklist[i].ssl);
-+     SSL_free(socklist[i].ssl);
-+     socklist[i].ssl = NULL;
++     debug0("Error while SSL_connect()"); 
++     SSL_shutdown(td->socklist[i].ssl);
++     SSL_free(td->socklist[i].ssl); 
++     td->socklist[i].ssl = NULL;
 +     return 0;
 +}
 +#endif
 +
-+
- /* Starts a connection attempt to a socket
-  *
-  * If given a normal hostname, this will be resolved to the corresponding
-@@ -627,6 +776,9 @@ static int sockread(char *s, int *len)
-     for (i = 0; i < MAXSOCKS; i++) {
-       if ((!(socklist[i].flags & SOCK_UNUSED)) &&
-           ((FD_ISSET(socklist[i].sock, &fd)) ||
+ /* Ordinary non-binary connection attempt */
+ int open_telnet(char *server, int port)
+ {
+@@ -715,6 +865,9 @@
+     for (i = 0; i < slistmax; i++) {
+       if (!tclonly && ((!(slist[i].flags & (SOCK_UNUSED | SOCK_TCL))) &&
+           ((FD_ISSET(slist[i].sock, &fdr)) ||
 +#ifdef EGG_SSL_EXT
-+		  ((socklist[i].ssl)&&(SSL_pending(socklist[i].ssl))) ||
++          ((slist[i].ssl)&&(SSL_pending(slist[i].ssl))) ||
 +#endif
-           ((socklist[i].sock == STDOUT) && (!backgrd) &&
-           (FD_ISSET(STDIN, &fd))))) {
-         if (socklist[i].flags & (SOCK_LISTEN | SOCK_CONNECT)) {
-@@ -651,7 +803,31 @@ static int sockread(char *s, int *len)
-         if ((socklist[i].sock == STDOUT) && !backgrd)
+           ((slist[i].sock == STDOUT) && (!backgrd) &&
+           (FD_ISSET(STDIN, &fdr)))))) {
+         if (slist[i].flags & (SOCK_LISTEN | SOCK_CONNECT)) {
+@@ -739,7 +892,33 @@
+         if ((slist[i].sock == STDOUT) && !backgrd)
            x = read(STDIN, s, grab);
          else
+-          x = read(slist[i].sock, s, grab);
 +#ifdef EGG_SSL_EXT
-+	{
-+        if (socklist[i].ssl) {
-+           x=SSL_read(socklist[i].ssl,s,grab);
-+ 	   if (x < 0) {
-+	    int err = SSL_get_error(socklist[i].ssl, x);
-+	    x = -1;
-+	    switch (err) {
-+	    	case SSL_ERROR_WANT_READ:
-+		    errno = EAGAIN;
-+		    break;
-+	    	case SSL_ERROR_WANT_WRITE:
-+ 		    errno = EAGAIN;
-+		    break;
-+         	case SSL_ERROR_WANT_X509_LOOKUP:
-+		    errno = EAGAIN;
-+		    break;
-+		}
-+  	    }
-+        } else
-           x = read(socklist[i].sock, s, grab);
-+	}
++        {
++          if (slist[i].ssl) {
++            x = SSL_read(slist[i].ssl, s, grab);
++
++            if (x < 0) {
++              int err = SSL_get_error(slist[i].ssl, x);
++              x = -1;
++
++              switch (err) {
++                case SSL_ERROR_WANT_READ:
++                  errno = EAGAIN;
++                  break;
++                case SSL_ERROR_WANT_WRITE:
++                  errno = EAGAIN;
++                  break;
++                case SSL_ERROR_WANT_X509_LOOKUP:
++                  errno = EAGAIN;
++                  break;
++              }
++            }
++          } else
++            x = read(slist[i].sock, s, grab);
++        }
 +#else
-+	   x = read(socklist[i].sock, s, grab);
++        x = read(slist[i].sock, s, grab);
 +#endif
          if (x <= 0) {           /* eof */
            if (errno != EAGAIN) { /* EAGAIN happens when the operation would
                                    * block on a non-blocking socket, if the
-@@ -944,6 +1120,26 @@ void tputs(register int z, char *s, unsi
-         socklist[i].outbuflen += len;
+@@ -1046,6 +1225,26 @@
+         socklist[i].handler.sock.outbuflen += len;
          return;
        }
 +#ifdef EGG_SSL_EXT
@@ -679,41 +706,43 @@
 +		}
 +  	   }
 +      } else
-+#endif
++#endif      
        /* Try. */
        x = write(z, s, len);
        if (x == -1)
-@@ -1010,6 +1206,27 @@ void dequeue_sockets()
-         (socklist[i].outbuf != NULL) && (FD_ISSET(socklist[i].sock, &wfds))) {
+@@ -1113,6 +1312,29 @@
+         (socklist[i].handler.sock.outbuf != NULL) && (FD_ISSET(socklist[i].sock, &wfds))) {
        /* Trick tputs into doing the work */
        errno = 0;
 +#ifdef EGG_SSL_EXT
 +      if (socklist[i].ssl) {
-+	   x = write(socklist[i].sock, socklist[i].outbuf,
-+		socklist[i].outbuflen);
-+ 	   if (x < 0) {
-+ 	    int err = SSL_get_error(socklist[i].ssl, x);
-+ 	    x = -1;
-+ 	    switch (err) {
-+ 	    	case SSL_ERROR_WANT_READ:
-+ 		    errno = EAGAIN;
-+ 		    break;
-+ 	    	case SSL_ERROR_WANT_WRITE:
-+ 		    errno = EAGAIN;
-+ 		    break;
-+ 	    	case SSL_ERROR_WANT_X509_LOOKUP:
-+ 		    errno = EAGAIN;
-+ 		    break;
-+ 		}
-+   	    }
++         x = write(socklist[i].sock, socklist[i].handler.sock.outbuf,
++              socklist[i].handler.sock.outbuflen);
++
++         if (x < 0) {
++           int err = SSL_get_error(socklist[i].ssl, x);
++           x = -1;
++
++           switch (err) {
++             case SSL_ERROR_WANT_READ:
++               errno = EAGAIN;
++               break;
++             case SSL_ERROR_WANT_WRITE:
++               errno = EAGAIN;
++               break;
++             case SSL_ERROR_WANT_X509_LOOKUP:
++               errno = EAGAIN;
++               break;
++             }
++          }
 +       } else
 +#endif
-       x = write(socklist[i].sock, socklist[i].outbuf, socklist[i].outbuflen);
+       x = write(socklist[i].sock, socklist[i].handler.sock.outbuf, socklist[i].handler.sock.outbuflen);
        if ((x < 0) && (errno != EAGAIN)
  #ifdef EBADSLT
---- eggdrop1.6.19/src/net.h	1970-01-01 01:00:00.000000000 +0100
-+++ eggdrop1.6.19.new/src/net.h	2008-09-22 16:12:38.979826983 +0200
-@@ -0,0 +1,30 @@
+--- src/net.h	1970-01-01 01:00:00.000000000 +0100
++++ src/net.h	2004-03-27 06:50:00.000000000 +0000
+@@ -0,0 +1,26 @@
 +#ifndef _EGG_NET_H
 +#define _EGG_NET_H
 +#ifdef EGG_SSL_EXT
@@ -728,68 +757,82 @@
 +/* This is used by the net module to keep track of sockets and what's
 + * queued on them
 + */
-+typedef struct {
-+  int		 sock;
++typedef struct sock_list {
++  int sock;
 +#ifdef EGG_SSL_EXT
 +  SSL *ssl;
 +#endif
-+  short		 flags;
-+  char		*inbuf;
-+  char		*outbuf;
-+  unsigned long  outbuflen;	/* Outbuf could be binary data	*/
-+  unsigned long	 inbuflen;	/* Inbuf could be binary data	*/
-+#ifdef USE_IPV6
-+  unsigned int af;
-+#endif /* USE_IPV6 */
++  short flags;
++  union {
++    struct sock_handler sock;
++    struct tclsock_handler tclsock;
++  } handler;
 +} sock_list;
-+
 +#endif				/* _EGG_NET_H */
---- eggdrop1.6.19/src/patch.h	2008-04-19 06:21:20.000000000 +0200
-+++ eggdrop1.6.19.new/src/patch.h	2008-09-22 16:13:41.491758122 +0200
+--- src/patch.h	2004-03-27 06:50:00.000000000 +0000
++++ src/patch.h	2004-03-27 06:50:00.000000000 +0000
 @@ -36,7 +36,9 @@
   *
   *
   */
 -/* PATCH GOES HERE */
 +#ifdef EGG_SSL_EXT
-+patch("SSL");
++  patch("SSL");
 +#endif
  /*
   *
   *
---- eggdrop1.6.19/src/tcl.c	2008-02-16 22:41:04.000000000 +0100
-+++ eggdrop1.6.19.new/src/tcl.c	2008-09-22 16:16:08.499821489 +0200
-@@ -45,6 +45,10 @@ typedef struct {
+--- src/proto.h	2004-03-27 06:50:00.000000000 +0000
++++ src/proto.h	2004-03-27 06:50:00.000000000 +0000
+@@ -33,6 +33,7 @@
+ 
+ #include "lush.h"
+ #include "misc_file.h"
++#include "net.h"
+ 
+ #define dprintf dprintf_eggdrop
+ 
+--- src/tcl.c	2004-03-27 06:50:00.000000000 +0000
++++ src/tcl.c	2004-03-27 06:50:00.000000000 +0000
+@@ -44,6 +44,9 @@
+ 
  
  extern time_t online_since;
- 
 +#ifdef EGG_SSL_EXT
-+extern int      use_ssl; /* kyotou */
++extern int      ssl_use;
 +#endif
-+
+ 
  extern char origbotname[], botuser[], motdfile[], admin[], userfile[],
              firewall[], helpdir[], notify_new[], hostname[], myip[], moddir[],
-             tempdir[], owner[], network[], botnetnick[], bannerfile[],
-@@ -522,6 +526,9 @@ static tcl_ints def_tcl_ints[] = {
+@@ -553,6 +556,9 @@
    {"enable-simul",          &enable_simul,         0}, /* compat */
    {"debug-output",          &debug_output,         0}, /* compat */
    {"use-console-r",         &use_console_r,        0}, /* compat */
 +#ifdef EGG_SSL_EXT
-+  {"use-ssl",               &use_ssl,              0}, /* kyotou */
++  {"use-ssl",			&ssl_use,		0},
 +#endif
    {NULL,                    NULL,                  0}
  };
  
---- eggdrop1.6.19/src/tclmisc.c	2008-02-16 22:41:04.000000000 +0100
-+++ eggdrop1.6.19.new/src/tclmisc.c	2008-09-22 16:17:34.872716077 +0200
+--- src/tclhash.h	2004-03-27 06:50:00.000000000 +0000
++++ src/tclhash.h	2004-03-27 06:50:00.000000000 +0000
+@@ -25,6 +25,7 @@
+ #ifndef _EGG_TCLHASH_H
+ #define _EGG_TCLHASH_H
+ 
++#include "net.h"
+ 
+ #define TC_DELETED   0x0001     /* This command/trigger was deleted. */
+ 
+--- src/tclmisc.c	2004-03-27 06:50:00.000000000 +0000
++++ src/tclmisc.c	2004-03-27 06:50:00.000000000 +0000
 @@ -26,7 +26,12 @@
  #include "main.h"
  #include "modules.h"
  #include "tandem.h"
--#include "md5/md5.h"
 +
 +#ifndef EGG_SSL_EXT
-+ #include "md5/md5.h"
+ #include "md5/md5.h"
 +#else
 +#include "openssl/md5.h"
 +#endif
