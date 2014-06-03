@@ -9,7 +9,7 @@ Summary(pt_BR.UTF-8):	Bot de IRC escrito em C
 Summary(ru.UTF-8):	Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
 Version:	1.6.21
-Release:	0.6
+Release:	0.7
 License:	GPL v2
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
@@ -68,6 +68,7 @@ Patch8:		%{name}-nohostwhowhom.patch
 Patch9:		%{name}-nmu.patch
 Patch10:	%{name}-ipv6-ssl.patch
 Patch11:	ssl-md5.patch
+Patch12:	%{name}-build.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -178,6 +179,8 @@ patch -p1 < eggdrop1.6.19-sp.0009.diff || exit 1
 %if "%{pld_release}" == "ac"
 %patch11 -p1
 %endif
+
+%patch12 -p1
 
 # detect threaded tcl version
 sed -i -e 's#TclpFinalizeThreadData#Tcl_FinalizeThread#g' acinclude.m4
