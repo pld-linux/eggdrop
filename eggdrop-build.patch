@@ -1,0 +1,42 @@
+--- eggdrop1.6.21/src/main.c~	2014-06-03 13:04:54.000000000 +0200
++++ eggdrop1.6.21/src/main.c	2014-06-03 13:06:28.394788350 +0200
+@@ -503,7 +503,7 @@
+         break;                  /* this should never be reached */
+       case 'h':
+         printf("\n%s\n\n", version);
+-        printf(EGG_USAGE);
++        printf("%s", EGG_USAGE);
+         printf("\n");
+         bg_send_quit(BG_ABORT);
+         exit(0);
+@@ -1073,7 +1073,7 @@
+   putlog(LOG_ALL, "*", "--- Loading %s (%s)", ver, s);
+   chanprog();
+   if (!encrypt_pass) {
+-    printf(MOD_NOCRYPT);
++    printf("%s", MOD_NOCRYPT);
+     bg_send_quit(BG_ABORT);
+     exit(1);
+   }
+--- eggdrop1.6.21/src/mod/transfer.mod/transfer.c~	2011-02-13 15:19:34.000000000 +0100
++++ eggdrop1.6.21/src/mod/transfer.mod/transfer.c	2014-06-03 13:07:45.957421377 +0200
+@@ -786,7 +786,7 @@
+ 
+ static void display_dcc_fork_send(int idx, char *buf)
+ {
+-  sprintf(buf, TRANSFER_CONN_SEND);
++  sprintf(buf, "%s", TRANSFER_CONN_SEND);
+ }
+ 
+ static int expmem_dcc_xfer(void *x)
+--- eggdrop1.6.21/src/misc.c~	2011-07-09 17:07:48.000000000 +0200
++++ eggdrop1.6.21/src/misc.c	2014-06-03 13:11:19.524671122 +0200
+@@ -601,7 +601,7 @@
+                * then reset repeats. We want the current time here,
+                * so put that in the file first.
+                */
+-              fprintf(logs[i].f, stamp);
++              fprintf(logs[i].f, "%s", stamp);
+               fprintf(logs[i].f, MISC_LOGREPEAT, logs[i].repeats);
+               logs[i].repeats = 0;
+               /* No need to reset logs[i].szlast here
