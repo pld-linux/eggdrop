@@ -489,7 +489,7 @@ diff -burNp eggdrop1.6.19/disabled_modules eggdrop1.6.19.new/disabled_modules
 -#  disabled_modules -- File which lists all Eggdrop modules that are
 -#                      disabled by default.
 -#
--#  $Id$
+-#  $Id: disabled_modules,v 1.6 2002-06-04 05:11:10 wcc Exp $
 -#
 -# Note:
 -#   -  Lines which start with a '#' character are ignored.
