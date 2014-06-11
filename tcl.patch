@@ -1,0 +1,376 @@
+diff -urN eggdrop1.6.19/src/botcmd.c eggdrop1.6.21/src/botcmd.c
+--- eggdrop1.6.19/src/botcmd.c	2014-06-11 10:14:43.423477222 +0200
++++ eggdrop1.6.21/src/botcmd.c	2014-06-11 10:12:01.393482937 +0200
+@@ -343,7 +341,7 @@
+                      " %% = botmaster, @ = op, ^ = halfop)", BOT_PARTYMEMBS);
+   else {
+     simple_sprintf(s, "assoc %d", chan);
+-    if ((Tcl_Eval(interp, s) != TCL_OK) || !interp->result[0])
++    if ((Tcl_Eval(interp, s) != TCL_OK) || tcl_resultempty())
+       botnet_send_priv(idx, botnetnick, nick, NULL, "%s %s%d: (* = owner, + ="
+                        " master, %% = botmaster, @ = op, ^ = halfop)\n",
+                        BOT_PEOPLEONCHAN, (chan < GLOBAL_CHANS) ? "" : "*",
+@@ -351,7 +349,7 @@
+     else
+       botnet_send_priv(idx, botnetnick, nick, NULL, "%s '%s' (%s%d): (* = "
+                        "owner, + = master, %% = botmaster, @ = op, ^ = halfop)\n",
+-                       BOT_PEOPLEONCHAN, interp->result, (chan < GLOBAL_CHANS) ?
++                       BOT_PEOPLEONCHAN, tcl_resultstring(), (chan < GLOBAL_CHANS) ?
+                        "" : "*", chan % GLOBAL_CHANS);
+   }
+   for (i = 0; i < dcc_total; i++)
+diff -urN eggdrop1.6.19/src/botmsg.c eggdrop1.6.21/src/botmsg.c
+--- eggdrop1.6.19/src/botmsg.c	2014-06-11 10:14:43.423477222 +0200
++++ eggdrop1.6.21/src/botmsg.c	2014-06-11 10:12:01.393482937 +0200
+@@ -925,7 +925,7 @@
+   if (Tcl_VarEval(interp, "storenote", " $_from $_to $_data $_idx", NULL) ==
+       TCL_OK) {
+ 
+-    if (interp->result && interp->result[0])
++    if (!tcl_resultempty())
+       status = NOTE_FWD;
+ 
+     /* User is away in all sessions -- just notify the user that a
+diff -urN eggdrop1.6.19/src/botnet.c eggdrop1.6.21/src/botnet.c
+--- eggdrop1.6.19/src/botnet.c	2014-06-11 10:14:43.503477218 +0200
++++ eggdrop1.6.21/src/botnet.c	2014-06-11 10:12:01.393482937 +0200
+@@ -437,12 +437,12 @@
+             BOT_LOCALCHAN);
+   else if (chan > 0) {
+     simple_sprintf(idle, "assoc %d", chan);
+-    if ((Tcl_Eval(interp, idle) != TCL_OK) || !interp->result[0])
++    if ((Tcl_Eval(interp, idle) != TCL_OK) || tcl_resultempty())
+       dprintf(idx, "%s %s%d:\n", BOT_USERSONCHAN,
+               (chan < GLOBAL_CHANS) ? "" : "*", chan % GLOBAL_CHANS);
+     else
+       dprintf(idx, "%s '%s%s' (%s%d):\n", BOT_USERSONCHAN,
+-              (chan < GLOBAL_CHANS) ? "" : "*", interp->result,
++              (chan < GLOBAL_CHANS) ? "" : "*", tcl_resultstring(),
+               (chan < GLOBAL_CHANS) ? "" : "*", chan % GLOBAL_CHANS);
+   }
+   /* Find longest nick and botnick */
+diff -urN eggdrop1.6.19/src/chanprog.c eggdrop1.6.21/src/chanprog.c
+--- eggdrop1.6.19/src/chanprog.c	2014-06-11 10:14:43.503477218 +0200
++++ eggdrop1.6.21/src/chanprog.c	2014-06-11 10:12:01.350149605 +0200
+@@ -348,13 +347,13 @@
+   /* info library */
+   dprintf(idx, "%s %s\n", MISC_TCLLIBRARY,
+           ((interp) && (Tcl_Eval(interp, "info library") == TCL_OK)) ?
+-          interp->result : "*unknown*");
++          tcl_resultstring() : "*unknown*");
+ 
+   /* info tclversion/patchlevel */
+   dprintf(idx, "%s %s (%s %s)\n", MISC_TCLVERSION,
+           ((interp) && (Tcl_Eval(interp, "info patchlevel") == TCL_OK)) ?
+-          interp->result : (Tcl_Eval(interp, "info tclversion") == TCL_OK) ?
+-          interp->result : "*unknown*", MISC_TCLHVERSION,
++          tcl_resultstring() : (Tcl_Eval(interp, "info tclversion") == TCL_OK) ?
++          tcl_resultstring() : "*unknown*", MISC_TCLHVERSION,
+           TCL_PATCH_LEVEL ? TCL_PATCH_LEVEL : "*unknown*");
+ 
+ #ifdef HAVE_TCL_THREADS
+diff -urN eggdrop1.6.19/src/cmds.c eggdrop1.6.21/src/cmds.c
+--- eggdrop1.6.19/src/cmds.c	2014-06-11 10:14:43.440143887 +0200
++++ eggdrop1.6.21/src/cmds.c	2014-06-11 10:12:01.420149603 +0200
+@@ -97,13 +97,13 @@
+             "^ = halfop)\n", BOT_PARTYMEMBS);
+   else {
+     simple_sprintf(s, "assoc %d", chan);
+-    if ((Tcl_Eval(interp, s) != TCL_OK) || !interp->result[0])
++    if ((Tcl_Eval(interp, s) != TCL_OK) || tcl_resultempty())
+       dprintf(idx, "%s %s%d: (* = owner, + = master, %% = botmaster, @ = op, "
+               "^ = halfop)\n", BOT_PEOPLEONCHAN, (chan < GLOBAL_CHANS) ? "" :
+               "*", chan % GLOBAL_CHANS);
+     else
+       dprintf(idx, "%s '%s' (%s%d): (* = owner, + = master, %% = botmaster, @ = op, "
+-              "^ = halfop)\n", BOT_PEOPLEONCHAN, interp->result,
++              "^ = halfop)\n", BOT_PEOPLEONCHAN, tcl_resultstring(),
+               (chan < GLOBAL_CHANS) ? "" : "*", chan % GLOBAL_CHANS);
+   }
+ 
+@@ -306,8 +306,8 @@
+     if ((par[0] < '0') || (par[0] > '9')) {
+       Tcl_SetVar(interp, "chan", par, 0);
+       if ((Tcl_VarEval(interp, "assoc ", "$chan", NULL) == TCL_OK) &&
+-          interp->result[0]) {
+-        chan = atoi(interp->result);
++          !tcl_resultempty()) {
++        chan = tcl_resultint();
+       }
+       if (chan <= 0) {
+         dprintf(idx, "No such channel exists.\n");
+@@ -1807,8 +1772,8 @@
+         else {
+           Tcl_SetVar(interp, "chan", arg, 0);
+           if ((Tcl_VarEval(interp, "assoc ", "$chan", NULL) == TCL_OK) &&
+-              interp->result[0])
+-            newchan = atoi(interp->result);
++              !tcl_resultempty())
++            newchan = tcl_resultint();
+           else
+             newchan = -1;
+         }
+@@ -1830,8 +1795,8 @@
+         else {
+           Tcl_SetVar(interp, "chan", arg, 0);
+           if ((Tcl_VarEval(interp, "assoc ", "$chan", NULL) == TCL_OK) &&
+-              interp->result[0])
+-            newchan = atoi(interp->result);
++              !tcl_resultempty())
++            newchan = tcl_resultint();
+           else
+             newchan = -1;
+         }
+@@ -2228,11 +2193,11 @@
+ #ifdef USE_TCL_ENCODING
+   /* properly convert string to system encoding. */
+   Tcl_DStringInit(&dstr);
+-  Tcl_UtfToExternalDString(NULL, interp->result, -1, &dstr);
++  Tcl_UtfToExternalDString(NULL, tcl_resultstring(), -1, &dstr);
+   result = Tcl_DStringValue(&dstr);
+ #else
+   /* use old pre-Tcl 8.1 way. */
+-  result = interp->result;
++  result = tcl_resultstring();
+ #endif
+ 
+   if (code == TCL_OK)
+@@ -2264,7 +2229,7 @@
+   if (!msg[0]) {
+     strcpy(s, "info globals");
+     Tcl_Eval(interp, s);
+-    dumplots(idx, "Global vars: ", interp->result);
++    dumplots(idx, "Global vars: ", tcl_resultstring());
+     return;
+   }
+   strcpy(s + 4, msg);
+@@ -2273,11 +2238,11 @@
+ #ifdef USE_TCL_ENCODING
+   /* properly convert string to system encoding. */
+   Tcl_DStringInit(&dstr);
+-  Tcl_UtfToExternalDString(NULL, interp->result, -1, &dstr);
++  Tcl_UtfToExternalDString(NULL, tcl_resultstring(), -1, &dstr);
+   result = Tcl_DStringValue(&dstr);
+ #else
+   /* use old pre-Tcl 8.1 way. */
+-  result = interp->result;
++  result = tcl_resultstring();
+ #endif
+ 
+   if (code == TCL_OK) {
+diff -urN eggdrop1.6.19/src/dcc.c eggdrop1.6.21/src/dcc.c
+--- eggdrop1.6.19/src/dcc.c	2014-06-11 10:14:43.503477218 +0200
++++ eggdrop1.6.21/src/dcc.c	2014-06-11 10:12:01.310149607 +0200
+@@ -1724,10 +1772,10 @@
+   Tcl_SetVar(interp, "_n", s, 0);
+   Tcl_SetVar(interp, "_a", args, 0);
+   if (Tcl_VarEval(interp, name, " $_n $_a", NULL) == TCL_ERROR) {
+-    putlog(LOG_MISC, "*", DCC_TCLERROR, name, interp->result);
++    putlog(LOG_MISC, "*", DCC_TCLERROR, name, tcl_resultstring());
+     return -1;
+   }
+-  return (atoi(interp->result));
++  return tcl_resultint();
+ }
+ 
+ static void dcc_script(int idx, char *buf, int len)
+diff -urN eggdrop1.6.19/src/dns.c eggdrop1.6.21/src/dns.c
+--- eggdrop1.6.19/src/dns.c	2008-02-16 22:41:03.000000000 +0100
++++ eggdrop1.6.21/src/dns.c	2011-07-09 17:07:48.000000000 +0200
+@@ -255,10 +268,10 @@
+     output = Tcl_Concat(2, argv);
+ 
+     if (Tcl_Eval(interp, output) == TCL_ERROR)
+-      putlog(LOG_MISC, "*", DCC_TCLERROR, tclinfo->proc, interp->result);
++      putlog(LOG_MISC, "*", DCC_TCLERROR, tclinfo->proc, tcl_resultstring());
+     Tcl_Free(output);
+   } else if (Tcl_Eval(interp, Tcl_DStringValue(&list)) == TCL_ERROR)
+-    putlog(LOG_MISC, "*", DCC_TCLERROR, tclinfo->proc, interp->result);
++    putlog(LOG_MISC, "*", DCC_TCLERROR, tclinfo->proc, tcl_resultstring());
+ 
+   Tcl_DStringFree(&list);
+ 
+diff -urN eggdrop1.6.19/src/main.c eggdrop1.6.21/src/main.c
+--- eggdrop1.6.19/src/main.c	2014-06-11 10:14:43.506810551 +0200
++++ eggdrop1.6.21/src/main.c	2014-06-11 10:12:01.423482936 +0200
+@@ -284,13 +293,13 @@
+     /* info library */
+     dprintf(-x, "Tcl library: %s\n",
+             ((interp) && (Tcl_Eval(interp, "info library") == TCL_OK)) ?
+-            interp->result : "*unknown*");
++            tcl_resultstring() : "*unknown*");
+ 
+     /* info tclversion/patchlevel */
+     dprintf(-x, "Tcl version: %s (header version %s)\n",
+             ((interp) && (Tcl_Eval(interp, "info patchlevel") == TCL_OK)) ?
+-            interp->result : (Tcl_Eval(interp, "info tclversion") == TCL_OK) ?
+-            interp->result : "*unknown*", TCL_PATCH_LEVEL ? TCL_PATCH_LEVEL :
++            tcl_resultstring() : (Tcl_Eval(interp, "info tclversion") == TCL_OK) ?
++            tcl_resultstring() : "*unknown*", TCL_PATCH_LEVEL ? TCL_PATCH_LEVEL :
+             "*unknown*");
+ 
+ #ifdef HAVE_TCL_THREADS
+diff -urN eggdrop1.6.19/src/mod/server.mod/server.c eggdrop1.6.21/src/mod/server.mod/server.c
+--- eggdrop1.6.19/src/mod/server.mod/server.c	2014-06-11 10:14:43.506810551 +0200
++++ eggdrop1.6.21/src/mod/server.mod/server.c	2011-10-25 18:45:08.000000000 +0200
+@@ -1407,7 +1427,7 @@
+     if (slist != NULL) {
+       code = Tcl_SplitList(interp, slist, &lc, &list);
+       if (code == TCL_ERROR)
+-        return interp->result;
++        return "variable must be a list";
+       for (i = 0; i < lc && i < 50; i++)
+         add_server((char *) list[i]);
+ 
+diff -urN eggdrop1.6.19/src/tcl.c eggdrop1.6.21/src/tcl.c
+--- eggdrop1.6.19/src/tcl.c	2014-06-11 10:14:43.556810549 +0200
++++ eggdrop1.6.21/src/tcl.c	2014-06-11 10:12:01.346816272 +0200
+@@ -226,7 +228,7 @@
+         return "read-only variable";
+       else {
+         if (Tcl_ExprLong(interp, s, &l) == TCL_ERROR)
+-          return interp->result;
++          return "variable must have integer value";
+         if ((int *) ii->var == &max_dcc) {
+           if (l < max_dcc)
+             return "you can't DECREASE max-dcc";
+@@ -450,6 +451,37 @@
+ }
+ #endif
+ 
++/* Get the current tcl result string. */
++const char *tcl_resultstring()
++{
++  const char *result;
++#ifdef USE_TCL_OBJ
++  result = Tcl_GetStringResult(interp);
++#else
++  result = interp->result;
++#endif
++  return result;
++}
++
++int tcl_resultempty() {
++  const char *result;
++  result = tcl_resultstring();
++  return (result && result[0]) ? 0 : 1;
++}
++
++/* Get the current tcl result as int. replaces atoi(interp->result) */
++int tcl_resultint()
++{
++  int result;
++#ifdef USE_TCL_OBJ
++  if (Tcl_GetIntFromObj(NULL, Tcl_GetObjResult(interp), &result) != TCL_OK)
++#else
++  if (Tcl_GetInt(NULL, interp->result, &result) != TCL_OK)
++#endif
++    result = 0;
++  return result;
++}
++
+ static tcl_strings def_tcl_strings[] = {
+   {"botnet-nick",     botnetnick,     HANDLEN,                 0},
+   {"userfile",        userfile,       120,           STR_PROTECT},
+diff -urN eggdrop1.6.19/src/tcldcc.c eggdrop1.6.21/src/tcldcc.c
+--- eggdrop1.6.19/src/tcldcc.c	2014-06-11 10:14:43.556810549 +0200
++++ eggdrop1.6.21/src/tcldcc.c	2011-02-13 15:19:33.000000000 +0100
+@@ -203,11 +216,11 @@
+     else {
+       Tcl_SetVar(irp, "chan", argv[2], 0);
+       if (Tcl_VarEval(irp, "assoc ", "$chan", NULL) != TCL_OK ||
+-          !interp->result[0]) {
++          tcl_resultempty()) {
+         Tcl_AppendResult(irp, "channel name is invalid", NULL);
+         return TCL_ERROR;
+       }
+-      chan = atoi(interp->result);
++      chan = tcl_resultint();
+     }
+   } else
+     chan = atoi(argv[2]);
+@@ -658,11 +671,11 @@
+     if ((argv[1][0] < '0') || (argv[1][0] > '9')) {
+       Tcl_SetVar(interp, "chan", argv[1], 0);
+       if ((Tcl_VarEval(interp, "assoc ", "$chan", NULL) != TCL_OK) ||
+-          !interp->result[0]) {
++          tcl_resultempty()) {
+         Tcl_AppendResult(irp, "channel name is invalid", NULL);
+         return TCL_ERROR;
+       }
+-      chan = atoi(interp->result);
++      chan = tcl_resultint();
+     } else
+       chan = atoi(argv[1]);
+     if ((chan < 0) || (chan > 199999)) {
+diff -urN eggdrop1.6.19/src/tclhash.c eggdrop1.6.21/src/tclhash.c
+--- eggdrop1.6.19/src/tclhash.c	2008-02-16 22:41:04.000000000 +0100
++++ eggdrop1.6.21/src/tclhash.c	2011-07-09 17:07:48.000000000 +0200
+@@ -696,10 +722,7 @@
+ 
+   if (x == TCL_ERROR) {
+     /* FIXME: we really should be able to log longer errors */
+-    if (strlen(interp->result) > 400)
+-      interp->result[400] = 0;
+-
+-    putlog(LOG_MISC, "*", "Tcl error [%s]: %s", proc, interp->result);
++    putlog(LOG_MISC, "*", "Tcl error [%s]: %.*s", proc, 400, tcl_resultstring());
+ 
+     return BIND_EXECUTED;
+   }
+@@ -707,10 +730,10 @@
+   /* FIXME: This is an ugly hack. It is not documented as a
+    *        'feature' because it will eventually go away.
+    */
+-  if (!strcmp(interp->result, "break"))
++  if (!strcmp(tcl_resultstring(), "break"))
+     return BIND_QUIT;
+ 
+-  return (atoi(interp->result) > 0) ? BIND_EXEC_LOG : BIND_EXECUTED;
++  return (tcl_resultint() > 0) ? BIND_EXEC_LOG : BIND_EXECUTED;
+ }
+ 
+ 
+@@ -821,7 +850,7 @@
+           x = trigger_bind(tc->func_name, param, tm->mask);
+ 
+           if (match_type & BIND_ALTER_ARGS) {
+-            if (interp->result == NULL || !interp->result[0])
++            if (tcl_resultempty())
+               return x;
+           } else if ((match_type & BIND_STACKRET) && x == BIND_EXEC_LOG) {
+             /* If we have multiple commands/triggers, and if any of the
+@@ -988,10 +1022,10 @@
+                      MATCH_MASK | BIND_USE_ATTR | BIND_STACKABLE |
+                      BIND_WANTRET | BIND_ALTER_ARGS);
+   if (x == BIND_EXECUTED || x == BIND_EXEC_LOG) {
+-    if (interp->result == NULL || !interp->result[0])
++    if (tcl_resultempty())
+       return "";
+     else
+-      return interp->result;
++      return tcl_resultstring();
+   } else
+     return text;
+ }
+@@ -1019,7 +1053,7 @@
+   Tcl_SetVar(interp, "_n", (char *) s, 0);
+   x = Tcl_VarEval(interp, cmd, " $_n", NULL);
+   if (x == TCL_ERROR)
+-    putlog(LOG_MISC, "*", "error on listen: %s", interp->result);
++    putlog(LOG_MISC, "*", "error on listen: %s", tcl_resultstring());
+ }
+ 
+ void check_tcl_chjn(const char *bot, const char *nick, int chan,
+diff -urN eggdrop1.6.19/src/users.c eggdrop1.6.21/src/users.c
+--- eggdrop1.6.19/src/users.c	2008-02-16 22:41:05.000000000 +0100
++++ eggdrop1.6.21/src/users.c	2011-02-13 15:19:33.000000000 +0100
+@@ -485,7 +485,7 @@
+   if (module_find("notes", 0, 0)) {
+     Tcl_SetVar(interp, "user", u->handle, 0);
+     if (Tcl_VarEval(interp, "notes ", "$user", NULL) == TCL_OK)
+-      n = atoi(interp->result);
++      n = tcl_resultint();
+   }
+   li = get_user(&USERENTRY_LASTON, u);
+   if (!li || !li->laston)
