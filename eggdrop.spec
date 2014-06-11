@@ -65,6 +65,7 @@ Patch8:		%{name}-nohostwhowhom.patch
 Patch9:		%{name}-nmu.patch
 Patch10:	%{name}-ipv6-ssl.patch
 Patch11:	tcl.patch
+Patch12:	%{name}-build.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -170,6 +171,7 @@ patch -p1 < eggdrop1.6.19-sp.0009.diff || exit 1
 %patch9 -p0
 %patch10 -p0
 %patch11 -p1
+%patch12 -p1
 
 %build
 # detect threaded tcl version
