@@ -1,0 +1,11 @@
+--- eggdrop1.6.21/configure.ac~	2015-08-09 19:29:58.000000000 +0200
++++ eggdrop1.6.21/configure.ac	2015-08-09 19:30:54.025503281 +0200
+@@ -135,7 +135,7 @@
+ tcllibextensions=".so .so.1 .so.1.0 .so.1.2 .dll .dylib .sl .a"
+ 
+ tcllibpaths="$HOME/lib $HOME/tcl/lib \
+-             /usr/local/lib /usr/lib /lib /lib64 /usr/lib64 \
++             /usr/local/lib /usr/lib /lib /lib64 /usr/lib64 /libx32 /usr/libx32 \
+              /usr/local/lib/tcl8.5 /usr/lib/tcl8.5 \
+              /usr/local/lib/tcl8.4 /usr/lib/tcl8.4 \
+              /usr/local/lib/tcl8.3 /usr/lib/tcl8.3 \
