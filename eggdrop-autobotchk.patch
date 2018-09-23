@@ -10,7 +10,7 @@ diff -burNp eggdrop1.6.19/scripts/autobotchk eggdrop1.6.19.new/scripts/autobotch
  
  while {[set opt [newsplit argv]] != ""} {
    switch -- $opt {
-@@ -143,16 +143,6 @@ if {[string match "*/scripts" $dir]} {
+@@ -184,16 +184,6 @@ if {[string match "*/scripts" $dir]} {
  
  set dir [string trimright $dir /]
  
@@ -24,6 +24,7 @@ diff -burNp eggdrop1.6.19/scripts/autobotchk eggdrop1.6.19.new/scripts/autobotch
 -  exit
 -}
 -
- puts -nonewline "Opening '$config' for processing ... "
+ foreach config $confs {
+   puts -nonewline "Opening '$config' for processing ... "
  
- if {[catch {open $dir/$config r} fd]} {
+

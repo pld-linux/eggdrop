@@ -1,12 +1,11 @@
 --- eggdrop1.6.21/doc/Makefile.in~	2012-03-31 04:32:33.000000000 +0300
 +++ eggdrop1.6.21/doc/Makefile.in	2012-03-31 04:32:58.536425562 +0300
-@@ -14,7 +14,8 @@
- 
+@@ -14,7 +14,7 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
  DOCS = ABOUT BANS BOTNET BUG-REPORT COMPILE-GUIDE CONTENTS \
- Changes1.6 FIRST-SCRIPT KNOWN-PROBLEMS MODULES PARTYLINE PATCH-HOWTO \
--TEXT-SUBSTITUTIONS TRICKS USERS Versions WEIRD-MESSAGES tcl-commands.doc
-+TEXT-SUBSTITUTIONS TRICKS USERS Versions WEIRD-MESSAGES tcl-commands.doc \
-+LANGUAGE.finnish LANGUAGE.portuguese LANGUAGE.portuguese.br
+ Changes1.8 FIRST-SCRIPT IPV6 KNOWN-PROBLEMS MODULES PARTYLINE PATCH-HOWTO \
+ TEXT-SUBSTITUTIONS TLS TRICKS USERS Versions WEIRD-MESSAGES tcl-commands.doc \
+-FAQ
++FAQ LANGUAGE.finnish LANGUAGE.portuguese LANGUAGE.portuguese.br
  
  MAN1 = man1/eggdrop.1
  
@@ -21,8 +20,8 @@
  	@echo "Copying docs."
  	@for i in $(DOCS); do \
  		$(INSTALL_DATA) $(srcdir)/$$i $(DEST)/doc/; \
-@@ -70,3 +75,4 @@
- 			$(INSTALL_DATA) $$i $(DEST)/doc/html/; \
- 		done; \
- 	fi
+@@ -125,3 +125,4 @@ install:
+                         $(INSTALL_DATA) $$i $(DEST)/doc/html/_static; \
+                 done; \
+         fi
 +	@cp -pr $(srcdir)/modules/* $(DEST)/doc/modules

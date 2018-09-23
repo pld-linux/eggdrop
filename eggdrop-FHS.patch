@@ -6,7 +6,7 @@
  # ^- This should contain a fully qualified path to your Eggdrop executable.
  #
  # $Id$
-@@ -185,22 +185,22 @@ set sort-users 0
+@@ -241,19 +241,19 @@ set userfile "LamestBot.user"
  
  # Specify here where Eggdrop should look for help files. Don't modify this
  # setting unless you know what you're doing!
@@ -17,9 +17,6 @@
  # certain Tcl and DCC commands.
 -set text-path "text/"
 +set text-path "/usr/share/eggdrop/"
- 
- # Set here a place to store temporary files.
- set temp-path "/tmp"
  
  # The MOTD (Message Of The day) is displayed when people dcc chat or telnet
  # to the bot. Look at doc/TEXT-SUBSTITUTIONS for options.

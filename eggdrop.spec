@@ -1,19 +1,16 @@
 #
 # Conditional build:
-%bcond_with	suzi	# encoding enhancements
-%bcond_without	ssl		# openssl patch
-#
 Summary:	Eggdrop is an IRC bot, written in C
 Summary(pl.UTF-8):	Eggdrop jest botem IRC napisanym w C
 Summary(pt_BR.UTF-8):	Bot de IRC escrito em C
 Summary(ru.UTF-8):	Eggdrop, это IRC-бот написанный на языке C.
 Name:		eggdrop
-Version:	1.6.21
-Release:	2
+Version:	1.8.3
+Release:	1
 License:	GPL v2
 Group:		Applications/Communications
-Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{name}%{version}.tar.bz2
-# Source0-md5:	5663b2daecc790e6e9237e1d5a2caa50
+Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.8/%{name}-%{version}.tar.gz
+# Source0-md5:	30b076b813a6b04f7421ab709309af7b
 # In order to unify filenames, following language packs and third-party modules were
 # repackaged. Some files were renamed, but none modified. Original archives can be
 # found by looking at http://www.egghelp.org/
@@ -44,8 +41,7 @@ Source24:	%{name}-module-irctree-1.1.tar.gz
 # Source24-md5:	8bf884c57adbb131228fe47bffc69836
 Source25:	%{name}-module-megahal-2.6b.tar.gz
 # Source25-md5:	1c8762d63d16c95bee3a2399614b8ac5
-Source26:	%{name}-module-stats-1.3.3dev1.tar.gz
-# Source26-md5:	f50299b06dc9c8d29f7abb19defaa917
+
 Source27:	%{name}-module-idea-1.0.2.tar.gz
 # Source27-md5:	dce4a43dfcfb72e143c71e8f6c6fc8c8
 Source28:	%{name}-module-twofish-1.0.tar.gz
@@ -56,20 +52,18 @@ Source30:	http://eggdrop.msk.ru/files/irc/%{name}1.6.19-patch-sp0009.tar.bz2
 # Source30-md5:	37df8dbb76a2b2283e2e80c182dc9967
 Patch0:		%{name}-FHS.patch
 Patch1:		%{name}-doc_makefile.patch
-Patch2:		%{name}-multilevel_sharing.patch
+
 # http://www.egghelp.org/files.htm#patches
-Patch3:		%{name}-topicprot.patch
+
 Patch4:		%{name}-config_encryption.patch
 Patch5:		%{name}-autobotchk.patch
 # http://www.egghelp.org/files.htm#patches
-Patch6:		%{name}-ssl.patch
+
 Patch7:		%{name}-nolibs.patch
-Patch8:		%{name}-nohostwhowhom.patch
+
 Patch9:		%{name}-nmu.patch
-Patch10:	%{name}-ipv6-ssl.patch
-Patch11:	ssl-md5.patch
+
 Patch12:	%{name}-build.patch
-Patch13:	x32.patch
 URL:		http://www.eggheads.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -158,31 +152,18 @@ Eggdrop находится на канале в целях оказания за
 соответствующих прав и привилегий.
 
 %prep
-%setup -q -n %{name}%{version} -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a26 -a27 -a28 -a30
-%{?with_ssl:%patch6 -p0}
+%setup -q -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a27 -a28 -a30
 mv aclocal.m4 acinclude.m4
 %patch0 -p1
 %patch1 -p1
-%patch3 -p1
+
 %patch4 -p1
 %patch5 -p1
 %patch7 -p1
-%patch8 -p1
-
-%if %{with suzi}
-patch -p1 < eggdrop1.6.19-sp.0009.diff || exit 1
-%else
-%patch2 -p1
-%endif
 
 #%patch9 -p0 - wtf is this?
-#%{?with_ssl:%patch10 -p1}
-%if "%{pld_release}" == "ac"
-%patch11 -p1
-%endif
 
 %patch12 -p1
-%patch13 -p1
 
 # detect threaded tcl version
 sed -i -e 's#TclpFinalizeThreadData#Tcl_FinalizeThread#g' acinclude.m4
@@ -230,7 +211,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc docs/* %{?with_suzi:docs/*utf-8*.txt}
+%doc docs/*
 %attr(755,root,root) %{_bindir}/%{name}
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/modules
