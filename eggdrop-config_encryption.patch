@@ -1,8 +1,8 @@
-diff -burNp eggdrop1.6.19/eggdrop.conf eggdrop1.6.19-new/eggdrop.conf
---- eggdrop1.6.19/eggdrop.conf	2008-02-16 21:15:30.000000000 +0100
-+++ eggdrop1.6.19-new/eggdrop.conf	2008-09-23 11:32:44.879761861 +0200
-@@ -422,14 +422,19 @@ die "Please make sure you edit your conf
- set mod-path "modules/"
+diff -urNp -x '*.orig' eggdrop-1.8.3.org/eggdrop.conf eggdrop-1.8.3/eggdrop.conf
+--- eggdrop-1.8.3.org/eggdrop.conf	2021-10-09 23:37:18.504761324 +0200
++++ eggdrop-1.8.3/eggdrop.conf	2021-10-09 23:37:18.581427892 +0200
+@@ -594,14 +594,19 @@ die "Please make sure you edit your conf
+ set mod-path "/usr/lib/eggdrop/modules/"
  
  
 -#### BLOWFISH MODULE ####
@@ -21,5 +21,5 @@ diff -burNp eggdrop1.6.19/eggdrop.conf eggdrop1.6.19-new/eggdrop.conf
 +#loadmodule twofish
 +#loadmodule rijndael (do not use it, needs fixing)
  
- 
- #### DNS MODULE ####
+ # Specify whether to use ECB or CBC operation modes. ECB is legacy for
+ # the Eggdrop blowfish module and is used by default. CBC is more recent

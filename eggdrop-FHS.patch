@@ -1,11 +1,12 @@
---- eggdrop1.6.21/eggdrop.conf~	2012-03-31 04:26:15.000000000 +0300
-+++ eggdrop1.6.21/eggdrop.conf	2012-03-31 04:27:17.370702471 +0300
+diff -urNp -x '*.orig' eggdrop-1.8.3.org/eggdrop.conf eggdrop-1.8.3/eggdrop.conf
+--- eggdrop-1.8.3.org/eggdrop.conf	2018-02-04 17:08:11.000000000 +0100
++++ eggdrop-1.8.3/eggdrop.conf	2021-10-09 23:37:18.221428352 +0200
 @@ -1,4 +1,4 @@
 -#! /path/to/executable/eggdrop
 +#! /usr/bin/eggdrop
  # ^- This should contain a fully qualified path to your Eggdrop executable.
  #
- # $Id$
+ # This is a sample Eggdrop configuration file which includes all possible
 @@ -241,19 +241,19 @@ set userfile "LamestBot.user"
  
  # Specify here where Eggdrop should look for help files. Don't modify this
@@ -30,7 +31,7 @@
  
  # This specifies what permissions the user, channel, and notes files should
  # be set to. The octal values are the same as for the chmod system command.
-@@ -419,7 +419,7 @@ die "Please make sure you edit your conf
+@@ -591,7 +591,7 @@ die "Please make sure you edit your conf
  # If you run the bot from the compilation directory, you will want to set
  # this to "". If you use 'make install' (like all good kiddies do ;), this
  # is a fine default. Otherwise, use your head :)
@@ -39,7 +40,7 @@
  
  
  #### BLOWFISH MODULE ####
-@@ -1378,24 +1378,24 @@
+@@ -1520,24 +1520,24 @@ loadmodule uptime
  # directory. All scripts should be put there, although you can place them where
  # you like as long as you can supply a fully qualified path to them.
  #
@@ -70,20 +71,7 @@
  
  # A few IRC networks (EFnet and Undernet) have added some simple checks to
  # prevent drones from connecting to the IRC network. While these checks are
---- eggdrop1.6.19/src/eggdrop.h	2008-02-16 22:41:03.000000000 +0100
-+++ eggdrop1.6.19.new/src/eggdrop.h	2008-09-22 10:00:48.000000000 +0200
-@@ -75,7 +75,7 @@
- 
- 
- /* Language stuff */
--#define LANGDIR  "./language" /* language file directory                   */
-+#define LANGDIR  "/usr/share/eggdrop/language" /* language file directory                   */
- #define BASELANG "english"    /* language which always gets loaded before
-                                  all other languages. You do not want to
-                                  change this.                              */
---- eggdrop1.6.19/eggdrop.conf	2008-02-16 21:15:30.000000000 +0100
-+++ eggdrop1.6.19-new/eggdrop.conf	2008-09-23 19:10:36.435603076 +0200
-@@ -1359,11 +1359,11 @@ if {[info exists net-type]} {
+@@ -1549,11 +1549,11 @@ if {[info exists net-type]} {
    switch -- ${net-type} {
      "0" {
        # EFnet
@@ -97,3 +85,15 @@
      }
    }
  }
+diff -urNp -x '*.orig' eggdrop-1.8.3.org/src/eggdrop.h eggdrop-1.8.3/src/eggdrop.h
+--- eggdrop-1.8.3.org/src/eggdrop.h	2018-02-04 17:08:11.000000000 +0100
++++ eggdrop-1.8.3/src/eggdrop.h	2021-10-09 23:37:18.221428352 +0200
+@@ -62,7 +62,7 @@
+ 
+ 
+ /* Language stuff */
+-#define LANGDIR  "./language" /* language file directory                   */
++#define LANGDIR  "/usr/share/eggdrop/language" /* language file directory                   */
+ #define BASELANG "english"    /* language which always gets loaded before
+                                  all other languages. You do not want to
+                                  change this.                              */

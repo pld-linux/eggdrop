@@ -1,8 +1,8 @@
-diff -burN eggdrop1.6.17.orig/acinclude.m4 eggdrop1.6.17/acinclude.m4
---- eggdrop1.6.17.orig/acinclude.m4	2004-10-18 00:15:56.783956064 +0200
-+++ eggdrop1.6.17/acinclude.m4	2004-10-18 00:38:40.107699352 +0200
-@@ -757,9 +757,9 @@
-   if test "$IRIX" = "yes"; then
+diff -urNp -x '*.orig' eggdrop-1.8.3.org/acinclude.m4 eggdrop-1.8.3/acinclude.m4
+--- eggdrop-1.8.3.org/acinclude.m4	2018-02-04 17:08:11.000000000 +0100
++++ eggdrop-1.8.3/acinclude.m4	2021-10-09 23:37:18.961427408 +0200
+@@ -852,9 +852,9 @@ AC_DEFUN([EGG_CHECK_LIBS],
+   if test "$IRIX" = yes; then
      AC_MSG_WARN([Skipping library tests because they CONFUSE IRIX.])
    else
 -    AC_CHECK_LIB(socket, socket)
