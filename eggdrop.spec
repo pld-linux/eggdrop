@@ -154,16 +154,16 @@ Eggdrop находится на канале в целях оказания за
 %prep
 %setup -q -a10 -a11 -a12 -a13 -a14 -a15 -a16 -a20 -a21 -a22 -a23 -a24 -a25 -a27 -a28 -a30
 mv aclocal.m4 acinclude.m4
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 
-%patch4 -p1
-%patch5 -p1
-%patch7 -p1
+%patch -P4 -p1
+%patch -P5 -p1
+%patch -P7 -p1
 
 #%patch9 -p0 - wtf is this?
 
-%patch12 -p1
+%patch -P12 -p1
 
 # detect threaded tcl version
 sed -i -e 's#TclpFinalizeThreadData#Tcl_FinalizeThread#g' acinclude.m4
