@@ -161,7 +161,7 @@ mv aclocal.m4 acinclude.m4
 %patch -P5 -p1
 %patch -P7 -p1
 
-#%patch9 -p0 - wtf is this?
+#%%patch9 -p0 - wtf is this?
 
 %patch -P12 -p1
 
